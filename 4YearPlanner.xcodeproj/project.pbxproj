@@ -14,6 +14,7 @@
 		46E0C61720926F760027B4FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E0C61520926F760027B4FC /* LaunchScreen.storyboard */; };
 		46E0C61F20926FC60027B4FC /* Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C61E20926FC60027B4FC /* Class.swift */; };
 		46E0C62120926FD10027B4FC /* Requirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C62020926FD10027B4FC /* Requirements.swift */; };
+		5EDCA5B2F202C6247D088156 /* Pods_4YearPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C438FCE3D4FB435908F17A0 /* Pods_4YearPlanner.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,9 @@
 		46E0C61820926F760027B4FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46E0C61E20926FC60027B4FC /* Class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Class.swift; sourceTree = "<group>"; };
 		46E0C62020926FD10027B4FC /* Requirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirements.swift; sourceTree = "<group>"; };
+		4EFA9FF5B4B4EB29D34E37BD /* Pods-4YearPlanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-4YearPlanner.debug.xcconfig"; path = "Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner.debug.xcconfig"; sourceTree = "<group>"; };
+		5D68EBFADEE9568E4BB1AA69 /* Pods-4YearPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-4YearPlanner.release.xcconfig"; path = "Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner.release.xcconfig"; sourceTree = "<group>"; };
+		9C438FCE3D4FB435908F17A0 /* Pods_4YearPlanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_4YearPlanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +37,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EDCA5B2F202C6247D088156 /* Pods_4YearPlanner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10B629C8D359ADE003318BF2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4EFA9FF5B4B4EB29D34E37BD /* Pods-4YearPlanner.debug.xcconfig */,
+				5D68EBFADEE9568E4BB1AA69 /* Pods-4YearPlanner.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		46E0C5FD20926F760027B4FC = {
 			isa = PBXGroup;
 			children = (
 				46E0C60820926F760027B4FC /* 4YearPlanner */,
 				46E0C60720926F760027B4FC /* Products */,
+				10B629C8D359ADE003318BF2 /* Pods */,
+				73FB9959629C8DB46F3E213F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +86,14 @@
 			path = 4YearPlanner;
 			sourceTree = "<group>";
 		};
+		73FB9959629C8DB46F3E213F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C438FCE3D4FB435908F17A0 /* Pods_4YearPlanner.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,9 +101,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 46E0C61B20926F760027B4FC /* Build configuration list for PBXNativeTarget "4YearPlanner" */;
 			buildPhases = (
+				2F01CE5E05D0BFBFDBD34085 /* [CP] Check Pods Manifest.lock */,
 				46E0C60220926F760027B4FC /* Sources */,
 				46E0C60320926F760027B4FC /* Frameworks */,
 				46E0C60420926F760027B4FC /* Resources */,
+				8C5041E7BA52DA41F0E08B9E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -135,6 +161,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2F01CE5E05D0BFBFDBD34085 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-4YearPlanner-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C5041E7BA52DA41F0E08B9E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		46E0C60220926F760027B4FC /* Sources */ = {
@@ -272,6 +337,7 @@
 		};
 		46E0C61C20926F760027B4FC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4EFA9FF5B4B4EB29D34E37BD /* Pods-4YearPlanner.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -286,6 +352,7 @@
 		};
 		46E0C61D20926F760027B4FC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D68EBFADEE9568E4BB1AA69 /* Pods-4YearPlanner.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
