@@ -13,7 +13,9 @@ import SnapKit
 
 class HomeViewController: UIViewController {
 
+    
 
+    
 //    var myCollege: College
 //    var myMajor: Major
 //    var myMinor: Requirements
@@ -21,17 +23,13 @@ class HomeViewController: UIViewController {
     var allSemesters: [Semester] = []
     var selectedButton = "Discover"
     var selectedSemester = 0
-//    var selectedDiscoverCollection: String
+    var selectedDiscoverCollection: String = "Colleges"
     var coursesDisplayed: [Class] = []
+    var searchBar: UISearchBar!
     var homeScrollView: UIScrollView!
     var scrollStackView: UIStackView!
     var tabsStackView: UIStackView!
-    var discoverLabel: UILabel!
-    var myScheduleLabel: UILabel!
-    var settingsLabel: UILabel!
-    var discoverView: UIView!
-    var myScheduleView: UIView!
-    var settingsView: UIView!
+    var mainStackView: UIStackView!
     var discoverButton: UIButton!
     var myScheduleButton: UIButton!
     var settingsButton: UIButton!
@@ -47,10 +45,14 @@ class HomeViewController: UIViewController {
     // Font for Tabs
         let tabsFont = UIFont.systemFont(ofSize: 20)
         
+    // Search Bar for Colleges/Majors/etc..
+        searchBar = UISearchBar()
+        
+        definesPresentationContext = true
+        
     // Initializes ScrollView for Colleges/Majors/etc..
         homeScrollView = UIScrollView()
         homeScrollView.alwaysBounceVertical = true
-        view.addSubview(homeScrollView)
         
     // Button for the Discover Tab
         discoverButton = UIButton()
@@ -92,6 +94,13 @@ class HomeViewController: UIViewController {
         scrollStackView.distribution = .equalSpacing
         homeScrollView.addSubview(scrollStackView)
         
+    // StackView that holds SearchBar & ScrollView
+        mainStackView = UIStackView(arrangedSubviews: [searchBar ,homeScrollView])
+        mainStackView.backgroundColor = .white
+        mainStackView.axis = .vertical
+        mainStackView.distribution = .equalCentering
+        view.addSubview(mainStackView)
+        
         setupConstraints()
     }
     
@@ -106,11 +115,24 @@ class HomeViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(32)
         }
+    
+    // StackView for Search Bar & ScrollView
+        mainStackView.snp.makeConstraints { (make) in
+            make.top.equalTo(tabsStackView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+    // Search Bar within StackView
+        searchBar.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview().offset(10)
+            make.height.equalTo(40)
+        }
         
     // ScrollView for Colleges/Majors/etc..
         homeScrollView.snp.makeConstraints { (make) in
             make.bottom.leading.trailing.equalToSuperview()
-            make.top.equalTo(tabsStackView).offset(10)
+            make.top.equalTo(searchBar.snp.bottom).offset(10)
         }
         
     // Stackview that holds the cells in the ScrollView
