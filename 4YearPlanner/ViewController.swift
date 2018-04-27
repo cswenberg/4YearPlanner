@@ -24,7 +24,7 @@ class HomeViewController: UIViewController {
 //    var selectedDiscoverCollection: String
     var coursesDisplayed: [Class] = []
     var homeScrollView: UIScrollView!
-    var mainStackView: UIStackView!
+    var scrollStackView: UIStackView!
     var tabsStackView: UIStackView!
     var discoverLabel: UILabel!
     var myScheduleLabel: UILabel!
@@ -84,14 +84,13 @@ class HomeViewController: UIViewController {
         tabsStackView.distribution = .equalCentering
         view.addSubview(tabsStackView)
 
-        
-    // Main StackView within Scrollview
-    // Add everything above this
-        mainStackView = UIStackView(arrangedSubviews: [])
-        mainStackView.backgroundColor = .orange
-        mainStackView.axis = .vertical
-        mainStackView.distribution = .equalSpacing
-        homeScrollView.addSubview(mainStackView)
+    // StackView within Scrollview
+    // Add CollegeCollection, MajorCollection, CourseCollection above this
+        scrollStackView = UIStackView(arrangedSubviews: [])
+        scrollStackView.backgroundColor = .orange
+        scrollStackView.axis = .vertical
+        scrollStackView.distribution = .equalSpacing
+        homeScrollView.addSubview(scrollStackView)
         
         setupConstraints()
     }
@@ -115,7 +114,7 @@ class HomeViewController: UIViewController {
         }
         
     // Stackview that holds the cells in the ScrollView
-        mainStackView.snp.makeConstraints { (make) in
+        scrollStackView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
             make.width.equalTo(400)
             make.height.equalTo(100)
