@@ -11,12 +11,17 @@ import SnapKit
 
 class HomeViewController: UIViewController {
 
+    
+
 //    var myCollege: College
 //    var myMajor: Major
 //    var myMinor: Requirements
-    var allClasses: [Class] = []
-    var allSemesters: [Semester] = []
-    
+//    var allClasses: [Class] = []
+//    var allSemesters: [Semester] = []
+    var selectedButton = "Discover"
+//    var selectedSemester = 0
+//    var selectedDiscoverCollection: String
+//    var coursesDisplayed: [Class]
     var homeScrollView: UIScrollView!
     var mainStackView: UIStackView!
     var tabsStackView: UIStackView!
@@ -26,90 +31,111 @@ class HomeViewController: UIViewController {
     var discoverView: UIView!
     var myScheduleView: UIView!
     var settingsView: UIView!
+    var discoverButton: UIButton!
+    var myScheduleButton: UIButton!
+    var settingsButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
         view.backgroundColor = .white
         
+    // Nice Color of Gray
         let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         
-        let tabsFont = UIFont(name: "Arial-Bold", size: 34)
+    // Font for Tabs
+        let tabsFont = UIFont.systemFont(ofSize: 20)
         
+    // Initializes ScrollView for Colleges/Majors/etc..
         homeScrollView = UIScrollView()
         homeScrollView.alwaysBounceVertical = true
         view.addSubview(homeScrollView)
         
-        discoverView = UIView()
-        discoverView.layer.cornerRadius = 32
-        discoverView.backgroundColor = niceGray
+    // Button for the Discover Tab
+        discoverButton = UIButton()
+        discoverButton.layer.cornerRadius = 16
+        discoverButton.backgroundColor = niceGray
+        discoverButton.setTitle("Discover", for: .normal)
+        discoverButton.titleLabel?.font = tabsFont
+        discoverButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
-        myScheduleView = UIView()
-        myScheduleView.layer.cornerRadius = 32
+    // Button for the MySchedule Tab
+        myScheduleButton = UIButton()
+        myScheduleButton.layer.cornerRadius = 16
+        myScheduleButton.backgroundColor = niceGray
+        myScheduleButton.setTitle("My Schedule", for: .normal)
+        myScheduleButton.titleLabel?.font = tabsFont
+        myScheduleButton.titleLabel?.textColor = .black
+        myScheduleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
-        settingsView = UIView()
-        settingsView.layer.cornerRadius = 32
-        
-        discoverLabel = UILabel()
-        discoverLabel.text = "Discover"
-        discoverLabel.textColor = .white
-        discoverLabel.font = tabsFont
-        discoverView.addSubview(discoverLabel)
-        
-        myScheduleLabel = UILabel()
-        myScheduleLabel.text = "My Schedule"
-        myScheduleLabel.font = tabsFont
-        myScheduleLabel.textColor = .black
-        myScheduleView.addSubview(myScheduleLabel)
-        
-        settingsLabel = UILabel()
-        settingsLabel.text = "Settings"
-        settingsLabel.font = tabsFont
-        settingsLabel.textColor = .black
-        settingsView.addSubview(settingsLabel)
+    // Button for Settings Tab
+        settingsButton = UIButton()
+        settingsButton.layer.cornerRadius = 16
+        settingsButton.backgroundColor = niceGray
+        settingsButton.setTitle("Settings", for: .normal)
+        settingsButton.titleLabel?.font = tabsFont
+        settingsButton.titleLabel?.textColor = .black
+        settingsButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
     // StackView for tabs at the top
-        tabsStackView = UIStackView(arrangedSubviews: [discoverView, myScheduleView, settingsView])
+        tabsStackView = UIStackView(arrangedSubviews: [discoverButton, myScheduleButton, settingsButton])
         tabsStackView.axis = .horizontal
-        tabsStackView.spacing = 45
-        tabsStackView.distribution = .equalSpacing
+        tabsStackView.distribution = .equalCentering
+        view.addSubview(tabsStackView)
 
         
     // Main StackView within Scrollview
     // Add everything above this
-        mainStackView = UIStackView(arrangedSubviews: [tabsStackView])
+        mainStackView = UIStackView(arrangedSubviews: [])
         mainStackView.backgroundColor = .orange
         mainStackView.axis = .vertical
         mainStackView.distribution = .equalSpacing
         homeScrollView.addSubview(mainStackView)
         
-        
-        
-        
         setupConstraints()
     }
     
     func setupConstraints() {
-        homeScrollView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+        
+    // Constraints:
+        
+    // Tabs StackView
+        tabsStackView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(40)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(32)
         }
         
+    // ScrollView for Colleges/Majors/etc..
+        homeScrollView.snp.makeConstraints { (make) in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.top.equalTo(tabsStackView).offset(10)
+        }
+        
+    // Stackview that holds the cells in the ScrollView
         mainStackView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
-            make.width.equalToSuperview()
+            make.width.equalTo(400)
             make.height.equalTo(100)
         }
         
-        tabsStackView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(50)
-            make.leading.equalToSuperview().offset(35)
-            make.trailing.equalToSuperview().offset(-35)
-            make.height.equalTo(64)
+    // Discover Button
+        discoverButton.snp.makeConstraints { (make) in
+            make.height.equalToSuperview()
+            make.width.equalTo(discoverButton.intrinsicContentSize.width + 20)
         }
-        
-        discoverView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-            make.width.equalTo(175)
+
+    // My Schedule Button
+        myScheduleButton.snp.makeConstraints { (make) in
+            make.height.equalToSuperview()
+            make.width.equalTo(myScheduleButton.intrinsicContentSize.width + 20)
+        }
+
+    // Settings Button
+        settingsButton.snp.makeConstraints { (make) in
+            make.height.equalToSuperview()
+            make.width.equalTo(settingsButton.intrinsicContentSize.width + 20)
         }
     }
     
@@ -123,6 +149,12 @@ class HomeViewController: UIViewController {
 //        requirementsLeft+=myMinor.requirementsLeft(classes: allClasses)
 //        return requirementsLeft
 //    }
+    
+// Changes variable selectedButton to buttons title
+    @objc func buttonPressed (sender: UIButton) {
+        selectedButton = (sender.titleLabel?.text)!
+        print(selectedButton)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
