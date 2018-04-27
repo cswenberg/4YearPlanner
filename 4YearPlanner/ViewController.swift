@@ -5,23 +5,24 @@
 //  Created by Con Swenberg on 4/26/18.
 //  Copyright © 2018 Conner Swenberg. All rights reserved.
 //
+//bishshhhhhhh
+//buiuiuhh2
 
 import UIKit
 import SnapKit
 
 class HomeViewController: UIViewController {
 
-    
 
 //    var myCollege: College
 //    var myMajor: Major
 //    var myMinor: Requirements
-//    var allClasses: [Class] = []
-//    var allSemesters: [Semester] = []
+    var allClasses: [Class] = []
+    var allSemesters: [Semester] = []
     var selectedButton = "Discover"
-//    var selectedSemester = 0
+    var selectedSemester = 0
 //    var selectedDiscoverCollection: String
-//    var coursesDisplayed: [Class]
+    var coursesDisplayed: [Class] = []
     var homeScrollView: UIScrollView!
     var mainStackView: UIStackView!
     var tabsStackView: UIStackView!
