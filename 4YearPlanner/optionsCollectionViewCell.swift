@@ -18,15 +18,17 @@ class optionsCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        optionLabel = UILabel()
-        optionLabel.backgroundColor = .white
+        contentView.backgroundColor = .white
         
-        setupConstraints()
+        optionLabel = UILabel()
+        optionLabel.textColor = .orange
+        
+        contentView.addSubview(optionLabel)
     }
     
-    func setupConstraints () {
+    override func updateConstraints() {
         optionLabel.snp.makeConstraints { (make) in
-            make.center.equalTo((superview?.center)!)
+            make.center.equalToSuperview()
         }
         super.updateConstraints()
     }

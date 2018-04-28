@@ -17,7 +17,7 @@ class HomeViewController: UIViewController {
 //    var myMinor: Requirements
     var allClasses: [Class] = []
     var allSemesters: [Semester] = []
-    var selectedTab = "My Schedule"
+    var selectedTab = "Discover"
     var selectedSemester = 1
     var selectedDiscoverCollection: String = "Colleges"
     var coursesDisplayed: [Class] = []
@@ -83,8 +83,9 @@ class HomeViewController: UIViewController {
         tabsStackView = UIStackView(arrangedSubviews: [discoverButton, myScheduleButton, settingsButton])
         tabsStackView.axis = .horizontal
         tabsStackView.distribution = .equalCentering
-        view.addSubview(tabsStackView)
         
+        
+        view.addSubview(tabsStackView)
         view.addSubview(containerView)
         
         setupConstraints()
@@ -140,7 +141,7 @@ class HomeViewController: UIViewController {
             newViewController = DiscoverViewController()
         }
         containerViewController = newViewController
-        addChildViewController(newViewController)
+        addChildViewController(containerViewController)
         containerView.addSubview(containerViewController.view)
         containerViewController.view.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
