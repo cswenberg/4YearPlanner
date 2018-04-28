@@ -37,6 +37,7 @@ enum majors: String {
 }
 
 enum minors: String {
+    case nm = "No Minor"
     case ase = "Aerospace Engineering"
     case am = "Applied Mathematics"
     case be = "Biological Engineering"
@@ -61,7 +62,7 @@ enum minors: String {
 
 let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture]
 
-let allMinors: [minors] = [.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
+let allMinors: [minors] = [.nm,.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
 
 class Requirements {
     

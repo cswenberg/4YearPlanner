@@ -9,8 +9,15 @@
 import UIKit
 import SnapKit
 
+protocol detailViewDelegate {
+    func saveClass(newclass: Class)
+}
+
 class DetailViewController: UIViewController {
     
+    var delegate: detailViewDelegate?
+    
+    var detailedClass: Class!
     var courseLabel: UILabel!
     var descriptionLabel: UILabel!
     var descriptionTextView: UITextView!
@@ -21,7 +28,9 @@ class DetailViewController: UIViewController {
     var backButton: UIButton!
     var saveButton: UIButton!
     var showButton = true
-    //  var delegate:
+    var courseName: String!
+    var creditsNum: String!
+    var descriptionText: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +41,7 @@ class DetailViewController: UIViewController {
         
         courseLabel = UILabel()
         courseLabel.font = .boldSystemFont(ofSize: 24)
+        courseLabel.text = courseName
         courseLabel.textColor = .black
         view.addSubview(courseLabel)
         
@@ -43,6 +53,7 @@ class DetailViewController: UIViewController {
         descriptionTextView = UITextView()
         descriptionTextView.font = .systemFont(ofSize: 16)
         descriptionTextView.textColor = .black
+        descriptionTextView.text = descriptionText
         view.addSubview(descriptionTextView)
         
         prereqLabel = UILabel()
@@ -54,6 +65,7 @@ class DetailViewController: UIViewController {
         creditsLabel.font = .systemFont(ofSize: 20)
         creditsLabel.backgroundColor = niceOrange
         creditsLabel.textColor = .white
+        creditsLabel.text = creditsNum+" credits"
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 10
         creditsLabel.clipsToBounds = true
@@ -134,6 +146,7 @@ class DetailViewController: UIViewController {
     
     @objc func saveButtonPressed(sender: UIButton) {
         print("Save Button Pressed")
+        delegate?.saveClass(newclass: detailedClass)
         dismiss(animated: true, completion: nil)
     }
     
@@ -142,22 +155,4 @@ class DetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
-

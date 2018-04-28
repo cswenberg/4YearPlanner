@@ -9,46 +9,37 @@
 import UIKit
 import SnapKit
 
-class HomeViewController: UIViewController {
+let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
 
-
-//    var myCollege: College
-//    var myMajor: Major
-//    var myMinor: Requirements
-    var allClasses: [Class] = []
-    var allSemesters: [Semester] = []
+class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewDelegate {
+    func switchCollection(newcollection: String) {
+        return
+    }
+    func passChosenOps(chosenitem: Requirements, name: String) {
+        if name=="College" {myCollege = chosenitem as! College}
+        else if name == "Major" {myMajor = chosenitem as! Major}
+        else if name == "Minor" {myMinor = chosenitem}
+    }
+    func updateSemesters(semesters: [Semester]) {
+        mySemesters = semesters
+    }
+    
+    var myCollege: College!
+    var myMajor: Major!
+    var myMinor: Requirements!
+    var mySemesters = [Semester]()
     var selectedTab = "Discover"
-    var selectedSemester = 1
-    var selectedDiscoverCollection: String = "Colleges"
-    var coursesDisplayed: [Class] = []
     var containerView: UIView!
     var containerViewController: UIViewController!
-    /////////Variables for 'Discover' views////////
-    var searchBar: UISearchBar!
-    var homeScrollView: UIScrollView!
-    var scrollStackView: UIStackView!
     var tabsStackView: UIStackView!
-    var mainStackView: UIStackView!
-    var hugeView: UIView!
-    /////////Main tabs//////////
     var discoverButton: UIButton!
     var myScheduleButton: UIButton!
     var settingsButton: UIButton!
-    ///////////Variables for 'My Schedule' views///////////
-    var scheduleButtonsStackView: UIStackView!
-    var selectedSemesterLabel: UILabel!
-    var addCourseButton: UIButton!
-    var goLeftButton: UIButton!
-    var goRightButton: UIButton!
-    var myCoursesCollectionView: UICollectionView!
-    var myCoursesCollectionViewCell: UICollectionViewCell!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-    // Nice Color of Gray
-        let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
-    // Font for Tabs
+
         let tabsFont = UIFont.systemFont(ofSize: 20)
     
         containerView = UIView()
@@ -134,9 +125,13 @@ class HomeViewController: UIViewController {
         removeChildViewControllers()
         var newViewController: UIViewController!
         if selectedTab=="My Schedule" {
-            newViewController = MyScheduleViewController()
+            let myscheduleViewController = MyScheduleViewController()
+            myscheduleViewController.delegate = self
+            newViewController = myscheduleViewController
         } else {
-            newViewController = DiscoverViewController()
+            let discoverViewController = DiscoverViewController()
+  //          discoverViewController.delegate = self
+            newViewController = discoverViewController
         }
         containerViewController = newViewController
         addChildViewController(containerViewController)
@@ -145,7 +140,6 @@ class HomeViewController: UIViewController {
             make.edges.equalToSuperview()
         }
         containerViewController?.didMove(toParentViewController: self)
-        
     }
 
     /** Return: list of all college/major/minor requirements that are left unsatisfied,
@@ -160,10 +154,10 @@ class HomeViewController: UIViewController {
     
 // Changes variable selectedButton to buttons title
 
-
     @objc func buttonPressed (sender:UIButton) {
         selectedTab = (sender.titleLabel?.text)!
-        print(selectedTab)
+        sender.backgroundColor = niceGray
+        sender.titleLabel?.textColor = .white
         updateChildViewController()
     }
     
@@ -171,7 +165,5 @@ class HomeViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 

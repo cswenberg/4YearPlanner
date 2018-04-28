@@ -12,6 +12,9 @@
 		4662D09B209406FD00C62AF2 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */; };
 		4662D09D2094072500C62AF2 /* MyScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */; };
 		4662D09F209418B600C62AF2 /* MyCoursesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */; };
+		4662D0A32094750200C62AF2 /* AddCoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */; };
+		4662D0A52094753C00C62AF2 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D0A42094753C00C62AF2 /* OptionsViewController.swift */; };
+		4662D0A7209489B600C62AF2 /* SemesterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */; };
 		46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C60920926F760027B4FC /* AppDelegate.swift */; };
 		46E0C60C20926F760027B4FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C60B20926F760027B4FC /* ViewController.swift */; };
 		46E0C61220926F760027B4FC /* _YearPlanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C61020926F760027B4FC /* _YearPlanner.xcdatamodeld */; };
@@ -28,6 +31,9 @@
 		4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScheduleViewController.swift; sourceTree = "<group>"; };
 		4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCoursesCollectionViewCell.swift; sourceTree = "<group>"; };
+		4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoursesViewController.swift; sourceTree = "<group>"; };
+		4662D0A42094753C00C62AF2 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemesterCollectionViewCell.swift; sourceTree = "<group>"; };
 		46E0C60620926F760027B4FC /* 4YearPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 4YearPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E0C60920926F760027B4FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E0C60B20926F760027B4FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -87,9 +93,12 @@
 				46E0C60920926F760027B4FC /* AppDelegate.swift */,
 				46E0C60B20926F760027B4FC /* ViewController.swift */,
 				4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */,
-				4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */,
 				4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */,
+				4662D0A42094753C00C62AF2 /* OptionsViewController.swift */,
+				4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */,
 				22E73789209463F5006DA8AA /* DetailViewController.swift */,
+				4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */,
+				4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */,
 				226F007820940EA5006452CE /* optionsCollectionViewCell.swift */,
 				46E0C61E20926FC60027B4FC /* Class.swift */,
 				46E0C62020926FD10027B4FC /* Requirements.swift */,
@@ -222,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46E0C61F20926FC60027B4FC /* Class.swift in Sources */,
+				4662D0A7209489B600C62AF2 /* SemesterCollectionViewCell.swift in Sources */,
 				46E0C60C20926F760027B4FC /* ViewController.swift in Sources */,
 				46E0C61220926F760027B4FC /* _YearPlanner.xcdatamodeld in Sources */,
 				4662D09B209406FD00C62AF2 /* DiscoverViewController.swift in Sources */,
@@ -229,6 +239,8 @@
 				226F007920940EA5006452CE /* optionsCollectionViewCell.swift in Sources */,
 				4662D09F209418B600C62AF2 /* MyCoursesCollectionViewCell.swift in Sources */,
 				22E7378A209463F5006DA8AA /* DetailViewController.swift in Sources */,
+				4662D0A32094750200C62AF2 /* AddCoursesViewController.swift in Sources */,
+				4662D0A52094753C00C62AF2 /* OptionsViewController.swift in Sources */,
 				46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */,
 				46E0C62120926FD10027B4FC /* Requirements.swift in Sources */,
 			);

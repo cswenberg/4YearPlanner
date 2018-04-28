@@ -8,11 +8,23 @@
 
 import UIKit
 
-class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+protocol myscheduleViewDelegate {
+    func updateSemesters(semesters: [Semester])
+    
+}
+
+class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate {
+    func saveClass(newclass: Class) {
+        mySemesters[selectedSemester-1].addClass(newclass: newclass)
+        myCoursesCollectionView.reloadData()
+    }
+    
     
     //Shared with main view controller
     var selectedSemester = 1
-    var allSemesters = [Semester]()
+    var mySemesters = [Semester]()
+    
+    var delegate: myscheduleViewDelegate!
     
     var scheduleButtonsStackView: UIStackView!
     var selectedSemesterLabel: UILabel!
@@ -22,7 +34,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var myCoursesCollectionView: UICollectionView!
     var courseReuseIdentifier = "myCourseReuseIdentifier"
     var coursesToDisplay = [Class]()
-    var cellsToDisplay = [MyCoursesCollectionViewCell]()
+    var cellsInCollection = [MyCoursesCollectionViewCell]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +49,10 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
                 newSemester.addClass(newclass: anothaClass)
             }
             newSemester.addClass(newclass: newClass)
-            allSemesters.append(newSemester)
+            mySemesters.append(newSemester)
         }
         
-        coursesToDisplay = allSemesters[selectedSemester-1].classes
+        coursesToDisplay = mySemesters[selectedSemester-1].classes
         
         //current selected semester label
         selectedSemesterLabel = UILabel()
@@ -84,7 +96,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         myCoursesCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
-        myCoursesCollectionView.collectionViewLayout = layout
         myCoursesCollectionView.dataSource = self
         myCoursesCollectionView.delegate = self
         myCoursesCollectionView.register(MyCoursesCollectionViewCell.self, forCellWithReuseIdentifier: courseReuseIdentifier)
@@ -94,7 +105,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         view.addSubview(myCoursesCollectionView)
         view.addSubview(selectedSemesterLabel)
         view.addSubview(scheduleButtonsStackView)
-        
+        delegate.updateSemesters(semesters: mySemesters)
         setupMyScheduleConstraints()
     }
     
@@ -141,21 +152,19 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @objc func goLeftButtonPress(sender: UIButton) {
-        print("go left button press")
         if selectedSemester != 1 {
             selectedSemester-=1
             selectedSemesterLabel.text = "Semester \(selectedSemester)"
-            coursesToDisplay = allSemesters[selectedSemester-1].classes
+            coursesToDisplay = mySemesters[selectedSemester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
     
     @objc func goRightButtonPress(sender: UIButton) {
-        print("go right button press")
         if selectedSemester != 8 {
             selectedSemester+=1
             selectedSemesterLabel.text = "Semester \(selectedSemester)"
-            coursesToDisplay = allSemesters[selectedSemester-1].classes
+            coursesToDisplay = mySemesters[selectedSemester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
@@ -171,20 +180,20 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         cell.titleLabel.text = cell.cellClass.title
         cell.layer.cornerRadius = 24
         cell.setNeedsUpdateConstraints()
-        cellsToDisplay.append(cell)
+        cellsInCollection.append(cell)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let dVC = DetailViewController()
         //   dVC.delegate = self
-        present(dVC, animated: true, completion: nil)
-        let selectedCell = cellsToDisplay[indexPath.item]
+        let selectedCell = cellsInCollection[indexPath.item]
         if let cellClass = selectedCell.cellClass {
-            dVC.courseLabel.text = cellClass.classLabel()
-            dVC.creditsLabel.text = String(describing: cellClass.credits)
-            dVC.prereqList = cellClass.prerequisites
-            dVC.descriptionTextView.text = cellClass.description
+            dVC.courseName = cellClass.classLabel()
+            dVC.creditsNum = String(describing: cellClass.credits)
+          //  dVC.prereqList = cellClass.prerequisites
+            dVC.descriptionText = cellClass.description
+            present(dVC, animated: true, completion: nil)
         }
     }
     
@@ -196,5 +205,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+
 }
 
