@@ -25,19 +25,18 @@ enum colleges: String {
 
 enum majors: String {
     case ece = "Electrical and Computer Engineering"
-    case aep = "Applied Engineering Physics"
+    case aep = "Applied and Engineering Physics"
     case cheme = "Chemical Engineering"
     case meche = "Mechanical Engineering"
-    case orie = "Operations Research"
+    case orie = "Operations Research and Information Engineering"
     case bme = "Biomedical Engineering"
     case cs = "Computer Science"
-    case isst = "Information Science and Technology"
-    case mse = "Materials Science"
+    case isst = "Information Science and Systems Technology"
+    case mse = "Materials Science Engineering"
     case civil = "Civil Engineering"
 }
 
 let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture]
-
 let allMajors: [majors] = [.ece, .aep, .cheme, .meche, .orie, .bme, .cs, .isst, .mse, .civil]
 
 class Requirements {
@@ -72,7 +71,12 @@ class Requirements {
     func getRequirements() -> [Class] {
         return requirements
     }
+    
+    func friendlyTitle() -> String {
+        return title
+    }
 }
+
 
 class College: Requirements {
     /** Enum to represent all college options, will use cases to determine requirements by using a switch and drawing information from server */
@@ -107,6 +111,25 @@ class College: Requirements {
         majorOptions = majorChoices
         super.init(title: collegeTitle, requirements: requirements)
     }
+    
+    override func friendlyTitle() -> String {
+        var friendlyTitle = title
+        switch college {
+        case .cals:
+            friendlyTitle = "College of Arts\n&\nLife Sciences"
+        case .artsnsciences:
+            friendlyTitle = "Arts\n&\nSciences"
+        case .engineering:
+            break
+        case .hotel:
+            break
+        case .dyson:
+            break
+        case .architecture:
+            break
+        }
+        return friendlyTitle
+    }
 }
 
 class Major: Requirements {
@@ -140,6 +163,33 @@ class Major: Requirements {
         }
         
         super.init(title: majorTitle, requirements: requirements)
+    }
+    
+    override func friendlyTitle() -> String {
+        var friendlyTitle = title
+        switch major {
+        case .ece:
+            friendlyTitle = "Electrical and\nComputer Engineering"
+        case .aep:
+            friendlyTitle = "Applied and\nEngineering Physics"
+        case .cheme:
+            break
+        case .meche:
+            break
+        case .orie:
+            friendlyTitle = "Operations Research\nand\nInformation Engineering"
+        case .bme:
+            break
+        case .cs:
+            break
+        case .isst:
+            friendlyTitle = "Information Science\nand\nSystems Engineering"
+        case .mse:
+            break
+        case .civil:
+            break
+        }
+        return friendlyTitle
     }
 }
 

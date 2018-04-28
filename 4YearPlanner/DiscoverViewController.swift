@@ -22,31 +22,28 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
     
     var selectedCollection = "Colleges"
     var selectedCollege: College!
+    var selectedMajor: Major!
+    var selectedMinor: Requirements!
+    var majorOptions = [majors]()
+    var cellsToDisplay = [optionsCollectionViewCell]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
-        
-        // Nice Color of Gray
-        let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
-        
-        // Font for Tabs
-        let rabsFont = UIFont.systemFont(ofSize: 20)
-
-        // Layout for options collectionView
-        let optionLayout = UICollectionViewFlowLayout()
-        optionLayout.scrollDirection = .vertical
         
         // Search Bar for Colleges/Majors/etc..
         searchBar = UISearchBar()
         definesPresentationContext = true
         
+        // Layout for options collectionView
+        let optionLayout = UICollectionViewFlowLayout()
+        optionLayout.scrollDirection = .vertical
         // CollectionView for Colleges/Majors/etc..
         optionsCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: optionLayout)
         optionsCollectionView.dataSource = self
         optionsCollectionView.delegate = self
         optionsCollectionView.register(optionsCollectionViewCell.self, forCellWithReuseIdentifier: optionsReuseIdentifier)
+        optionsCollectionView.backgroundColor = .white
 
         view.addSubview(searchBar)
         view.addSubview(optionsCollectionView)
@@ -57,7 +54,6 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
     func setupDiscoverConstraints() {
         
         // SearchBar
-        print(2)
         searchBar.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
             make.top.equalToSuperview().offset(10)
@@ -65,49 +61,65 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
         }
         
         // Options CollectionView
-        print(1)
         optionsCollectionView.snp.makeConstraints { (make) in
             make.top.equalTo(searchBar.snp.bottom).offset(10)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.trailing.bottom.equalToSuperview().offset(-10)
+            make.leading.equalToSuperview().offset(10)
         }
-        print(0)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("ran")
-        return 1
+        if selectedCollection == "Colleges" {return allColleges.count}
+        else if selectedCollection == "Majors" {return majorOptions.count}
+        else {return 69}
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = optionsCollectionView.dequeueReusableCell(withReuseIdentifier: optionsReuseIdentifier, for: indexPath) as! optionsCollectionViewCell
-        
         if selectedCollection == "Colleges" {
-            print("showing all colleges")
-            cell.collegeName = allColleges[indexPath.item]
-            print(cell.collegeName.rawValue)
-            cell.optionLabel.text = cell.collegeName.rawValue
+            cell.cellObject = College(title: allColleges[indexPath.item],requirements: [])
         } else if selectedCollection == "Majors"{
-            print("showing all majors")
-            cell.majorName = allMajors[indexPath.item]
-            cell.optionLabel.text = cell.collegeName.rawValue
+            cell.cellObject = Major(title: majorOptions[indexPath.item], requirements: [])
         } else {
-            print("showing the wrong things")
         }
+        cell.titleLabel.text = cell.cellObject.friendlyTitle()
+        cell.layer.cornerRadius = 10
+        cell.setNeedsUpdateConstraints()
+        cellsToDisplay.append(cell)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 180, height: 200)
+        return CGSize(width: 350, height: 200)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//
-//    }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if selectedCollection == "Colleges" {
+            selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College!
+            cellsToDisplay = []
+            majorOptions = selectedCollege.majorOptions
+        } else if selectedCollection == "Majors" {
+            selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major!
+            cellsToDisplay = []
+        }
+        switchCollection()
+        optionsCollectionView.reloadData()
+    }
+    
+    func switchCollection() {
+        if selectedCollection == "Colleges" {
+            selectedCollection = "Majors"
+        } else if selectedCollection == "Majors" {
+            selectedCollection = "Minors"
+        } else if selectedCollection == "Minors" {
+            selectedCollection = ""
+        }
+    }
     
 
 }

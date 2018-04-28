@@ -90,8 +90,6 @@ class HomeViewController: UIViewController {
         
         setupConstraints()
         updateChildViewController()
-        
-
     }
     
     func setupConstraints() {

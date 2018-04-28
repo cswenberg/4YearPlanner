@@ -11,24 +11,27 @@ import SnapKit
 
 class optionsCollectionViewCell: UICollectionViewCell {
     
-    var optionLabel: UILabel!
-    var collegeName: colleges!
-    var majorName: majors!
+    var cellObject: Requirements!
+    var titleLabel: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
+        contentView.backgroundColor = niceGray
         
-        contentView.backgroundColor = .white
+        titleLabel = UILabel()
+        titleLabel.textColor = .white
+        titleLabel.font = .systemFont(ofSize: 48)
         
-        optionLabel = UILabel()
-        optionLabel.textColor = .orange
-        
-        contentView.addSubview(optionLabel)
+        contentView.addSubview(titleLabel)
     }
     
     override func updateConstraints() {
-        optionLabel.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
+        //title label
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.trailing.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+          //  make.bottom.equalTo(contentView.snp.centerY)
         }
         super.updateConstraints()
     }
