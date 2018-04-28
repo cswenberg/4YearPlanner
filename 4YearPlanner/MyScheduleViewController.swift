@@ -12,7 +12,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     //Shared with main view controller
     var selectedSemester = 1
-    var allSemesters: [Semester]
+    var allSemesters = [Semester]()
     
     var scheduleButtonsStackView: UIStackView!
     var selectedSemesterLabel: UILabel!
@@ -21,15 +21,20 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var goRightButton: UIButton!
     var myCoursesCollectionView: UICollectionView!
     var courseReuseIdentifier = "myCourseReuseIdentifier"
-    var myCoursesCollectionViewCell: UICollectionViewCell!
-    var coursesToDisplay: [Class]
+    var coursesToDisplay: [Class] = [Class(subject: "CS", number: "2110", title: "I eat Ass", description: "no really", term: ["Fall"], credits: 69, prerequisites: [])]
     
     var myScheduleView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         myScheduleView = UIView()
+        
+        for i in 1...8 {
+            let newSemester = Semester(number: i)
+            let newClass = Class(subject: "CS", number: "2110", title: "I eat Ass", description: "no really", term: ["Fall"], credits: 69, prerequisites: [])
+            newSemester.addClass(newclass: newClass)
+            allSemesters.append(newSemester)
+        }
         
         coursesToDisplay = allSemesters[selectedSemester-1].classes
         
@@ -61,15 +66,20 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         scheduleButtonsStackView = UIStackView(arrangedSubviews: [goLeftButton, addCourseButton, goRightButton])
         scheduleButtonsStackView.axis = .horizontal
         scheduleButtonsStackView.distribution = .equalCentering
+        
         scheduleButtonsStackView.backgroundColor = .blue
         
         //my courses collection view
         let layout = UICollectionViewFlowLayout()
-        myCoursesCollectionView = UICollectionView()
+        myCoursesCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         myCoursesCollectionView.collectionViewLayout = layout
         myCoursesCollectionView.dataSource = self
         myCoursesCollectionView.delegate = self
         myCoursesCollectionView.register(MyCoursesCollectionViewCell.self, forCellWithReuseIdentifier: courseReuseIdentifier)
+
+        view.addSubview(myCoursesCollectionView)
+        view.addSubview(selectedSemesterLabel)
+        view.addSubview(scheduleButtonsStackView)
         
         setupMyScheduleConstraints()
     }
@@ -79,8 +89,8 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         selectedSemesterLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(10)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
-            make.leading.equalTo(myScheduleView.snp.leading).offset(20)
-            make.trailing.equalTo(myScheduleView.snp.trailing).offset(-20)
+            make.leading.equalTo(view.snp.leading).offset(20)
+            make.trailing.equalTo(view.snp.trailing).offset(-20)
         }
         // 'My Schedule' buttons stack view
         scheduleButtonsStackView.snp.makeConstraints { (make) in
@@ -90,18 +100,18 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         }
         // add course button
         addCourseButton.snp.makeConstraints { (make) in
-            make.height.equalTo(addCourseButton.intrinsicContentSize.height + 10)
-            make.width.equalTo(addCourseButton.intrinsicContentSize.width + 10)
+            make.height.equalToSuperview()
+            make.width.equalTo(addCourseButton.intrinsicContentSize.width)
         }
         // go left button
         goLeftButton.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
-            make.width.equalTo(goLeftButton.intrinsicContentSize.width + 10)
+            make.width.equalTo(goLeftButton.intrinsicContentSize.width)
         }
         // go right button
         goRightButton.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
-            make.width.equalTo(goRightButton.intrinsicContentSize.width + 10)
+            make.width.equalTo(goRightButton.intrinsicContentSize.width)
         }
         // my courses collection view
         myCoursesCollectionView.snp.makeConstraints { (make) in
@@ -115,19 +125,24 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @objc func goLeftButtonPress() {
-        print("go left button pressed")
         if selectedSemester != 1 {
             selectedSemester-=1
             coursesToDisplay = allSemesters[selectedSemester-1].classes
+            myCoursesCollectionView.reloadData()
         }
     }
     
     @objc func goRightButtonPress() {
-        print("go right button pressed")
+        if selectedSemester != 8 {
+            selectedSemester+=1
+            coursesToDisplay = allSemesters[selectedSemester-1].classes
+            myCoursesCollectionView.reloadData()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return coursesToDisplay.count
+        return 1
+        //return coursesToDisplay.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -139,12 +154,13 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         cell.setNeedsUpdateConstraints()
         return cell
     }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        <#code#>
-    }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        return
+//    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.intrinsicContentSize.width - 40, height: 60)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
+        UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 200, height: 60)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

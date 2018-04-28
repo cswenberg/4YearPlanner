@@ -12,7 +12,7 @@ import SnapKit
 
 class MyCoursesCollectionViewCell: UICollectionViewCell {
     
-    var cellClass: Class
+    var cellClass: Class!
     var classLabel: UILabel!
     
     override init(frame: CGRect) {
@@ -33,6 +33,7 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         classLabel.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+        super.updateConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {

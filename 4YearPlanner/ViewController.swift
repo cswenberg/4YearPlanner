@@ -17,10 +17,12 @@ class HomeViewController: UIViewController {
 //    var myMinor: Requirements
     var allClasses: [Class] = []
     var allSemesters: [Semester] = []
-    var selectedTab = "Discover"
+    var selectedTab = "My Schedule"
     var selectedSemester = 1
     var selectedDiscoverCollection: String = "Colleges"
     var coursesDisplayed: [Class] = []
+    var containerView: UIView!
+    var containerViewController: UIViewController!
     /////////Variables for 'Discover' views////////
     var searchBar: UISearchBar!
     var homeScrollView: UIScrollView!
@@ -43,13 +45,14 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addChildViewController(DiscoverViewController())
         view.backgroundColor = .white
     // Nice Color of Gray
         let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
     // Font for Tabs
         let tabsFont = UIFont.systemFont(ofSize: 20)
     
+        containerView = UIView()
+        
     // Button for the Discover Tab
         discoverButton = UIButton()
         discoverButton.layer.cornerRadius = 16
@@ -82,7 +85,11 @@ class HomeViewController: UIViewController {
         tabsStackView.distribution = .equalCentering
         view.addSubview(tabsStackView)
         
+        view.addSubview(containerView)
+        
         setupConstraints()
+        updateChildViewController()
+        
 
     }
     
@@ -109,8 +116,38 @@ class HomeViewController: UIViewController {
             make.height.equalToSuperview()
             make.width.equalTo(settingsButton.intrinsicContentSize.width + 20)
         }
+        //container view
+        containerView.snp.makeConstraints { (make) in
+            make.top.equalTo(tabsStackView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
+    func removeChildViewControllers() {
+        for vc in childViewControllers {
+            vc.willMove(toParentViewController: nil)
+            vc.view.removeFromSuperview()
+            vc.removeFromParentViewController()
+        }
+    }
+    
+    func updateChildViewController() {
+        removeChildViewControllers()
+        var newViewController: UIViewController!
+        if selectedTab=="My Schedule" {
+            newViewController = MyScheduleViewController()
+        } else {
+            newViewController = DiscoverViewController()
+        }
+        containerViewController = newViewController
+        addChildViewController(newViewController)
+        containerView.addSubview(containerViewController.view)
+        containerViewController.view.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        containerViewController?.didMove(toParentViewController: self)
+        
+    }
 
     /** Return: list of all college/major/minor requirements that are left unsatisfied,
      empty list if all requirements are satisfied */
@@ -128,6 +165,7 @@ class HomeViewController: UIViewController {
     @objc func buttonPressed (sender:UIButton) {
         selectedTab = (sender.titleLabel?.text)!
         print(selectedTab)
+        updateChildViewController()
     }
     
     override func didReceiveMemoryWarning() {

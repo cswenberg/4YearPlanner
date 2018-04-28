@@ -26,7 +26,6 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Nice Color of Gray
         let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         
