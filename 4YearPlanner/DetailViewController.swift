@@ -15,23 +15,24 @@ class DetailViewController: UIViewController {
     var descriptionLabel: UILabel!
     var descriptionTextView: UITextView!
     var prereqLabel: UILabel!
+    var prereqList = [Class]()
+    var prereqCollectionView: UICollectionView!
     var creditsLabel: UILabel!
     var backButton: UIButton!
     var saveButton: UIButton!
     var showButton = true
+    //  var delegate:
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let niceOrange = UIColor(red: 1, green: 0.73, blue: 0.19, alpha: 1)
-        
         let niceGreen = UIColor(red: 0.25, green: 0.85, blue: 0.51, alpha: 1)
         
         view.backgroundColor = .white
         
         courseLabel = UILabel()
-        courseLabel.text = "Microeconomics 1101"
         courseLabel.font = .boldSystemFont(ofSize: 24)
+        courseLabel.textColor = .black
         view.addSubview(courseLabel)
         
         descriptionLabel = UILabel()
@@ -40,7 +41,6 @@ class DetailViewController: UIViewController {
         view.addSubview(descriptionLabel)
         
         descriptionTextView = UITextView()
-        descriptionTextView.text = "I'm writing stuff that is really random so i can test this bullshit. This shits wack as fuck and i dont know why theyre still cup stacking"
         descriptionTextView.font = .systemFont(ofSize: 16)
         descriptionTextView.textColor = .black
         view.addSubview(descriptionTextView)
@@ -51,7 +51,6 @@ class DetailViewController: UIViewController {
         view.addSubview(prereqLabel)
         
         creditsLabel = UILabel()
-        creditsLabel.text = "3 credits"
         creditsLabel.font = .systemFont(ofSize: 20)
         creditsLabel.backgroundColor = niceOrange
         creditsLabel.textColor = .white
@@ -63,47 +62,47 @@ class DetailViewController: UIViewController {
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
         backButton.setTitleColor(.black, for: .normal)
-        backButton.titleLabel?.font = .systemFont(ofSize: 24)
+        backButton.titleLabel?.font = .systemFont(ofSize: 48)
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         view.addSubview(backButton)
         
         saveButton = UIButton()
         saveButton.setTitle("Save", for: .normal)
-        saveButton.titleLabel?.font = .systemFont(ofSize: 18)
+        saveButton.titleLabel?.font = .systemFont(ofSize: 32)
         saveButton.backgroundColor = niceGreen
-        saveButton.layer.cornerRadius = 10
+        saveButton.layer.cornerRadius = 16
         saveButton.clipsToBounds = true
         saveButton.titleLabel?.textAlignment = .center
         saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         
-        if showButton == true{
+        if showButton {
             view.addSubview(saveButton)
             saveButton.snp.makeConstraints { (make) in
-                make.bottom.equalToSuperview().offset(-20)
+                make.bottom.equalToSuperview().offset(-40)
                 make.centerX.equalToSuperview()
-                make.width.equalTo(saveButton.intrinsicContentSize.width + 20)
+                make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
                 make.height.equalTo(saveButton.intrinsicContentSize.height)
             }
         }
         
         setupConstraints()
-        // Do any additional setup after loading the view.
     }
     
     func setupConstraints() {
-        print(1)
+        //course label
         courseLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(100)
             make.centerX.equalToSuperview()
+            //   make.width.equalTo(courseLabel.intrinsicContentSize.width)
             make.height.equalTo(courseLabel.intrinsicContentSize.height)
         }
-        print(2)
+        // description label
         descriptionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(courseLabel.snp.bottom).offset(50)
             make.centerX.equalToSuperview()
             make.height.equalTo(descriptionLabel.intrinsicContentSize.height)
         }
-        print(3)
+        // description text view
         descriptionTextView.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
@@ -111,20 +110,20 @@ class DetailViewController: UIViewController {
             make.height.equalTo(80)
             
         }
-        print(4)
+        // prerequisited label
         prereqLabel.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionTextView.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.height.equalTo(prereqLabel.intrinsicContentSize.height)
         }
-        print(4)
+        // credits label
         creditsLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(40)
             make.trailing.equalToSuperview().offset(-20)
             make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
-        
+        // back button
         backButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(40)
             make.width.equalTo(backButton.intrinsicContentSize.width)
@@ -142,6 +141,8 @@ class DetailViewController: UIViewController {
         print("Back Button Pressed")
         dismiss(animated: true, completion: nil)
     }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -159,3 +160,4 @@ class DetailViewController: UIViewController {
      */
     
 }
+

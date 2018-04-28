@@ -22,6 +22,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var myCoursesCollectionView: UICollectionView!
     var courseReuseIdentifier = "myCourseReuseIdentifier"
     var coursesToDisplay = [Class]()
+    var cellsToDisplay = [MyCoursesCollectionViewCell]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         
         for i in 1...8 {
             let newSemester = Semester(number: i)
-            let newClass = Class(subject: "CS", number: "211"+"\(i)", title: "I eat Ass", description: "no really", term: ["Fall"], credits: 69, prerequisites: [])
+            let newClass = Class(subject: "CS", number: "211"+"\(i)", title: "Object-Oriented Programming", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
             if i%2 == 0 {
                 let anothaClass = Class(subject: "PHYS", number: "1116", title: "Physics: Introduction to Mechanics", description: "", term: ["Fall", "Spring"], credits: 4, prerequisites: [])
                 newSemester.addClass(newclass: anothaClass)
@@ -153,6 +154,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         print("go right button press")
         if selectedSemester != 8 {
             selectedSemester+=1
+            selectedSemesterLabel.text = "Semester \(selectedSemester)"
             coursesToDisplay = allSemesters[selectedSemester-1].classes
             myCoursesCollectionView.reloadData()
         }
@@ -169,11 +171,21 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         cell.titleLabel.text = cell.cellClass.title
         cell.layer.cornerRadius = 24
         cell.setNeedsUpdateConstraints()
+        cellsToDisplay.append(cell)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        return
+        let dVC = DetailViewController()
+        //   dVC.delegate = self
+        present(dVC, animated: true, completion: nil)
+        let selectedCell = cellsToDisplay[indexPath.item]
+        if let cellClass = selectedCell.cellClass {
+            dVC.courseLabel.text = cellClass.classLabel()
+            dVC.creditsLabel.text = String(describing: cellClass.credits)
+            dVC.prereqList = cellClass.prerequisites
+            dVC.descriptionTextView.text = cellClass.description
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
