@@ -43,6 +43,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addChildViewController(DiscoverViewController())
         view.backgroundColor = .white
     // Nice Color of Gray
         let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)

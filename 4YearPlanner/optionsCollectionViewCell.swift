@@ -13,7 +13,7 @@ class optionsCollectionViewCell: UICollectionViewCell {
     
     var optionLabel: UILabel!
     var collegeName: colleges!
-    var majorName: Major!
+    var majorName: majors!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,8 +25,8 @@ class optionsCollectionViewCell: UICollectionViewCell {
     }
     
     func setupConstraints () {
-        optionLabel.snp.makeConstraints { (close) in
-            optionLabel.center.equalTo((superview?.center)!)
+        optionLabel.snp.makeConstraints { (make) in
+            make.center.equalTo((superview?.center)!)
         }
         super.updateConstraints()
     }
