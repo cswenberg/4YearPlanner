@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4662D09B209406FD00C62AF2 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */; };
+		4662D09D2094072500C62AF2 /* MyScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */; };
 		46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C60920926F760027B4FC /* AppDelegate.swift */; };
 		46E0C60C20926F760027B4FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C60B20926F760027B4FC /* ViewController.swift */; };
 		46E0C61220926F760027B4FC /* _YearPlanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C61020926F760027B4FC /* _YearPlanner.xcdatamodeld */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
+		4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScheduleViewController.swift; sourceTree = "<group>"; };
 		46E0C60620926F760027B4FC /* 4YearPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 4YearPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E0C60920926F760027B4FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E0C60B20926F760027B4FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +80,8 @@
 			children = (
 				46E0C60920926F760027B4FC /* AppDelegate.swift */,
 				46E0C60B20926F760027B4FC /* ViewController.swift */,
+				4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */,
+				4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */,
 				46E0C61E20926FC60027B4FC /* Class.swift */,
 				46E0C62020926FD10027B4FC /* Requirements.swift */,
 				46E0C61320926F760027B4FC /* Assets.xcassets */,
@@ -209,6 +215,8 @@
 				46E0C61F20926FC60027B4FC /* Class.swift in Sources */,
 				46E0C60C20926F760027B4FC /* ViewController.swift in Sources */,
 				46E0C61220926F760027B4FC /* _YearPlanner.xcdatamodeld in Sources */,
+				4662D09B209406FD00C62AF2 /* DiscoverViewController.swift in Sources */,
+				4662D09D2094072500C62AF2 /* MyScheduleViewController.swift in Sources */,
 				46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */,
 				46E0C62120926FD10027B4FC /* Requirements.swift in Sources */,
 			);
