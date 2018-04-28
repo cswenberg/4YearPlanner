@@ -32,7 +32,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
         let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         
         // Font for Tabs
-        let tabsFont = UIFont.systemFont(ofSize: 20)
+        let rabsFont = UIFont.systemFont(ofSize: 20)
 
         // Layout for options collectionView
         let optionLayout = UICollectionViewFlowLayout()

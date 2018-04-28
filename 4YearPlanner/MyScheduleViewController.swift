@@ -21,17 +21,20 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var goRightButton: UIButton!
     var myCoursesCollectionView: UICollectionView!
     var courseReuseIdentifier = "myCourseReuseIdentifier"
-    var coursesToDisplay: [Class] = [Class(subject: "CS", number: "2110", title: "I eat Ass", description: "no really", term: ["Fall"], credits: 69, prerequisites: [])]
-    
-    var myScheduleView: UIView!
+    var coursesToDisplay = [Class]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        myScheduleView = UIView()
+        view.backgroundColor = .white
+        let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         
         for i in 1...8 {
             let newSemester = Semester(number: i)
-            let newClass = Class(subject: "CS", number: "2110", title: "I eat Ass", description: "no really", term: ["Fall"], credits: 69, prerequisites: [])
+            let newClass = Class(subject: "CS", number: "211"+"\(i)", title: "I eat Ass", description: "no really", term: ["Fall"], credits: 69, prerequisites: [])
+            if i%2 == 0 {
+                let anothaClass = Class(subject: "PHYS", number: "1116", title: "Physics: Introduction to Mechanics", description: "", term: ["Fall", "Spring"], credits: 4, prerequisites: [])
+                newSemester.addClass(newclass: anothaClass)
+            }
             newSemester.addClass(newclass: newClass)
             allSemesters.append(newSemester)
         }
@@ -40,8 +43,9 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         
         //current selected semester label
         selectedSemesterLabel = UILabel()
-        selectedSemesterLabel.backgroundColor = .green
-        selectedSemesterLabel.layer.cornerRadius = 32
+        selectedSemesterLabel.backgroundColor = niceGray
+        selectedSemesterLabel.textColor = .white
+        selectedSemesterLabel.layer.cornerRadius = 24
         selectedSemesterLabel.font = .systemFont(ofSize: 48)
         selectedSemesterLabel.text = "Semester \(selectedSemester)"
         selectedSemesterLabel.textAlignment = .center
@@ -49,34 +53,43 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         //add course button
         addCourseButton = UIButton()
         addCourseButton.setTitle("+", for: .normal)
-        //addCourseButton.layer.borderWidth = 4
+        addCourseButton.setTitleColor(.black , for: .normal)
+        addCourseButton.titleLabel!.font = .systemFont(ofSize: 36)
+        addCourseButton.layer.cornerRadius = 20
+        addCourseButton.layer.borderWidth = 4
         addCourseButton.addTarget(self, action: #selector(addCourseButtonPress), for: .touchUpInside)
         
         //go left button
         goLeftButton = UIButton()
         goLeftButton.setTitle("<", for: .normal)
+        goLeftButton.setTitleColor(.black, for: .normal)
+        goLeftButton.titleLabel!.font = .systemFont(ofSize: 36)
         goLeftButton.addTarget(self, action: #selector(goLeftButtonPress), for: .touchUpInside)
         
         //go right button
         goRightButton = UIButton()
         goRightButton.setTitle(">", for: .normal)
+        goRightButton.setTitleColor(.black, for: .normal)
+        goRightButton.titleLabel!.font = .systemFont(ofSize: 36)
         goRightButton.addTarget(self, action: #selector(goRightButtonPress), for: .touchUpInside)
         
         // StackView for buttons within 'My Schedule' tab
         scheduleButtonsStackView = UIStackView(arrangedSubviews: [goLeftButton, addCourseButton, goRightButton])
         scheduleButtonsStackView.axis = .horizontal
         scheduleButtonsStackView.distribution = .equalCentering
-        
         scheduleButtonsStackView.backgroundColor = .blue
         
         //my courses collection view
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
         myCoursesCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         myCoursesCollectionView.collectionViewLayout = layout
         myCoursesCollectionView.dataSource = self
         myCoursesCollectionView.delegate = self
         myCoursesCollectionView.register(MyCoursesCollectionViewCell.self, forCellWithReuseIdentifier: courseReuseIdentifier)
-
+        myCoursesCollectionView.backgroundColor = .white
+        myCoursesCollectionView.bounces = true
+        
         view.addSubview(myCoursesCollectionView)
         view.addSubview(selectedSemesterLabel)
         view.addSubview(scheduleButtonsStackView)
@@ -87,52 +100,57 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func setupMyScheduleConstraints() {
         // selected semester label
         selectedSemesterLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(40)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
-            make.leading.equalTo(view.snp.leading).offset(20)
-            make.trailing.equalTo(view.snp.trailing).offset(-20)
+            make.width.equalTo(selectedSemesterLabel.intrinsicContentSize.width + 10)
+            make.centerX.equalToSuperview()
+            //make.leading.equalTo(view.snp.leading).offset(20)
+            //make.trailing.equalTo(view.snp.trailing).offset(-20)
         }
         // 'My Schedule' buttons stack view
         scheduleButtonsStackView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(10)
-            make.height.equalTo(40)
+            make.height.equalTo(80)
         }
         // add course button
         addCourseButton.snp.makeConstraints { (make) in
-            make.height.equalToSuperview()
-            make.width.equalTo(addCourseButton.intrinsicContentSize.width)
+            make.height.equalTo(addCourseButton.intrinsicContentSize.height)
+            make.width.equalTo(60)
         }
         // go left button
         goLeftButton.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
-            make.width.equalTo(goLeftButton.intrinsicContentSize.width)
+            make.width.equalTo(goLeftButton.intrinsicContentSize.width*4)
         }
         // go right button
         goRightButton.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
-            make.width.equalTo(goRightButton.intrinsicContentSize.width)
+            make.width.equalTo(goRightButton.intrinsicContentSize.width*4)
         }
         // my courses collection view
         myCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(scheduleButtonsStackView.snp.bottom)
+            make.top.equalTo(scheduleButtonsStackView.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    @objc func addCourseButtonPress() {
+    @objc func addCourseButtonPress(sender: UIButton) {
         print("add course button pressed")
     }
     
-    @objc func goLeftButtonPress() {
+    @objc func goLeftButtonPress(sender: UIButton) {
+        print("go left button press")
         if selectedSemester != 1 {
             selectedSemester-=1
+            selectedSemesterLabel.text = "Semester \(selectedSemester)"
             coursesToDisplay = allSemesters[selectedSemester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
     
-    @objc func goRightButtonPress() {
+    @objc func goRightButtonPress(sender: UIButton) {
+        print("go right button press")
         if selectedSemester != 8 {
             selectedSemester+=1
             coursesToDisplay = allSemesters[selectedSemester-1].classes
@@ -141,26 +159,26 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-        //return coursesToDisplay.count
+        return coursesToDisplay.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = myCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: courseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
         cell.cellClass = coursesToDisplay[indexPath.item]
         cell.classLabel.text = cell.cellClass.classLabel()
-        cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 10
+        cell.titleLabel.text = cell.cellClass.title
+        cell.layer.cornerRadius = 24
         cell.setNeedsUpdateConstraints()
         return cell
     }
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        return
-//    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        return
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
         UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 200, height: 60)
+        return CGSize(width: 350, height: 120)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
