@@ -117,6 +117,10 @@ class Class {
         return term.contains(someterm)
     }
     
+    func classLabel() -> String {
+        return subject+" "+number
+    }
+    
 }
 
 
