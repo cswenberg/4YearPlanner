@@ -19,12 +19,14 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
     var optionsReuseIdentifier = "optionCell"
     
     var searchBar: UISearchBar!
+    var backButton: UIButton!
     
     var selectedCollection = "Colleges"
     var selectedCollege: College!
     var selectedMajor: Major!
     var selectedMinor: Requirements!
     var majorOptions = [majors]()
+    var minorOptions = [minors]()
     var cellsToDisplay = [optionsCollectionViewCell]()
     
     override func viewDidLoad() {
@@ -44,7 +46,15 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
         optionsCollectionView.delegate = self
         optionsCollectionView.register(optionsCollectionViewCell.self, forCellWithReuseIdentifier: optionsReuseIdentifier)
         optionsCollectionView.backgroundColor = .white
-
+        // Back Button
+        backButton = UIButton()
+        backButton.setTitle("<", for: .normal)
+        backButton.setTitleColor(.black, for: .normal)
+        backButton.titleLabel?.font = .systemFont(ofSize: 24)
+        backButton.titleLabel?.textAlignment = .center
+        backButton.addTarget(self, action: #selector(discoverBackButtonPressed), for: .touchUpInside)
+        
+        view.addSubview(backButton)
         view.addSubview(searchBar)
         view.addSubview(optionsCollectionView)
         
@@ -53,9 +63,19 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func setupDiscoverConstraints() {
         
+        // Back Button
+        view.addSubview(backButton)
+        backButton.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.centerY.equalTo(searchBar.snp.centerY)
+            make.height.equalTo(searchBar.snp.height)
+            make.width.equalTo(backButton.intrinsicContentSize.width)
+        }
+        
         // SearchBar
         searchBar.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.leading.equalTo(backButton.snp.trailing).offset(10)
             make.top.equalToSuperview().offset(10)
             make.height.equalTo(40)
         }
@@ -71,7 +91,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if selectedCollection == "Colleges" {return allColleges.count}
         else if selectedCollection == "Majors" {return majorOptions.count}
-        else {return 69}
+        else {return allMinors.count}
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -82,6 +102,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
         } else if selectedCollection == "Majors"{
             cell.cellObject = Major(title: majorOptions[indexPath.item], requirements: [])
         } else {
+            cell.cellObject = Minors(title: allMinors[indexPath.item], requirements: [])
         }
         cell.titleLabel.text = cell.cellObject.friendlyTitle()
         cell.layer.cornerRadius = 10
@@ -100,11 +121,14 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if selectedCollection == "Colleges" {
-            selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College!
+            selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College?
             cellsToDisplay = []
             majorOptions = selectedCollege.majorOptions
         } else if selectedCollection == "Majors" {
-            selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major!
+            selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major?
+            cellsToDisplay = []
+        } else {
+            selectedMinor = cellsToDisplay[indexPath.item].cellObject as! Minors?
             cellsToDisplay = []
         }
         switchCollection()
@@ -116,9 +140,25 @@ class DiscoverViewController: UIViewController, UICollectionViewDataSource, UICo
             selectedCollection = "Majors"
         } else if selectedCollection == "Majors" {
             selectedCollection = "Minors"
-        } else if selectedCollection == "Minors" {
-            selectedCollection = ""
         }
+    }
+    
+    func reverseSwitchCollection() {
+        if selectedCollection == "Majors" {
+            selectedCollection = "Colleges"
+        } else if selectedCollection == "Minors" {
+            selectedCollection = "Majors"
+        }
+        
+    }
+    
+    @objc func discoverBackButtonPressed(sender: UIButton) {
+        if selectedCollection == "Majors" || selectedCollection == "Minors"{
+            print("did something")
+            reverseSwitchCollection()
+            optionsCollectionView.reloadData()
+        }
+        else {print("didn't do anything")}
     }
     
 

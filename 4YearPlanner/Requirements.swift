@@ -36,8 +36,32 @@ enum majors: String {
     case civil = "Civil Engineering"
 }
 
+enum minors: String {
+    case ase = "Aerospace Engineering"
+    case am = "Applied Mathematics"
+    case be = "Biological Engineering"
+    case bme = "Biomedical Engineering"
+    case bus = "Business for Engineering Students"
+    case civ = "Civil Infrastructure"
+    case cs = "Computer Science"
+    case ece = "Electrical and Computer Engineering"
+    case ee = "Engineering Entrepreneurship"
+    case em = "Engineering Management"
+    case es = "Engineering Statistics"
+    case env = "Environmental Engineering"
+    case gd = "Game Design"
+    case isst = "Industrial Systems and Information Technology"
+    case info = "Information Science"
+    case mse = "Materials Science and Engineering"
+    case meche = "Mechanical Engineering"
+    case orie = "Operations Research and Management Science"
+    case ses = "Science of Earth Systems"
+    case sust = "Sustainable Energu Systems"
+}
+
 let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture]
-let allMajors: [majors] = [.ece, .aep, .cheme, .meche, .orie, .bme, .cs, .isst, .mse, .civil]
+
+let allMinors: [minors] = [.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
 
 class Requirements {
     
@@ -85,27 +109,21 @@ class College: Requirements {
     var majorOptions: [majors]
     
     init (title: colleges, requirements: [Class]) {
-        var collegeTitle = ""
         var majorChoices = [majors]()
         college = title
+        let collegeTitle = college.rawValue
         switch college {
         case .engineering:
-            collegeTitle = "Engineering"
             majorChoices = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil]
         case .artsnsciences:
-            collegeTitle = "Arts & Sciences"
             majorChoices = []
         case .cals:
-            collegeTitle = "College of Arts & Life Sciences"
             majorChoices = []
         case .hotel:
-            collegeTitle = "Hotel"
             majorChoices = []
         case .dyson:
-            collegeTitle = "Dyson"
             majorChoices = []
         case .architecture:
-            collegeTitle = "Architecture"
             majorChoices = []
         }
         majorOptions = majorChoices
@@ -137,30 +155,9 @@ class Major: Requirements {
     var major: majors
     
     init (title: majors, requirements: [Class]) {
-        var majorTitle = ""
         major = title
-        switch major {
-        case .ece:
-            majorTitle = "Electrical and Computer Engineering"
-        case .aep:
-            majorTitle = "Applied and Engineernig Physics"
-        case .cheme:
-            majorTitle = "Chemical Engineering"
-        case .meche:
-            majorTitle = "Mechanical Engineering"
-        case .orie:
-            majorTitle = "Operations Research and Information Engineering"
-        case .bme:
-            majorTitle = "Biomedical Engineering"
-        case .cs:
-            majorTitle = "Computer Science Engineering"
-        case .isst:
-            majorTitle = "Information Science and Systems Technology"
-        case .mse:
-            majorTitle = "Material Science Engineering"
-        case .civil:
-            majorTitle = "Civil Engineering"
-        }
+        let majorTitle = major.rawValue
+
         
         super.init(title: majorTitle, requirements: requirements)
     }
@@ -190,6 +187,16 @@ class Major: Requirements {
             break
         }
         return friendlyTitle
+    }
+}
+
+class Minors: Requirements {
+    var minor: minors
+    
+    init(title: minors, requirements: [Class]) {
+        self.minor = title
+        let minorTitle = minor.rawValue
+        super.init(title: minorTitle, requirements: requirements)
     }
 }
 
