@@ -14,6 +14,32 @@ import Foundation
  requirements - list of Class objects
  title - String
  */
+enum colleges: String {
+    case engineering = "Engineering"
+    case artsnsciences = "Arts and Sciences"
+    case cals = "CALS"
+    case hotel = "Hotel Administration"
+    case dyson = "Dyson Business School"
+    case architecture = "Art, Architecture, and Planning"
+}
+
+enum majors: String {
+    case ece = "Electrical and Computer Engineering"
+    case aep = "Applied Engineering Physics"
+    case cheme = "Chemical Engineering"
+    case meche = "Mechanical Engineering"
+    case orie = "Operations Research"
+    case bme = "Biomedical Engineering"
+    case cs = "Computer Science"
+    case isst = "Information Science and Technology"
+    case mse = "Materials Science"
+    case civil = "Civil Engineering"
+}
+
+let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture]
+
+let allMajors: [majors] = [.ece, .aep, .cheme, .meche, .orie, .bme, .cs, .isst, .mse, .civil]
+
 class Requirements {
     
     var requirements: [Class]
@@ -50,26 +76,18 @@ class Requirements {
 
 class College: Requirements {
     /** Enum to represent all college options, will use cases to determine requirements by using a switch and drawing information from server */
-    enum colleges {
-        case engineering
-        case artsnsciences
-        case cals
-        case hotel
-        case dyson
-        case architecture
-    }
     
     var college: colleges
-    var majorOptions: [Major.majors]
+    var majorOptions: [majors]
     
     init (title: colleges, requirements: [Class]) {
         var collegeTitle = ""
-        var majorChoices = [Major.majors]()
+        var majorChoices = [majors]()
         college = title
         switch college {
         case .engineering:
             collegeTitle = "Engineering"
-            majorChoices = [.ece,.aep,.cheme,.meche,.orie,.bme,.cse,.isst,.mse,.civil]
+            majorChoices = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil]
         case .artsnsciences:
             collegeTitle = "Arts & Sciences"
             majorChoices = []
@@ -92,18 +110,7 @@ class College: Requirements {
 }
 
 class Major: Requirements {
-    enum majors {
-        case ece
-        case aep
-        case cheme
-        case meche
-        case orie
-        case bme
-        case cse
-        case isst
-        case mse
-        case civil
-    }
+
     var major: majors
     
     init (title: majors, requirements: [Class]) {
@@ -122,7 +129,7 @@ class Major: Requirements {
             majorTitle = "Operations Research and Information Engineering"
         case .bme:
             majorTitle = "Biomedical Engineering"
-        case .cse:
+        case .cs:
             majorTitle = "Computer Science Engineering"
         case .isst:
             majorTitle = "Information Science and Systems Technology"
