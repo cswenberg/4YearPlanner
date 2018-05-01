@@ -147,10 +147,15 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
         print("add course button pressed")
+        let navVC = AddFromMyScheduleViewController()
+        //navVC.delegate = self
+        navigationController?.pushViewController(navVC, animated: true)
     }
     
+    // Changes Semester label/ Stores new semester number
     @objc func goLeftButtonPress(sender: UIButton) {
         if selectedSemester != 1 {
             selectedSemester-=1
@@ -160,6 +165,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // Changes Semester Label/ Stores new semester number
     @objc func goRightButtonPress(sender: UIButton) {
         if selectedSemester != 8 {
             selectedSemester+=1
@@ -184,6 +190,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         return cell
     }
     
+    // Present Modal VC for detail view
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let dVC = DetailViewController()
         //   dVC.delegate = self

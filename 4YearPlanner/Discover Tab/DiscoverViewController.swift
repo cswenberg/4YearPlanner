@@ -79,6 +79,7 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
         }
     }
     
+    // Part 1 of switching child VC (options/add courses)
     func removeChildViewControllers() {
         for vc in childViewControllers {
             vc.willMove(toParentViewController: nil)
@@ -87,6 +88,7 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
         }
     }
     
+    // Part 2 of switching child VC (options/add courses)
     func updateChildViewController() {
         removeChildViewControllers()
         var newViewController: UIViewController!
@@ -108,6 +110,7 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
         subContainerViewController?.didMove(toParentViewController: self)
     }
     
+    // Go back 1 section in options VC
     @objc func discoverBackButtonPressed(sender: UIButton) {
         if selectedCollection == "Majors" || selectedCollection == "Minors" {
             if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
@@ -117,10 +120,12 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
         }
     }
     
+    // Changes selected semester var in (??)
     func selectedNewSemester(number: Int) {
         delegate?.changeSelectedSemester(number: number)
     }
 
+    // Switch collectionView
     func switchCollection(newcollection: String) {
         print("received switchCollection delegate call")
         selectedCollection = newcollection

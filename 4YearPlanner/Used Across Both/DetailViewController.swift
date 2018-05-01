@@ -87,6 +87,7 @@ class DetailViewController: UIViewController {
         saveButton.titleLabel?.textAlignment = .center
         saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         
+        // Only show save button if not in list of classes already
         if showButton {
             view.addSubview(saveButton)
             saveButton.snp.makeConstraints { (make) in
@@ -144,12 +145,14 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // Returns from modal VC and changes value of stored variable
     @objc func saveButtonPressed(sender: UIButton) {
         print("Save Button Pressed")
         delegate?.saveClass(newclass: detailedClass)
         dismiss(animated: true, completion: nil)
     }
     
+    // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
         print("Back Button Pressed")
         dismiss(animated: true, completion: nil)

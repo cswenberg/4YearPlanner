@@ -33,6 +33,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         // Layout for options collectionView
         let optionLayout = UICollectionViewFlowLayout()
         optionLayout.scrollDirection = .vertical
+        
         // CollectionView for Colleges/Majors/etc..
         optionsCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: optionLayout)
         optionsCollectionView.dataSource = self
@@ -46,6 +47,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func setupDiscoverConstraints() {
+        
         // Options CollectionView
         optionsCollectionView.snp.makeConstraints { (make) in
             make.trailing.bottom.equalToSuperview().offset(-10)
@@ -107,6 +109,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         optionsCollectionView.reloadData()
     }
     
+    // Switches collection when selected (forward)
     func switchCollection(){
         if selectedCollection == "Colleges" {
             selectedCollection = "Majors"
@@ -118,6 +121,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         delegate?.switchCollection(newcollection: selectedCollection)
     }
     
+    // Switches Collection when back button is pressed (backward)
     func reverseSwitchCollection() {
         if selectedCollection == "Majors" {
             selectedCollection = "Colleges"
@@ -126,8 +130,5 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         delegate?.switchCollection(newcollection: selectedCollection)
     }
-
-    
-    
 }
 

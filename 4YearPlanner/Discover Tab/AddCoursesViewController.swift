@@ -110,6 +110,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         return 1
     }
     
+    // Present Detail View modally
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == semestersCollectionView {
             delegate?.selectedNewSemester(number: indexPath.item)

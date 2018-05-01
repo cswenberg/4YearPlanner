@@ -12,17 +12,6 @@ import SnapKit
 let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
 
 class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewDelegate {
-    func switchCollection(newcollection: String) {
-        return
-    }
-    func passChosenOps(chosenitem: Requirements, name: String) {
-        if name=="College" {myCollege = chosenitem as! College}
-        else if name == "Major" {myMajor = chosenitem as! Major}
-        else if name == "Minor" {myMinor = chosenitem}
-    }
-    func updateSemesters(semesters: [Semester]) {
-        mySemesters = semesters
-    }
     
     var myCollege: College!
     var myMajor: Major!
@@ -113,6 +102,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewD
         }
     }
     
+    // Part 1 of switching view controllers
     func removeChildViewControllers() {
         for vc in childViewControllers {
             vc.willMove(toParentViewController: nil)
@@ -121,6 +111,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewD
         }
     }
     
+    // Part 2 of switching view controllers
     func updateChildViewController() {
         removeChildViewControllers()
         var newViewController: UIViewController!
@@ -152,13 +143,29 @@ class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewD
 //        return requirementsLeft
 //    }
     
-// Changes variable selectedButton to buttons title
-
+    // Changes variable selectedButton to buttons title
     @objc func buttonPressed (sender:UIButton) {
         selectedTab = (sender.titleLabel?.text)!
         sender.backgroundColor = niceGray
         sender.titleLabel?.textColor = .white
         updateChildViewController()
+    }
+    
+    // Switches collection(??)
+    func switchCollection(newcollection: String) {
+        return
+    }
+    
+    // Changes our variables depending on option chosen
+    func passChosenOps(chosenitem: Requirements, name: String) {
+        if name=="College" {myCollege = chosenitem as! College}
+        else if name == "Major" {myMajor = chosenitem as! Major}
+        else if name == "Minor" {myMinor = chosenitem}
+    }
+    
+    // Updates semesters variable
+    func updateSemesters(semesters: [Semester]) {
+        mySemesters = semesters
     }
     
     override func didReceiveMemoryWarning() {
