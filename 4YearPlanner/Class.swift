@@ -7,6 +7,9 @@
 //
 
 import Foundation
+
+import SwiftyJSON
+
 /**
  An instance of Semester represents the planned class schedule for a certain semester.
  Attributes:
@@ -92,7 +95,8 @@ class Class {
     var description: String
     var term: [String]
     var credits: Int
-    var prerequisites: [Class]
+    var prerequisites: [Class]!
+    var pulledPrereqs: String?
     var semesterTaken: Int?
     
     init(subject: String, number: String, title: String, description: String, term: [String], credits: Int, prerequisites: [Class]) {
@@ -103,6 +107,17 @@ class Class {
         self.term = term
         self.credits = credits
         self.prerequisites = prerequisites
+    }
+    
+    // initializing from API query
+    init(from json: JSON) {
+        self.subject = json["subject"].stringValue
+        self.number = json["number"].stringValue
+        self.title = json["title"].stringValue
+        self.description = json["description"].stringValue
+        self.term = [json["term"].stringValue]
+        self.credits = json["credits"].intValue
+        self.pulledPrereqs = json["prerequisites"].stringValue
     }
     /** Return: boolean to answer if two classes are the same by comparing subject and number */
     func equals(someclass: Class) -> Bool {
