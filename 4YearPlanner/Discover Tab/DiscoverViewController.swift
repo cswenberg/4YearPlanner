@@ -8,13 +8,7 @@
 
 import UIKit
 
-protocol discoverViewDelegate {
-    func changeSelectedSemester(number: Int)
-}
-
-class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesDelegate {
-    
-    var delegate: discoverViewDelegate?
+class DiscoverViewController: UIViewController {
 
     var searchBar: UISearchBar!
     var backButton: UIButton!
@@ -88,11 +82,9 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
         var newViewController: UIViewController!
         if sharedVars.current_category == "Courses" {
             let addcoursesViewController = AddCoursesViewController()
-            addcoursesViewController.delegate = self
             newViewController = addcoursesViewController
         } else {
             let optionViewController = OptionsViewController()
-            optionViewController.delegate = self
             newViewController = optionViewController
         }
         subContainerViewController = newViewController
@@ -108,26 +100,21 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
     @objc func discoverBackButtonPressed(sender: UIButton) {
         if sharedVars.current_category == "Majors" || sharedVars.current_category == "Minors" || sharedVars.current_category == "Courses" {
             if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
-                optionsviewcontroller.reverseSwitchCollection()
+                reverseSwitchCollection()
                 optionsviewcontroller.optionsCollectionView.reloadData()
             }
+        } else {print("didn't do anything")}
+    }
+    
+    // Switches Collection when back button is pressed (backward)
+    func reverseSwitchCollection() {
+        if sharedVars.current_category == "Majors" {
+            sharedVars.current_category = "Colleges"
+        } else if sharedVars.current_category == "Minors" {
+            sharedVars.current_category = "Majors"
+        } else if sharedVars.current_category == "Courses" {
+            sharedVars.current_category = "Minors"
+            updateChildViewController()
         }
     }
-    
-    // Changes selected semester var in (??)
-    func selectedNewSemester(number: Int) {
-        delegate?.changeSelectedSemester(number: number)
-    }
-
-    // Switch collectionView
-    func switchCollection(newcollection: String) {
-        print("received switchCollection delegate call")
-        sharedVars.current_category = newcollection
-        if sharedVars.current_category == "Courses" {updateChildViewController()}
-    }
-    
-    func passChosenOps(chosenitem: Requirements, name: String) {
-        return
-    }
-
 }

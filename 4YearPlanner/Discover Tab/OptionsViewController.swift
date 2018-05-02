@@ -8,14 +8,7 @@
 
 import UIKit
 
-protocol optionsViewDelegate {
-    func switchCollection(newcollection: String)
-    func passChosenOps(chosenitem: Requirements, name: String)
-}
-
 class OptionsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    var delegate: optionsViewDelegate?
     
     var optionsCollectionView: UICollectionView!
     var optionsReuseIdentifier = "optionCell"
@@ -90,25 +83,19 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
                 majorOptions = selectedCollege.majorOptions
-                delegate?.passChosenOps(chosenitem: selectedCollege, name: "College")
             }
         } else if sharedVars.current_category == "Majors" {
-            if let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major?{
-                delegate?.passChosenOps(chosenitem: selectedMajor, name: "Major")
+            if (cellsToDisplay[indexPath.item].cellObject as! Major?) != nil {}
                 cellsToDisplay = []
-            }
         } else {
-            if let selectedMinor = cellsToDisplay[indexPath.item].cellObject as! Minors? {
-                delegate?.passChosenOps(chosenitem: selectedMinor, name: "Minor")
-                cellsToDisplay = []
-            }
+            if (cellsToDisplay[indexPath.item].cellObject as! Minors?) != nil{}
+            cellsToDisplay = []
         }
-        switchCollection()
         optionsCollectionView.reloadData()
     }
     
     // Switches collection when selected (forward)
-    func switchCollection(){
+    func switchCollection() {
         if sharedVars.current_category == "Colleges" {
             sharedVars.current_category = "Majors"
         } else if sharedVars.current_category == "Majors" {
@@ -116,19 +103,6 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Courses"
         }
-        delegate?.switchCollection(newcollection: sharedVars.current_category)
-    }
-    
-    // Switches Collection when back button is pressed (backward)
-    func reverseSwitchCollection() {
-        if sharedVars.current_category == "Majors" {
-            sharedVars.current_category = "Colleges"
-        } else if sharedVars.current_category == "Minors" {
-            sharedVars.current_category = "Majors"
-        } else if sharedVars.current_category == "Courses" {
-            sharedVars.current_category = "Minors"
-        }
-        delegate?.switchCollection(newcollection: sharedVars.current_category)
     }
 }
 

@@ -8,14 +8,7 @@
 
 import UIKit
 
-protocol addCoursesDelegate {
-    func selectedNewSemester(number: Int)
-    
-}
-
 class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
-    var delegate: addCoursesDelegate?
     
     var semestersCollectionView: UICollectionView!
     var semesterReuseIdentifier = "semesterReuseIdentifier"
@@ -113,7 +106,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     // Present Detail View modally
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == semestersCollectionView {
-            delegate?.selectedNewSemester(number: indexPath.item)
+            sharedVars.selected_semester = indexPath.item
         } else {
             let dVC = DetailViewController()
             //   dVC.delegate = self

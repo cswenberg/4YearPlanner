@@ -14,5 +14,7 @@ class globalVars {
     
     var current_tab = "Discover"
     var current_category = "Colleges"
+    var selected_semester: Int!
     let cellGradientList = [[0.0, 0.0, 0.0, 1.0]]
+
 }
