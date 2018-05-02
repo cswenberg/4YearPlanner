@@ -24,27 +24,31 @@ class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewD
     var discoverButton: UIButton!
     var myScheduleButton: UIButton!
     var settingsButton: UIButton!
+    var buttonGradient: CAGradientLayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
 
         let tabsFont = UIFont.systemFont(ofSize: 20)
+        
+        
+        
     
         containerView = UIView()
         
     // Button for the Discover Tab
         discoverButton = UIButton()
         discoverButton.layer.cornerRadius = 16
-        discoverButton.backgroundColor = niceGray
         discoverButton.setTitle("Discover", for: .normal)
         discoverButton.titleLabel?.font = tabsFont
         discoverButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        setBackgroundGradient(button: discoverButton)
+        discoverButton.layer.addSublayer(buttonGradient)
         
     // Button for the MySchedule Tab
         myScheduleButton = UIButton()
         myScheduleButton.layer.cornerRadius = 16
-        myScheduleButton.backgroundColor = niceGray
         myScheduleButton.setTitle("My Schedule", for: .normal)
         myScheduleButton.titleLabel?.font = tabsFont
         myScheduleButton.titleLabel?.textColor = .black
@@ -53,7 +57,6 @@ class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewD
     // Button for Settings Tab
         settingsButton = UIButton()
         settingsButton.layer.cornerRadius = 16
-        settingsButton.backgroundColor = niceGray
         settingsButton.setTitle("Settings", for: .normal)
         settingsButton.titleLabel?.font = tabsFont
         settingsButton.titleLabel?.textColor = .black
@@ -116,6 +119,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewD
         removeChildViewControllers()
         var newViewController: UIViewController!
         if selectedTab=="My Schedule" {
+            myScheduleButton.layer.addSublayer(buttonGradient)
             let myscheduleViewController = MyScheduleViewController()
             myscheduleViewController.delegate = self
             newViewController = myscheduleViewController
@@ -166,6 +170,19 @@ class HomeViewController: UIViewController, myscheduleViewDelegate, optionsViewD
     // Updates semesters variable
     func updateSemesters(semesters: [Semester]) {
         mySemesters = semesters
+    }
+    
+    func setBackgroundGradient (button: UIButton) {
+        
+        buttonGradient = CAGradientLayer()
+        buttonGradient.colors = [UIColor.red.cgColor,
+                                 UIColor.blue.cgColor]
+        buttonGradient.locations = [0,1]
+        buttonGradient.startPoint = CGPoint(x: 1, y: 0)
+        buttonGradient.endPoint = CGPoint(x: 0, y: 1)
+        buttonGradient.cornerRadius = 16
+        
+        button.layer.insertSublayer(buttonGradient, at: 0)
     }
     
     override func didReceiveMemoryWarning() {

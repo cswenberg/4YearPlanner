@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		22411A0C20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22411A0B20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift */; };
+		224BC6F32098D1D500978E40 /* Singleton Vars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BC6F22098D1D500978E40 /* Singleton Vars.swift */; };
+		224BC6F520995ED000978E40 /* CourseNetworks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BC6F420995ED000978E40 /* CourseNetworks.swift */; };
 		226F007920940EA5006452CE /* optionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226F007820940EA5006452CE /* optionsCollectionViewCell.swift */; };
 		22E7378A209463F5006DA8AA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E73789209463F5006DA8AA /* DetailViewController.swift */; };
 		4662D09B209406FD00C62AF2 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */; };
@@ -28,6 +30,8 @@
 
 /* Begin PBXFileReference section */
 		22411A0B20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFromMyScheduleViewController.swift; sourceTree = "<group>"; };
+		224BC6F22098D1D500978E40 /* Singleton Vars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singleton Vars.swift"; sourceTree = "<group>"; };
+		224BC6F420995ED000978E40 /* CourseNetworks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseNetworks.swift; sourceTree = "<group>"; };
 		226F007820940EA5006452CE /* optionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = optionsCollectionViewCell.swift; sourceTree = "<group>"; };
 		22E73789209463F5006DA8AA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
@@ -124,8 +128,10 @@
 			children = (
 				46E0C60920926F760027B4FC /* AppDelegate.swift */,
 				46E0C60B20926F760027B4FC /* ViewController.swift */,
+				224BC6F420995ED000978E40 /* CourseNetworks.swift */,
 				46E0C61E20926FC60027B4FC /* Class.swift */,
 				46E0C62020926FD10027B4FC /* Requirements.swift */,
+				224BC6F22098D1D500978E40 /* Singleton Vars.swift */,
 				22411A0D209666F100BA02D9 /* My Schedule Tab */,
 				22411A0E2096673800BA02D9 /* Discover Tab */,
 				22411A0F2096691200BA02D9 /* Used Across Both */,
@@ -239,11 +245,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -269,6 +279,8 @@
 				22E7378A209463F5006DA8AA /* DetailViewController.swift in Sources */,
 				4662D0A32094750200C62AF2 /* AddCoursesViewController.swift in Sources */,
 				4662D0A52094753C00C62AF2 /* OptionsViewController.swift in Sources */,
+				224BC6F32098D1D500978E40 /* Singleton Vars.swift in Sources */,
+				224BC6F520995ED000978E40 /* CourseNetworks.swift in Sources */,
 				46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */,
 				46E0C62120926FD10027B4FC /* Requirements.swift in Sources */,
 			);

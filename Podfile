@@ -8,4 +8,7 @@ target '4YearPlanner' do
   # Pods for 4YearPlanner
   
   pod 'SnapKit'
+  pod 'Alamofire'
+  pod 'SwiftyJSON'
+  
 end

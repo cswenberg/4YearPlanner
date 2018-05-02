@@ -13,17 +13,11 @@ protocol discoverViewDelegate {
 }
 
 class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesDelegate {
-    func passChosenOps(chosenitem: Requirements, name: String) {
-        return
-    }
-    
     
     var delegate: discoverViewDelegate?
 
     var searchBar: UISearchBar!
     var backButton: UIButton!
-    
-    var selectedCollection = "Colleges"
     
     var subContainerView: UIView!
     var subContainerViewController: UIViewController!
@@ -92,7 +86,7 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
     func updateChildViewController() {
         removeChildViewControllers()
         var newViewController: UIViewController!
-        if selectedCollection == "Courses" {
+        if sharedVars.current_category == "Courses" {
             let addcoursesViewController = AddCoursesViewController()
             addcoursesViewController.delegate = self
             newViewController = addcoursesViewController
@@ -112,7 +106,7 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
     
     // Go back 1 section in options VC
     @objc func discoverBackButtonPressed(sender: UIButton) {
-        if selectedCollection == "Majors" || selectedCollection == "Minors" {
+        if sharedVars.current_category == "Majors" || sharedVars.current_category == "Minors" || sharedVars.current_category == "Courses" {
             if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
                 optionsviewcontroller.reverseSwitchCollection()
                 optionsviewcontroller.optionsCollectionView.reloadData()
@@ -128,8 +122,12 @@ class DiscoverViewController: UIViewController, optionsViewDelegate, addCoursesD
     // Switch collectionView
     func switchCollection(newcollection: String) {
         print("received switchCollection delegate call")
-        selectedCollection = newcollection
-        if selectedCollection == "Courses" {updateChildViewController()}
+        sharedVars.current_category = newcollection
+        if sharedVars.current_category == "Courses" {updateChildViewController()}
+    }
+    
+    func passChosenOps(chosenitem: Requirements, name: String) {
+        return
     }
 
 }

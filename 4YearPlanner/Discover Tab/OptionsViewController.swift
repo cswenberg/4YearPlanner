@@ -20,8 +20,6 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     var optionsCollectionView: UICollectionView!
     var optionsReuseIdentifier = "optionCell"
     
-    var selectedCollection = "Colleges"
-    
     var majorOptions = [majors]()
     var minorOptions = [minors]()
     var cellsToDisplay = [optionsCollectionViewCell]()
@@ -56,17 +54,17 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if selectedCollection == "Colleges" {return allColleges.count}
-        else if selectedCollection == "Majors" {return majorOptions.count}
+        if sharedVars.current_category == "Colleges" {return allColleges.count}
+        else if sharedVars.current_category == "Majors" {return majorOptions.count}
         else {return allMinors.count}
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = optionsCollectionView.dequeueReusableCell(withReuseIdentifier: optionsReuseIdentifier, for: indexPath) as! optionsCollectionViewCell
-        if selectedCollection == "Colleges" {
+        if sharedVars.current_category == "Colleges" {
             cell.cellObject = College(title: allColleges[indexPath.item],requirements: [])
-        } else if selectedCollection == "Majors"{
+        } else if sharedVars.current_category == "Majors"{
             cell.cellObject = Major(title: majorOptions[indexPath.item], requirements: [])
         } else {
             cell.cellObject = Minors(title: allMinors[indexPath.item], requirements: [])
@@ -87,14 +85,14 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(selectedCollection+" was hit")
-        if selectedCollection == "Colleges" {
+        print(sharedVars.current_category+" was hit")
+        if sharedVars.current_category == "Colleges" {
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
                 majorOptions = selectedCollege.majorOptions
                 delegate?.passChosenOps(chosenitem: selectedCollege, name: "College")
             }
-        } else if selectedCollection == "Majors" {
+        } else if sharedVars.current_category == "Majors" {
             if let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major?{
                 delegate?.passChosenOps(chosenitem: selectedMajor, name: "Major")
                 cellsToDisplay = []
@@ -111,24 +109,26 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     // Switches collection when selected (forward)
     func switchCollection(){
-        if selectedCollection == "Colleges" {
-            selectedCollection = "Majors"
-        } else if selectedCollection == "Majors" {
-            selectedCollection = "Minors"
-        } else if selectedCollection == "Minors" {
-            selectedCollection = "Courses"
+        if sharedVars.current_category == "Colleges" {
+            sharedVars.current_category = "Majors"
+        } else if sharedVars.current_category == "Majors" {
+            sharedVars.current_category = "Minors"
+        } else if sharedVars.current_category == "Minors" {
+            sharedVars.current_category = "Courses"
         }
-        delegate?.switchCollection(newcollection: selectedCollection)
+        delegate?.switchCollection(newcollection: sharedVars.current_category)
     }
     
     // Switches Collection when back button is pressed (backward)
     func reverseSwitchCollection() {
-        if selectedCollection == "Majors" {
-            selectedCollection = "Colleges"
-        } else if selectedCollection == "Minors" {
-            selectedCollection = "Majors"
+        if sharedVars.current_category == "Majors" {
+            sharedVars.current_category = "Colleges"
+        } else if sharedVars.current_category == "Minors" {
+            sharedVars.current_category = "Majors"
+        } else if sharedVars.current_category == "Courses" {
+            sharedVars.current_category = "Minors"
         }
-        delegate?.switchCollection(newcollection: selectedCollection)
+        delegate?.switchCollection(newcollection: sharedVars.current_category)
     }
 }
 
