@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol showCoursesDelegate {
+    func showCourses()
+}
+
 class OptionsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var optionsCollectionView: UICollectionView!
@@ -16,6 +20,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     var majorOptions = [majors]()
     var minorOptions = [minors]()
     var cellsToDisplay = [optionsCollectionViewCell]()
+    var delegate: showCoursesDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +107,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             sharedVars.current_category = "Minors"
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Courses"
+            delegate?.showCourses()
         }
     }
 }

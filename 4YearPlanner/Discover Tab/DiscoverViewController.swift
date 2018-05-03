@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController {
+class DiscoverViewController: UIViewController, showCoursesDelegate {
 
     var searchBar: UISearchBar!
     var backButton: UIButton!
@@ -116,5 +116,10 @@ class DiscoverViewController: UIViewController {
             sharedVars.current_category = "Minors"
             updateChildViewController()
         }
+    }
+    
+    //turns active containerViewController to the AddCoursesVC
+    func showCourses() {
+        updateChildViewController()
     }
 }
