@@ -9,7 +9,7 @@
 import UIKit
 
 protocol showCoursesDelegate {
-    func showCourses()
+    func showCourses(newcollection: String)
 }
 
 class OptionsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -20,7 +20,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     var majorOptions = [majors]()
     var minorOptions = [minors]()
     var cellsToDisplay = [optionsCollectionViewCell]()
-    var delegate: showCoursesDelegate
+    var delegate: showCoursesDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,11 +92,12 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         } else if sharedVars.current_category == "Majors" {
             if (cellsToDisplay[indexPath.item].cellObject as! Major?) != nil {}
                 cellsToDisplay = []
-        } else {
+        } else if sharedVars.current_category == "Minors" {
             if (cellsToDisplay[indexPath.item].cellObject as! Minors?) != nil{}
             cellsToDisplay = []
         }
-        optionsCollectionView.reloadData()
+        switchCollection()
+        if sharedVars.current_category != "Courses" {optionsCollectionView.reloadData()}
     }
     
     // Switches collection when selected (forward)
@@ -107,7 +108,9 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             sharedVars.current_category = "Minors"
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Courses"
-            delegate?.showCourses()
+            print("boutta call showCourses")
+            delegate?.showCourses(newcollection: sharedVars.current_category)
+            print("the fuq goin on")
         }
     }
 }

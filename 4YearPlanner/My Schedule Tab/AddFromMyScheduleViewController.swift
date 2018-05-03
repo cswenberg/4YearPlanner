@@ -13,7 +13,7 @@ protocol navClassesDelegate {
     
 }
 
-class AddFromMyScheduleViewController: UINavigationController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class AddFromMyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var semestersCollectionView: UICollectionView!
     var semesterAddReuseIdentifier = "semesterAddReuseIdentifier"
@@ -30,6 +30,10 @@ class AddFromMyScheduleViewController: UINavigationController, UICollectionViewD
         coursesToDisplay.append(newclass)
         coursesToDisplay.append(newclass)
         coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
+        
         
         //semester collection view
         let semesterLayout = UICollectionViewFlowLayout()

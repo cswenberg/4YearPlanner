@@ -32,9 +32,6 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
 
         let tabsFont = UIFont.systemFont(ofSize: 20)
         
-        
-        
-    
         containerView = UIView()
         
     // Button for the Discover Tab
@@ -43,8 +40,8 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         discoverButton.setTitle("Discover", for: .normal)
         discoverButton.titleLabel?.font = tabsFont
         discoverButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        setBackgroundGradient(button: discoverButton)
-        discoverButton.layer.addSublayer(buttonGradient)
+       // setBackgroundGradient(button: discoverButton)
+       // discoverButton.layer.addSublayer(buttonGradient)
         
     // Button for the MySchedule Tab
         myScheduleButton = UIButton()
@@ -119,7 +116,6 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         removeChildViewControllers()
         var newViewController: UIViewController!
         if selectedTab=="My Schedule" {
-            myScheduleButton.layer.addSublayer(buttonGradient)
             let myscheduleViewController = MyScheduleViewController()
             myscheduleViewController.delegate = self
             newViewController = myscheduleViewController
@@ -150,7 +146,8 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
     // Changes variable selectedButton to buttons title
     @objc func buttonPressed (sender:UIButton) {
         selectedTab = (sender.titleLabel?.text)!
-        sender.backgroundColor = niceGray
+        setBackgroundGradient(button: sender)
+        sender.layer.addSublayer(buttonGradient)
         sender.titleLabel?.textColor = .white
         updateChildViewController()
     }
