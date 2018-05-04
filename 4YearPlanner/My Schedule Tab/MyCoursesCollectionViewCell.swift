@@ -18,8 +18,8 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         contentView.backgroundColor = niceGray
+        contentView.layer.cornerRadius = 16
         
         classLabel = UILabel()
         classLabel.textColor = .white

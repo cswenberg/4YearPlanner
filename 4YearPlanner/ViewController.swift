@@ -132,7 +132,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
             newViewController = myscheduleViewController
         } else {
             let discoverViewController = DiscoverViewController()
-  //          discoverViewController.delegate = self
+            
             newViewController = discoverViewController
         }
         containerViewController = newViewController
@@ -159,7 +159,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         print(discoverButton.bounds)
         if sharedVars.current_tab != sender.titleLabel?.text {
             if sharedVars.current_tab == "Discover" {
-                if let gradient = discoverButton.layer.sublayers![0] as? CAGradientLayer {
+                if discoverButton.layer.sublayers![0] is CAGradientLayer {
                     discoverButton.layer.sublayers![0].removeFromSuperlayer()
                     discoverButton.setTitleColor(.black, for: .normal)
                 }

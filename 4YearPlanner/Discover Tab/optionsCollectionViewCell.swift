@@ -36,7 +36,8 @@ class optionsCollectionViewCell: UICollectionViewCell {
         
         titleLabel = UILabel()
         titleLabel.textColor = .white
-        titleLabel.font = .systemFont(ofSize: 48)
+        titleLabel.textAlignment = .center
+        titleLabel.font = .systemFont(ofSize: 30)
         
         contentView.addSubview(titleLabel)
     }
@@ -44,7 +45,8 @@ class optionsCollectionViewCell: UICollectionViewCell {
     override func updateConstraints() {
         //title label
         titleLabel.snp.makeConstraints { (make) in
-            make.top.trailing.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-10)
             make.leading.equalToSuperview().offset(10)
           //  make.bottom.equalTo(contentView.snp.centerY)
         }

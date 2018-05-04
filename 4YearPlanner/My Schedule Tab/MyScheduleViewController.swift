@@ -15,7 +15,7 @@ protocol myscheduleViewDelegate {
 
 class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate {
     func saveClass(newclass: Class) {
-        mySemesters[selectedSemester-1].addClass(newclass: newclass)
+        sharedVars.mySemesters[selectedSemester-1].addClass(newclass: newclass)
         myCoursesCollectionView.reloadData()
     }
     
@@ -49,10 +49,10 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
                 newSemester.addClass(newclass: anothaClass)
             }
             newSemester.addClass(newclass: newClass)
-            mySemesters.append(newSemester)
+            sharedVars.mySemesters.append(newSemester)
         }
         
-        coursesToDisplay = mySemesters[selectedSemester-1].classes
+        coursesToDisplay = sharedVars.mySemesters[selectedSemester-1].classes
         
         //current selected semester label
         selectedSemesterLabel = UILabel()
@@ -105,7 +105,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         view.addSubview(myCoursesCollectionView)
         view.addSubview(selectedSemesterLabel)
         view.addSubview(scheduleButtonsStackView)
-        delegate.updateSemesters(semesters: mySemesters)
+        delegate.updateSemesters(semesters: sharedVars.mySemesters)
         setupMyScheduleConstraints()
     }
     
@@ -160,7 +160,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         if selectedSemester != 1 {
             selectedSemester-=1
             selectedSemesterLabel.text = "Semester \(selectedSemester)"
-            coursesToDisplay = mySemesters[selectedSemester-1].classes
+            coursesToDisplay = sharedVars.mySemesters[selectedSemester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
@@ -170,7 +170,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         if selectedSemester != 8 {
             selectedSemester+=1
             selectedSemesterLabel.text = "Semester \(selectedSemester)"
-            coursesToDisplay = mySemesters[selectedSemester-1].classes
+            coursesToDisplay = sharedVars.mySemesters[selectedSemester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }

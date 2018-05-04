@@ -16,5 +16,5 @@ class globalVars {
     var current_category = "Colleges"
     var selected_semester: Int!
     let cellGradientList = [[0.0, 0.0, 0.0, 1.0]]
-
+    var mySemesters = [Semester]()
 }

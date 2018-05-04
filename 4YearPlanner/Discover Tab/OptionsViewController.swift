@@ -9,7 +9,7 @@
 import UIKit
 
 protocol showCoursesDelegate {
-    func showCourses(newcollection: String)
+    func showCourses()
 }
 
 class OptionsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -67,6 +67,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         } else {
             cell.cellObject = Minors(title: allMinors[indexPath.item], requirements: [])
         }
+        print(cell.cellObject)
         cell.titleLabel.text = cell.cellObject.friendlyTitle()
         cell.layer.cornerRadius = 10
         cell.setNeedsUpdateConstraints()
@@ -75,7 +76,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 350, height: 200)
+        return CGSize(width: (view.frame.width/2)-18, height: 200)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -85,16 +86,19 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(sharedVars.current_category+" was hit")
         if sharedVars.current_category == "Colleges" {
+            print(cellsToDisplay[indexPath.item].cellObject)
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
                 majorOptions = selectedCollege.majorOptions
             }
         } else if sharedVars.current_category == "Majors" {
-            if (cellsToDisplay[indexPath.item].cellObject as! Major?) != nil {}
+            if (cellsToDisplay[indexPath.item].cellObject as! Major?) != nil {
                 cellsToDisplay = []
+            }
         } else if sharedVars.current_category == "Minors" {
-            if (cellsToDisplay[indexPath.item].cellObject as! Minors?) != nil{}
+            if (cellsToDisplay[indexPath.item].cellObject as! Minors?) != nil {
             cellsToDisplay = []
+            }
         }
         switchCollection()
         if sharedVars.current_category != "Courses" {optionsCollectionView.reloadData()}
@@ -109,7 +113,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Courses"
             print("boutta call showCourses")
-            delegate?.showCourses(newcollection: sharedVars.current_category)
+            delegate?.showCourses()
             print("the fuq goin on")
         }
     }

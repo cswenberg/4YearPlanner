@@ -29,11 +29,14 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         //semester collection view
         let semesterLayout = UICollectionViewFlowLayout()
         semesterLayout.scrollDirection = .horizontal
+        semesterLayout.minimumInteritemSpacing = 0
+        semesterLayout.minimumLineSpacing = 0
         semestersCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: semesterLayout)
         semestersCollectionView.dataSource = self
         semestersCollectionView.delegate = self
         semestersCollectionView.register(SemesterCollectionViewCell.self, forCellWithReuseIdentifier: semesterReuseIdentifier)
         semestersCollectionView.backgroundColor = .white
+        semestersCollectionView.isPagingEnabled = true
         
         //add courses collection view
         let addCourseLayout = UICollectionViewFlowLayout()
@@ -93,7 +96,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == semestersCollectionView {
-            return CGSize(width: 300, height: 100)
+            return CGSize(width: view.frame.width, height: 100)
         } else {
             return CGSize(width: 350, height: 120)
         }

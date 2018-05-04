@@ -135,16 +135,19 @@ class College: Requirements {
         var friendlyTitle = title
         switch college {
         case .cals:
-            friendlyTitle = "College of Arts\n&\nLife Sciences"
+            friendlyTitle = "CALS"
         case .artsnsciences:
             friendlyTitle = "Arts\n&\nSciences"
         case .engineering:
             break
         case .hotel:
+            friendlyTitle = "Hotel Admin."
             break
         case .dyson:
+            friendlyTitle = "Dyson"
             break
         case .architecture:
+            friendlyTitle = "AAP"
             break
         }
         return friendlyTitle

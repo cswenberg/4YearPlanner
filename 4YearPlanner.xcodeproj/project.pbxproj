@@ -79,9 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				22411A0B20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift */,
-				4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */,
 				4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */,
-				4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */,
+				4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */,
 			);
 			path = "My Schedule Tab";
 			sourceTree = "<group>";
@@ -90,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */,
+				4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */,
 				4662D0A42094753C00C62AF2 /* OptionsViewController.swift */,
 				4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */,
 				226F007820940EA5006452CE /* optionsCollectionViewCell.swift */,

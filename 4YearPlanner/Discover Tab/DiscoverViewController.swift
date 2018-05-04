@@ -10,6 +10,11 @@ import UIKit
 
 class DiscoverViewController: UIViewController, showCoursesDelegate {
     
+    func showCourses() {
+        updateChildViewController()
+    }
+    
+    
     func showCourses(newcollection: String) {
         print("delegate func called, new collection: \(newcollection)")
         updateChildViewController()
@@ -99,6 +104,7 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
             newViewController = addcoursesViewController
         } else {
             let optionViewController = OptionsViewController()
+            optionViewController.delegate = self
             newViewController = optionViewController
         }
         subContainerViewController = newViewController
@@ -112,12 +118,14 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
     
     // Go back 1 section in options VC
     @objc func discoverBackButtonPressed(sender: UIButton) {
-        if sharedVars.current_category == "Majors" || sharedVars.current_category == "Minors" || sharedVars.current_category == "Courses" {
+        if sharedVars.current_category == "Majors" || sharedVars.current_category == "Minors" {
             if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
                 reverseSwitchCollection()
                 optionsviewcontroller.optionsCollectionView.reloadData()
             }
-        } else {print("didn't do anything")}
+        } else {
+            reverseSwitchCollection()
+        }
     }
     
     // Switches Collection when back button is pressed (backward)

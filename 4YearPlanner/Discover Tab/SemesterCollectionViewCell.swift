@@ -19,7 +19,9 @@ class SemesterCollectionViewCell: UICollectionViewCell {
         
         semesterLabel = UILabel()
         semesterLabel.textColor = .white
+        semesterLabel.textAlignment = .center
         semesterLabel.backgroundColor = niceGray
+        semesterLabel.clipsToBounds = true
         semesterLabel.layer.cornerRadius = 10
         
         contentView.addSubview(semesterLabel)
@@ -28,8 +30,8 @@ class SemesterCollectionViewCell: UICollectionViewCell {
     override func updateConstraints() {
         //semester label
         semesterLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
-            make.trailing.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-30)
+            make.leading.equalToSuperview().offset(30)
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
