@@ -31,6 +31,18 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
         subContainerView.backgroundColor = .white
         
         searchBar = UISearchBar()
+        searchBar.layer.cornerRadius = 20
+        searchBar.backgroundImage = UIImage()
+        //searchBar.layer.borderWidth = 1
+        //searchBar.layer.borderColor = UIColor.black.cgColor
+        searchBar.clipsToBounds = true
+        let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
+        searchBarTextField?.backgroundColor = .lightGray
+        if let backgroundView = searchBarTextField?.subviews.first {
+            backgroundView.layer.cornerRadius = 20
+            backgroundView.clipsToBounds = true
+        }
+        searchBarTextField?.layer.cornerRadius = 20
         definesPresentationContext = true
         
         // Back Button
@@ -61,7 +73,7 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
         
         // SearchBar
         searchBar.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-10)
             make.leading.equalTo(backButton.snp.trailing).offset(10)
             make.top.equalToSuperview().offset(10)
             make.height.equalTo(40)

@@ -40,15 +40,13 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         discoverButton.setTitle("Discover", for: .normal)
         discoverButton.titleLabel?.font = tabsFont
         discoverButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-       // setBackgroundGradient(button: discoverButton)
-       // discoverButton.layer.addSublayer(buttonGradient)
         
     // Button for the MySchedule Tab
         myScheduleButton = UIButton()
         myScheduleButton.layer.cornerRadius = 16
         myScheduleButton.setTitle("My Schedule", for: .normal)
         myScheduleButton.titleLabel?.font = tabsFont
-        myScheduleButton.titleLabel?.textColor = .black
+        myScheduleButton.setTitleColor(.black, for: .normal)
         myScheduleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
     // Button for Settings Tab
@@ -56,7 +54,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         settingsButton.layer.cornerRadius = 16
         settingsButton.setTitle("Settings", for: .normal)
         settingsButton.titleLabel?.font = tabsFont
-        settingsButton.titleLabel?.textColor = .black
+        settingsButton.setTitleColor(.black, for: .normal)
         settingsButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
     // StackView for tabs at the top
@@ -69,6 +67,10 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         view.addSubview(containerView)
         
         setupConstraints()
+        
+        setBackgroundGradient(button: discoverButton)
+        discoverButton.setTitleColor(.white, for: .normal)
+        
         updateChildViewController()
     }
     
@@ -115,7 +117,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
     func updateChildViewController() {
         removeChildViewControllers()
         var newViewController: UIViewController!
-        if selectedTab=="My Schedule" {
+        if sharedVars.current_tab=="My Schedule" {
             let myscheduleViewController = MyScheduleViewController()
             myscheduleViewController.delegate = self
             newViewController = myscheduleViewController
@@ -145,10 +147,22 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
     
     // Changes variable selectedButton to buttons title
     @objc func buttonPressed (sender:UIButton) {
-        selectedTab = (sender.titleLabel?.text)!
-        setBackgroundGradient(button: sender)
-        sender.layer.addSublayer(buttonGradient)
-        sender.titleLabel?.textColor = .white
+        if sharedVars.current_tab != sender.titleLabel?.text {
+            if sharedVars.current_tab == "Discover" {
+                discoverButton.layer.sublayers![0].removeFromSuperlayer()
+                discoverButton.setTitleColor(.black, for: .normal)
+            } else if sharedVars.current_tab == "My Schedule" {
+                myScheduleButton.layer.sublayers![0].removeFromSuperlayer()
+                myScheduleButton.setTitleColor(.black, for: .normal)
+            } else if sharedVars.current_tab == "Settings" {
+                settingsButton.layer.sublayers![0].removeFromSuperlayer()
+                settingsButton.setTitleColor(.black, for: .normal)
+            }
+            sharedVars.current_tab = (sender.titleLabel?.text)!
+            setBackgroundGradient(button: sender)
+            sender.setTitleColor(.white, for: .normal)
+        }
+        
         updateChildViewController()
     }
     
@@ -162,11 +176,10 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         buttonGradient = CAGradientLayer()
         buttonGradient.colors = [UIColor.red.cgColor,
                                  UIColor.blue.cgColor]
-        buttonGradient.locations = [0,1]
         buttonGradient.startPoint = CGPoint(x: 1, y: 0)
         buttonGradient.endPoint = CGPoint(x: 0, y: 1)
         buttonGradient.cornerRadius = 16
-        
+        buttonGradient.frame = button.bounds
         button.layer.insertSublayer(buttonGradient, at: 0)
     }
     
