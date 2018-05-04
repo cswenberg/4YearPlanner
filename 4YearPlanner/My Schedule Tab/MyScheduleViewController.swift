@@ -58,7 +58,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         selectedSemesterLabel = UILabel()
         selectedSemesterLabel.backgroundColor = niceGray
         selectedSemesterLabel.textColor = .white
-        selectedSemesterLabel.layer.cornerRadius = 24
+        selectedSemesterLabel.layer.cornerRadius = 10
         selectedSemesterLabel.font = .systemFont(ofSize: 48)
         selectedSemesterLabel.text = "Semester \(selectedSemester)"
         selectedSemesterLabel.textAlignment = .center

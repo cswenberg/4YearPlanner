@@ -13,13 +13,6 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
     func showCourses() {
         updateChildViewController()
     }
-    
-    
-    func showCourses(newcollection: String) {
-        print("delegate func called, new collection: \(newcollection)")
-        updateChildViewController()
-    }
-    
 
     var searchBar: UISearchBar!
     var backButton: UIButton!

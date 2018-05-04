@@ -15,11 +15,22 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
     var cellClass: Class!
     var classLabel: UILabel!
     var titleLabel: UILabel!
+    var gradient: CAGradientLayer!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = niceGray
         contentView.layer.cornerRadius = 16
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = contentView.frame
+        gradient.colors = [UIColor.red.cgColor,
+                           UIColor.blue.cgColor]
+        gradient.locations = [0,1]
+        gradient.startPoint = CGPoint(x: 1, y: 0)
+        gradient.endPoint = CGPoint(x: 0, y: 1)
+        gradient.cornerRadius = contentView.layer.cornerRadius
+        contentView.layer.addSublayer(gradient)
         
         classLabel = UILabel()
         classLabel.textColor = .white

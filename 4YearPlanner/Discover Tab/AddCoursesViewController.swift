@@ -17,6 +17,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     
     var coursesToDisplay = [Class]()
     var cellsInCollection = [MyCoursesCollectionViewCell]()
+    var buttonGradient: CAGradientLayer!
     
     override func viewDidLoad() {
         view.backgroundColor = .white
@@ -25,6 +26,15 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         coursesToDisplay.append(newclass)
         coursesToDisplay.append(newclass)
         coursesToDisplay.append(newclass)
+        
+        // button gradient
+        buttonGradient = CAGradientLayer()
+        buttonGradient.colors = [UIColor.red.cgColor,
+                                 UIColor.blue.cgColor]
+        buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
+        buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
+        buttonGradient.cornerRadius = 16
+        buttonGradient.frame = CGRect(x: 0, y: 0, width: 96, height: 36)
         
         //semester collection view
         let semesterLayout = UICollectionViewFlowLayout()
@@ -123,6 +133,18 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
                 present(dVC, animated: true, completion: nil)
             }
         }
+    }
+    
+    func setBackgroundGradient (label: UILabel) {
+        print("tries to set gradient for \(label)")
+        buttonGradient = CAGradientLayer()
+        buttonGradient.colors = [UIColor.red.cgColor,
+                                 UIColor.blue.cgColor]
+        buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
+        buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
+        buttonGradient.cornerRadius = 16
+        buttonGradient.frame = label.bounds
+        label.layer.insertSublayer(buttonGradient, at: 0)
     }
 }
 
