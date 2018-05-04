@@ -40,6 +40,17 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         discoverButton.setTitle("Discover", for: .normal)
         discoverButton.titleLabel?.font = tabsFont
         discoverButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        discoverButton.bounds = discoverButton.frame
+        
+    // Set initial gradient
+        buttonGradient = CAGradientLayer()
+        buttonGradient.colors = [UIColor.red.cgColor,
+                                 UIColor.blue.cgColor]
+        buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
+        buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
+        buttonGradient.cornerRadius = 16
+        buttonGradient.frame = CGRect(x: 0, y: 0, width: 96, height: 36)
+        discoverButton.layer.insertSublayer(buttonGradient, at: 0)
         
     // Button for the MySchedule Tab
         myScheduleButton = UIButton()
@@ -67,20 +78,18 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         view.addSubview(containerView)
         
         setupConstraints()
-        
-        setBackgroundGradient(button: discoverButton)
-        discoverButton.setTitleColor(.white, for: .normal)
-        
         updateChildViewController()
+    
     }
     
     func setupConstraints() {
+        print("setting up constraints")
     // Tabs StackView
         tabsStackView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(60)
+            make.top.equalToSuperview().offset(40)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
-            make.height.equalTo(32)
+            make.height.equalTo(36)
         }
     // Discover Button
         discoverButton.snp.makeConstraints { (make) in
@@ -99,7 +108,7 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         }
         //container view
         containerView.snp.makeConstraints { (make) in
-            make.top.equalTo(tabsStackView.snp.bottom)
+            make.top.equalTo(tabsStackView.snp.bottom).offset(6)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -147,10 +156,13 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
     
     // Changes variable selectedButton to buttons title
     @objc func buttonPressed (sender:UIButton) {
+        print(discoverButton.bounds)
         if sharedVars.current_tab != sender.titleLabel?.text {
             if sharedVars.current_tab == "Discover" {
-                discoverButton.layer.sublayers![0].removeFromSuperlayer()
-                discoverButton.setTitleColor(.black, for: .normal)
+                if let gradient = discoverButton.layer.sublayers![0] as? CAGradientLayer {
+                    discoverButton.layer.sublayers![0].removeFromSuperlayer()
+                    discoverButton.setTitleColor(.black, for: .normal)
+                }
             } else if sharedVars.current_tab == "My Schedule" {
                 myScheduleButton.layer.sublayers![0].removeFromSuperlayer()
                 myScheduleButton.setTitleColor(.black, for: .normal)
@@ -161,9 +173,10 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
             sharedVars.current_tab = (sender.titleLabel?.text)!
             setBackgroundGradient(button: sender)
             sender.setTitleColor(.white, for: .normal)
+            updateChildViewController()
         }
         
-        updateChildViewController()
+        
     }
     
     // Updates semesters variable
@@ -172,12 +185,12 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
     }
     
     func setBackgroundGradient (button: UIButton) {
-        
+        print("tries to set gradient for \(button)")
         buttonGradient = CAGradientLayer()
         buttonGradient.colors = [UIColor.red.cgColor,
                                  UIColor.blue.cgColor]
-        buttonGradient.startPoint = CGPoint(x: 1, y: 0)
-        buttonGradient.endPoint = CGPoint(x: 0, y: 1)
+        buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
+        buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
         buttonGradient.cornerRadius = 16
         buttonGradient.frame = button.bounds
         button.layer.insertSublayer(buttonGradient, at: 0)

@@ -31,11 +31,7 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
         subContainerView.backgroundColor = .white
         
         searchBar = UISearchBar()
-        searchBar.layer.cornerRadius = 20
         searchBar.backgroundImage = UIImage()
-        //searchBar.layer.borderWidth = 1
-        //searchBar.layer.borderColor = UIColor.black.cgColor
-        searchBar.clipsToBounds = true
         let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
         searchBarTextField?.backgroundColor = .lightGray
         if let backgroundView = searchBarTextField?.subviews.first {
