@@ -18,6 +18,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     var termsStackView: UIStackView!
     var fallButton: UIButton!
     var springButton: UIButton!
+    var fallSelected = false
+    var springSelected = false
     
     var coursesToDisplay = [Class]()
     var cellsInCollection = [MyCoursesCollectionViewCell]()
@@ -25,11 +27,12 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     
     override func viewDidLoad() {
         view.backgroundColor = .white
+
         
-        let newclass = Class(subject: "MATH", number: "6969", title: "Infinite foils & connected surfaces", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
-        coursesToDisplay.append(newclass)
-        coursesToDisplay.append(newclass)
-        coursesToDisplay.append(newclass)
+//        let newclass = Class(subject: "MATH", number: "6969", title: "Infinite foils & connected surfaces", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
+//        coursesToDisplay.append(newclass)
+//        coursesToDisplay.append(newclass)
+//        coursesToDisplay.append(newclass)
         
         // Button for the MySchedule Tab
         fallButton = UIButton()
@@ -53,7 +56,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         termsStackView.axis = .horizontal
         termsStackView.distribution = .equalCentering
         
-        setBackgroundGradient(button: fallButton)
+        //setBackgroundGradient(button: fallButton)
         
         //add courses collection view
         let addCourseLayout = UICollectionViewFlowLayout()
@@ -168,20 +171,41 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @objc func buttonPressed (sender:UIButton) {
-        if sharedVars.current_tab != sender.titleLabel?.text {
-            if sharedVars.current_term == "Fall" {
-                    fallButton.layer.sublayers![0].removeFromSuperlayer()
-                    fallButton.setTitleColor(.black, for: .normal)
-            } else if sharedVars.current_term == "Spring" {
+        switchSelected(s: (sender.titleLabel?.text)!)
+        if sender.titleLabel?.text == "Fall" {
+            if fallSelected {
+                setBackgroundGradient(button: fallButton)
+                fallButton.setTitleColor(.white, for: .normal)
+            } else {
+                fallButton.layer.sublayers![0].removeFromSuperlayer()
+                fallButton.setTitleColor(.black, for: .normal)
+            }
+        }
+        else if sender.titleLabel?.text == "Spring" {
+            if springSelected {
+                setBackgroundGradient(button: springButton)
+                springButton.setTitleColor(.white, for: .normal)
+            } else {
                 springButton.layer.sublayers![0].removeFromSuperlayer()
                 springButton.setTitleColor(.black, for: .normal)
             }
-            sharedVars.current_term = (sender.titleLabel?.text)!
-            setBackgroundGradient(button: sender)
-            sender.setTitleColor(.white, for: .normal)
         }
-        
-        
+        if (fallSelected && springSelected) {sharedVars.searchTerm = "fall and spring"}
+        else if fallSelected {sharedVars.searchTerm = "fall"}
+        else if springSelected {sharedVars.searchTerm = "spring"}
+        else {sharedVars.searchTerm = ""}
+        print(sharedVars.searchTerm)
+    }
+    
+    func switchSelected(s: String) {
+        if s == "Fall" {
+            if fallSelected {fallSelected = false}
+            else {fallSelected = true}
+        }
+        else if s == "Spring" {
+            if springSelected {springSelected = false}
+            else {springSelected = true}
+        }
     }
 }
 

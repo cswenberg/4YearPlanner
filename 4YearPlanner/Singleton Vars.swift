@@ -25,5 +25,6 @@ class globalVars {
     
     var searchSubject = ""
     var searchNumber = ""
+    var searchTerm = ""
     
 }
