@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 protocol detailViewDelegate {
-    func saveClass(newclass: Class)
+    func reloadMyClasses()
 }
 
 class DetailViewController: UIViewController {
@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
     var creditsLabel: UILabel!
     var backButton: UIButton!
     var saveButton: UIButton!
-    var showButton = true
+    var deleteButton: UIButton!
     var courseName: String!
     var creditsNum: String!
     var descriptionText: String!
@@ -87,10 +87,28 @@ class DetailViewController: UIViewController {
         saveButton.titleLabel?.textAlignment = .center
         saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         
+        deleteButton = UIButton()
+        deleteButton.setTitle("Delete", for: .normal)
+        deleteButton.titleLabel?.font = .systemFont(ofSize: 32)
+        deleteButton.backgroundColor = .red
+        deleteButton.layer.cornerRadius = 16
+        deleteButton.clipsToBounds = true
+        deleteButton.titleLabel?.textAlignment = .center
+        deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
+        
         // Only show save button if not in list of classes already
-        if showButton {
+        if !hasClass() {
             view.addSubview(saveButton)
             saveButton.snp.makeConstraints { (make) in
+                make.bottom.equalToSuperview().offset(-40)
+                make.centerX.equalToSuperview()
+                make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
+                make.height.equalTo(saveButton.intrinsicContentSize.height)
+            }
+        }
+        else {
+            view.addSubview(deleteButton)
+            deleteButton.snp.makeConstraints { (make) in
                 make.bottom.equalToSuperview().offset(-40)
                 make.centerX.equalToSuperview()
                 make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
@@ -148,7 +166,14 @@ class DetailViewController: UIViewController {
     // Returns from modal VC and changes value of stored variable
     @objc func saveButtonPressed(sender: UIButton) {
         print("Save Button Pressed")
-        delegate?.saveClass(newclass: detailedClass)
+        saveClass()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func deleteButtonPressed(sender: UIButton) {
+        print("Delete Button Pressed")
+        deleteClass()
+        delegate?.reloadMyClasses()
         dismiss(animated: true, completion: nil)
     }
     
@@ -157,5 +182,34 @@ class DetailViewController: UIViewController {
         print("Back Button Pressed")
         dismiss(animated: true, completion: nil)
     }
-
+    
+    func saveClass() {
+        sharedVars.mySemesters[sharedVars.selected_semester-1].classes.append(detailedClass)
+    }
+    
+    func deleteClass() {
+        let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
+        let index = getClassIndex(classList: classes, chosenClass: detailedClass)
+        print(index)
+        sharedVars.mySemesters[sharedVars.selected_semester-1].classes.remove(at: index)
+        print(detailedClass.classLabel()+" was removed")
+    }
+    
+    func getClassIndex(classList: [Class], chosenClass: Class) -> Int {
+        print(classList)
+        for i in 0...classList.count-1 {
+            print(classList[i].classLabel()+" vs. "+chosenClass.classLabel())
+            if classList[i].equals(someclass: chosenClass) {return i}
+        }
+        return -1
+    }
+    
+    func hasClass() -> Bool {
+        for eachSemester in sharedVars.mySemesters {
+            for eachClass in eachSemester.classes {
+                if detailedClass.equals(someclass: eachClass) {return true}
+            }
+        }
+        return false
+    }
 }

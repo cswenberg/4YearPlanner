@@ -8,24 +8,15 @@
 
 import UIKit
 
-protocol myscheduleViewDelegate {
-    func updateSemesters(semesters: [Semester])
-    
-}
 
 class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate {
-    func saveClass(newclass: Class) {
-        sharedVars.mySemesters[selectedSemester-1].addClass(newclass: newclass)
+    func reloadMyClasses() {
         myCoursesCollectionView.reloadData()
+        print("reloaded data")
     }
     
     
     //Shared with main view controller
-    var selectedSemester = 1
-    var mySemesters = [Semester]()
-    
-    var delegate: myscheduleViewDelegate!
-    
     var scheduleButtonsStackView: UIStackView!
     var selectedSemesterLabel: UILabel!
     var addCourseButton: UIButton!
@@ -35,33 +26,32 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var courseReuseIdentifier = "myCourseReuseIdentifier"
     var coursesToDisplay = [Class]()
     var cellsInCollection = [MyCoursesCollectionViewCell]()
+    var labelGradient: CAGradientLayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         
-        for i in 1...8 {
-            let newSemester = Semester(number: i)
-            let newClass = Class(subject: "CS", number: "211"+"\(i)", title: "Object-Oriented Programming", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
-            if i%2 == 0 {
-                let anothaClass = Class(subject: "PHYS", number: "1116", title: "Physics: Introduction to Mechanics", description: "", term: ["Fall", "Spring"], credits: 4, prerequisites: [])
-                newSemester.addClass(newclass: anothaClass)
-            }
-            newSemester.addClass(newclass: newClass)
-            sharedVars.mySemesters.append(newSemester)
-        }
-        
-        coursesToDisplay = sharedVars.mySemesters[selectedSemester-1].classes
+        if sharedVars.mySemesters[0].classes.count == 0 {initSemesters()}
+        coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
         
         //current selected semester label
         selectedSemesterLabel = UILabel()
-        selectedSemesterLabel.backgroundColor = niceGray
         selectedSemesterLabel.textColor = .white
         selectedSemesterLabel.layer.cornerRadius = 10
         selectedSemesterLabel.font = .systemFont(ofSize: 48)
-        selectedSemesterLabel.text = "Semester \(selectedSemester)"
+        selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
         selectedSemesterLabel.textAlignment = .center
+        
+        // Set initial gradient
+        labelGradient = CAGradientLayer()
+        labelGradient.colors = [UIColor.red.cgColor, UIColor.blue.cgColor]
+        labelGradient.startPoint = CGPoint(x: 1, y: 0.5)
+        labelGradient.endPoint = CGPoint(x: 0, y: 0.5)
+        labelGradient.cornerRadius = selectedSemesterLabel.layer.cornerRadius
+        labelGradient.frame = selectedSemesterLabel.frame
+        selectedSemesterLabel.layer.addSublayer(labelGradient)
+        selectedSemesterLabel.textColor = .white
         
         //add course button
         addCourseButton = UIButton()
@@ -105,7 +95,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         view.addSubview(myCoursesCollectionView)
         view.addSubview(selectedSemesterLabel)
         view.addSubview(scheduleButtonsStackView)
-        delegate.updateSemesters(semesters: sharedVars.mySemesters)
         setupMyScheduleConstraints()
     }
     
@@ -157,25 +146,26 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     // Changes Semester label/ Stores new semester number
     @objc func goLeftButtonPress(sender: UIButton) {
-        if selectedSemester != 1 {
-            selectedSemester-=1
-            selectedSemesterLabel.text = "Semester \(selectedSemester)"
-            coursesToDisplay = sharedVars.mySemesters[selectedSemester-1].classes
+        if sharedVars.selected_semester != 1 {
+            sharedVars.selected_semester-=1
+            selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+            coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
     
     // Changes Semester Label/ Stores new semester number
     @objc func goRightButtonPress(sender: UIButton) {
-        if selectedSemester != 8 {
-            selectedSemester+=1
-            selectedSemesterLabel.text = "Semester \(selectedSemester)"
-            coursesToDisplay = sharedVars.mySemesters[selectedSemester-1].classes
+        if sharedVars.selected_semester != 8 {
+            sharedVars.selected_semester+=1
+            selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+            coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
         return coursesToDisplay.count
     }
     
@@ -196,6 +186,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         //   dVC.delegate = self
         let selectedCell = cellsInCollection[indexPath.item]
         if let cellClass = selectedCell.cellClass {
+            dVC.detailedClass = cellClass
             dVC.courseName = cellClass.classLabel()
             dVC.creditsNum = String(describing: cellClass.credits)
           //  dVC.prereqList = cellClass.prerequisites
@@ -211,6 +202,17 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+    
+    func initSemesters() {
+        for i in 1...8 {
+            let newClass = Class(subject: "CS", number: "211"+"\(i)", title: "Object-Oriented Programming", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
+            sharedVars.mySemesters[i-1].addClass(newclass: newClass)
+            if i%2 == 0 {
+                let anothaClass = Class(subject: "PHYS", number: "1116", title: "Physics: Introduction to Mechanics", description: "", term: ["Fall", "Spring"], credits: 4, prerequisites: [])
+                sharedVars.mySemesters[i-1].addClass(newclass: anothaClass)
+            }
+        }
     }
 
 }

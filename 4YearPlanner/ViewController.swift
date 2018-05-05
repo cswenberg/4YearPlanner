@@ -11,13 +11,8 @@ import SnapKit
 
 let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
 
-class HomeViewController: UIViewController, myscheduleViewDelegate {
+class HomeViewController: UIViewController {
     
-    var myCollege: College!
-    var myMajor: Major!
-    var myMinor: Requirements!
-    var mySemesters = [Semester]()
-    var selectedTab = "Discover"
     var containerView: UIView!
     var containerViewController: UIViewController!
     var tabsStackView: UIStackView!
@@ -128,7 +123,6 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         var newViewController: UIViewController!
         if sharedVars.current_tab=="My Schedule" {
             let myscheduleViewController = MyScheduleViewController()
-            myscheduleViewController.delegate = self
             newViewController = myscheduleViewController
         } else {
             let discoverViewController = DiscoverViewController()
@@ -177,11 +171,6 @@ class HomeViewController: UIViewController, myscheduleViewDelegate {
         }
         
         
-    }
-    
-    // Updates semesters variable
-    func updateSemesters(semesters: [Semester]) {
-        mySemesters = semesters
     }
     
     func setBackgroundGradient (button: UIButton) {
