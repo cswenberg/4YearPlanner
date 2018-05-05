@@ -12,15 +12,17 @@ class SemesterCollectionViewCell: UICollectionViewCell {
     
     var number = 0
     var semesterLabel: UILabel!
-    
+    var gradient: CAGradientLayer!
+    var niceBlue = UIColor(displayP3Red: 69, green: 69, blue: 255, alpha: 1)
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         
         semesterLabel = UILabel()
-        semesterLabel.textColor = .white
+        semesterLabel.textColor = .black
+        semesterLabel.backgroundColor = niceBlue
+        semesterLabel.font = .systemFont(ofSize: 48)
         semesterLabel.textAlignment = .center
-        semesterLabel.backgroundColor = niceGray
         semesterLabel.clipsToBounds = true
         semesterLabel.layer.cornerRadius = 10
         

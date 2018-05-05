@@ -15,6 +15,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         print("reloaded data")
     }
     
+    var niceBlue = UIColor(displayP3Red: 69, green: 69, blue: 255, alpha: 1)
     
     //Shared with main view controller
     var scheduleButtonsStackView: UIStackView!
@@ -37,21 +38,12 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         
         //current selected semester label
         selectedSemesterLabel = UILabel()
-        selectedSemesterLabel.textColor = .white
-        selectedSemesterLabel.layer.cornerRadius = 10
+        selectedSemesterLabel.textColor = .black
+        selectedSemesterLabel.backgroundColor = niceBlue
+        selectedSemesterLabel.layer.cornerRadius = 24
         selectedSemesterLabel.font = .systemFont(ofSize: 48)
         selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
         selectedSemesterLabel.textAlignment = .center
-        
-        // Set initial gradient
-        labelGradient = CAGradientLayer()
-        labelGradient.colors = [UIColor.red.cgColor, UIColor.blue.cgColor]
-        labelGradient.startPoint = CGPoint(x: 1, y: 0.5)
-        labelGradient.endPoint = CGPoint(x: 0, y: 0.5)
-        labelGradient.cornerRadius = selectedSemesterLabel.layer.cornerRadius
-        labelGradient.frame = selectedSemesterLabel.frame
-        selectedSemesterLabel.layer.addSublayer(labelGradient)
-        selectedSemesterLabel.textColor = .white
         
         //add course button
         addCourseButton = UIButton()

@@ -15,6 +15,10 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     var addCoursesCollectionView: UICollectionView!
     var addcourseReuseIdentifier = "addcourseReuseIdentiyer"
     
+    var termsStackView: UIStackView!
+    var fallButton: UIButton!
+    var springButton: UIButton!
+    
     var coursesToDisplay = [Class]()
     var cellsInCollection = [MyCoursesCollectionViewCell]()
     var buttonGradient: CAGradientLayer!
@@ -27,26 +31,29 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         coursesToDisplay.append(newclass)
         coursesToDisplay.append(newclass)
         
-        // button gradient
-        buttonGradient = CAGradientLayer()
-        buttonGradient.colors = [UIColor.red.cgColor,
-                                 UIColor.blue.cgColor]
-        buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
-        buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
-        buttonGradient.cornerRadius = 16
-        buttonGradient.frame = CGRect(x: 0, y: 0, width: 96, height: 36)
+        // Button for the MySchedule Tab
+        fallButton = UIButton()
+        fallButton.layer.cornerRadius = 32
+        fallButton.setTitle("Fall", for: .normal)
+        fallButton.titleLabel?.font = .systemFont(ofSize: 32)
+        fallButton.setTitleColor(.black, for: .normal)
+        fallButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
-        //semester collection view
-        let semesterLayout = UICollectionViewFlowLayout()
-        semesterLayout.scrollDirection = .horizontal
-        semesterLayout.minimumInteritemSpacing = 0
-        semesterLayout.minimumLineSpacing = 0
-        semestersCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: semesterLayout)
-        semestersCollectionView.dataSource = self
-        semestersCollectionView.delegate = self
-        semestersCollectionView.register(SemesterCollectionViewCell.self, forCellWithReuseIdentifier: semesterReuseIdentifier)
-        semestersCollectionView.backgroundColor = .white
-        semestersCollectionView.isPagingEnabled = true
+        // Button for Settings Tab
+        springButton = UIButton()
+        springButton.layer.cornerRadius = 32
+        springButton.setTitle("Spring", for: .normal)
+        springButton.titleLabel?.font = .systemFont(ofSize: 32)
+        springButton.setTitleColor(.black, for: .normal)
+        springButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+    
+        
+        // StackView for tabs at the top
+        termsStackView = UIStackView(arrangedSubviews: [fallButton, springButton])
+        termsStackView.axis = .horizontal
+        termsStackView.distribution = .equalCentering
+        
+        setBackgroundGradient(button: fallButton)
         
         //add courses collection view
         let addCourseLayout = UICollectionViewFlowLayout()
@@ -57,22 +64,35 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         addCoursesCollectionView.register(MyCoursesCollectionViewCell.self, forCellWithReuseIdentifier: addcourseReuseIdentifier)
         addCoursesCollectionView.backgroundColor = .white
         
-        view.addSubview(semestersCollectionView)
+        view.addSubview(termsStackView)
         view.addSubview(addCoursesCollectionView)
         
         setupConstraints()
     }
     
     func setupConstraints() {
-        //semester collection view
-        semestersCollectionView.snp.makeConstraints { (make) in
+        // terms stack
+        termsStackView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(10)
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(80)
+            make.trailing.equalToSuperview().offset(-80)
             make.height.equalTo(60)
         }
+        
+        // Fall Button
+        fallButton.snp.makeConstraints { (make) in
+            make.height.equalToSuperview()
+            make.width.equalTo(fallButton.intrinsicContentSize.width + 30)
+        }
+        // Spring Button
+        springButton.snp.makeConstraints { (make) in
+            make.height.equalToSuperview()
+            make.width.equalTo(springButton.intrinsicContentSize.width + 20)
+        }
+        
         //add courses collection view
         addCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(semestersCollectionView.snp.bottom).offset(10)
+            make.top.equalTo(termsStackView.snp.bottom).offset(20)
             make.leading.trailing.bottom.equalToSuperview()
         }
  }
@@ -135,19 +155,35 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-    func setBackgroundGradient (label: UILabel) {
-        print("tries to set gradient for \(label)")
+    func setBackgroundGradient (button: UIButton) {
+        print("tries to set gradient for \(button)")
         buttonGradient = CAGradientLayer()
         buttonGradient.colors = [UIColor.red.cgColor,
                                  UIColor.blue.cgColor]
         buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
         buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
         buttonGradient.cornerRadius = 16
-        buttonGradient.frame = label.bounds
-        label.layer.insertSublayer(buttonGradient, at: 0)
+        buttonGradient.frame = button.bounds
+        button.layer.insertSublayer(buttonGradient, at: 0)
+    }
+    
+    @objc func buttonPressed (sender:UIButton) {
+        if sharedVars.current_tab != sender.titleLabel?.text {
+            if sharedVars.current_term == "Fall" {
+                    fallButton.layer.sublayers![0].removeFromSuperlayer()
+                    fallButton.setTitleColor(.black, for: .normal)
+            } else if sharedVars.current_term == "Spring" {
+                springButton.layer.sublayers![0].removeFromSuperlayer()
+                springButton.setTitleColor(.black, for: .normal)
+            }
+            sharedVars.current_term = (sender.titleLabel?.text)!
+            setBackgroundGradient(button: sender)
+            sender.setTitleColor(.white, for: .normal)
+        }
+        
+        
     }
 }
-
 
 
 
