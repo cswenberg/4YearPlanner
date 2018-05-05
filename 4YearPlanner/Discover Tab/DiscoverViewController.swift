@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController, showCoursesDelegate {
+class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate {
     
     func showCourses() {
         updateChildViewController()
@@ -30,6 +30,7 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
         
         searchBar = UISearchBar()
         searchBar.backgroundImage = UIImage()
+        searchBar.delegate = self
         let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
         searchBarTextField?.backgroundColor = .lightGray
         if let backgroundView = searchBarTextField?.subviews.first {
@@ -130,6 +131,20 @@ class DiscoverViewController: UIViewController, showCoursesDelegate {
         } else if sharedVars.current_category == "Courses" {
             sharedVars.current_category = "Minors"
             updateChildViewController()
+        }
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: "reload", object: nil)
+        self.perform(#selector(self.reload), with: searchText, afterDelay: 1.0)
+    }
+    
+    @objc func reload (string: String) {
+        if let searchText = searchBar.text {
+            if !searchText.isEmpty {
+                if searchText.contains(" "){
+                    
+                }
+            }
         }
     }
 }

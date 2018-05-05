@@ -21,4 +21,5 @@ class globalVars {
     var myCollege: College!
     var myMajor: Major!
     var myMinor: Requirements!
+    var discoverCourses = [Class]()
 }
