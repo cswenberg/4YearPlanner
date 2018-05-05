@@ -15,10 +15,9 @@ class Network {
     private static let endpoint = "http://35.190.187.113/planner/courses"
     
     static func getAllCourses(_ completion: @escaping ([Class]) -> Void) {
+    
         
-        let parameters: Parameters = [:]
-        
-        Alamofire.request(endpoint, parameters: parameters).validate().responseJSON { (response) in
+        Alamofire.request(endpoint).responseJSON { (response) in
             
             switch response.result {
                 
@@ -27,8 +26,8 @@ class Network {
                 let json = JSON(json)
                 var classes: [Class] = []
                 
-                for each in json["results"].arrayValue {
-                    classes.append(Class(from: each))
+                for each in json["data"]["courses"].arrayValue {
+                    sharedVars.discoverCourses.append(Class(from: each))
                 }
                 print("do something")
             

@@ -14,6 +14,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     var subContainerView: UIView!
     var searchBar: UISearchBar!
     var subContainerViewController: UIViewController!
+    var backButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +35,16 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
         
         subContainerView = UIView()
         subContainerView.backgroundColor = .white
-        
         subContainerViewController = AddCoursesViewController()
-        
         subContainerView.addSubview(subContainerViewController.view)
+    
+        backButton = UIButton()
+        backButton.setTitle("<", for: .normal)
+        backButton.setTitleColor(.black, for: .normal)
+        backButton.titleLabel?.font = .systemFont(ofSize: 48)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        view.addSubview(backButton)
+    
         
         view.addSubview(subContainerView)
         view.addSubview(searchBar)
@@ -46,21 +53,30 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     }
     
     func setupConstraints() {
-        subContainerViewController.view.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        
-        searchBar.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(50)
+        // back button
+        backButton.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(40)
+            make.width.equalTo(backButton.intrinsicContentSize.width)
             make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(backButton.intrinsicContentSize.height)
+        }
+        //searchbar
+        searchBar.snp.makeConstraints { (make) in
+            make.centerY.equalTo(backButton.snp.centerY)
+            make.leading.equalTo(backButton.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().offset(-10)
             make.height.equalTo(40)
         }
-        
+        //subcontainer view
         subContainerView.snp.makeConstraints { (make) in
             make.top.equalTo(searchBar.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        //subcontainer vc
+        subContainerViewController.view.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -95,6 +111,11 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
         return false
     }
     
+    // ONLY returns from modal VC
+    @objc func backButtonPressed(sender: UIButton) {
+        print("Back Button Pressed")
+        dismiss(animated: true, completion: nil)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -21,9 +21,11 @@ enum colleges: String {
     case hotel = "Hotel Administration"
     case dyson = "Dyson Business School"
     case architecture = "Art, Architecture, and Planning"
+    case ilr = "Industrial Labor Relations"
 }
 
 enum majors: String {
+    //engineering
     case ece = "Electrical and Computer Engineering"
     case aep = "Applied and Engineering Physics"
     case cheme = "Chemical Engineering"
@@ -34,6 +36,71 @@ enum majors: String {
     case isst = "Information Science and Systems Technology"
     case mse = "Materials Science Engineering"
     case civil = "Civil Engineering"
+    //arts and sciences
+    case music = "Music"
+    case sts = "Science and Technology Studies"
+    case gov = "Government"
+    case scholar = "College Scholar"
+    case asian = "Asian Studies"
+    case soc = "Sociology"
+    case eng = "English"
+    case arch = "Archaeology"
+    case infsc = "Information Science"
+    case complit = "Comparitive Literature"
+    case ses = "Science of Earth Systems"
+    case astro = "Astronomy"
+    case acompsci = "Computer Science "
+    case phys = "Physics"
+    case ling = "Linguistics"
+    case germstud = "German Studies"
+    case chinpacstud = "Chinese & Asian-Pacific Studies"
+    case hist = "History"
+    case astats = "Statistical Science"
+    case achem = "Chemistry & Chemical Biology"
+    case french = "French"
+    case anthro = "Anthropology"
+    case ital = "Italian"
+    case amerstud = "American Studies"
+    case psych = "Psychology"
+    case fem = "Feminist, Gender & Sexual Studies"
+    case span = "Spanish"
+    case afristud = "Africana Studies"
+    case neaststud = "Near Eastern Studies"
+    case relig = "Religious Studies"
+    case perfmed = "Performin & Media Arts"
+    case aecon = "Economics"
+    case amath = "Mathematics"
+    case classic = "Classics"
+    case philos = "Philosophy"
+    case aBS = "Biology & Society"
+    case histart = "History of Art"
+    case im = "Independent Major"
+    case biologsci = "Biological Sciences"
+    //cals
+    case agsci = "Agricultural Science"
+    case atmosci = "Atmospheric Science"
+    case anisci = "Animal Science"
+    case aem = "Applied Economics and Management"
+    case bioeng = "Biological Engineering"
+    case biomstat = "Biometry and Statistics"
+    case comm = "Communications"
+    case devsoc = "Devlopment Sociology"
+    case ento = "Entomology"
+    case ess = "Environmental and Sustainability Sciences"
+    case enveng = "Environmental Engineering"
+    case foodsci = "Food Science"
+    case gphs = "Global and Public Health Sciences"
+    case iard = "International Agriculture and Rural Developments"
+    case landarch = "Landscape Architecture"
+    case nutrisci = "Nutrional Science"
+    case plantsci = "Plant Science"
+    case vines = "Vineculture and Enology"
+    //hotel
+    case smom = "Services Marketing and Operations Management"
+    case hold = "Hospitality Leadership"
+    case fare = "Finance, Accounting, & Real Estate"
+    //ilr
+    case ilr = "Industrial Labor Relations"
 }
 
 enum minors: String {
@@ -57,10 +124,10 @@ enum minors: String {
     case meche = "Mechanical Engineering"
     case orie = "Operations Research and Management Science"
     case ses = "Science of Earth Systems"
-    case sust = "Sustainable Energu Systems"
+    case sust = "Sustainable Energy Systems"
 }
 
-let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture]
+let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture, .ilr]
 
 let allMinors: [minors] = [.nm,.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
 
@@ -115,17 +182,19 @@ class College: Requirements {
         let collegeTitle = college.rawValue
         switch college {
         case .engineering:
-            majorChoices = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil]
+            majorChoices = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil,.im]
         case .artsnsciences:
-            majorChoices = []
+            majorChoices = [.music,.sts,.gov,.scholar,.asian,.soc,.eng,.arch,.infsc,.complit,.ses,.astro,.cs,.phys,.ling,.germstud,.chinpacstud,.hist,.astats,.achem,.french,.anthro,.ital,.amerstud,.psych,.fem,.span,.afristud,.neaststud,.relig,.perfmed,.aecon,.amath,.classic,.philos,.aBS,.histart,.im,.biologsci]
         case .cals:
-            majorChoices = []
+            majorChoices = [.agsci,.atmosci,.anisci,.aem,.bioeng,.biomstat,.comm,.devsoc,.ento,.ess,.enveng,.foodsci,.gphs,.iard,.landarch,.nutrisci,.plantsci,.vines,.infsc,.ses]
         case .hotel:
-            majorChoices = []
+            majorChoices = [.smom,.hold,.fare]
         case .dyson:
-            majorChoices = []
+            majorChoices = [.aem]
         case .architecture:
-            majorChoices = []
+            majorChoices = [.arch]
+        case .ilr:
+            majorChoices = [.ilr]
         }
         majorOptions = majorChoices
         super.init(title: collegeTitle, requirements: requirements)
@@ -149,6 +218,8 @@ class College: Requirements {
         case .architecture:
             friendlyTitle = "AAP"
             break
+        case .ilr:
+            friendlyTitle = "ILR"
         }
         return friendlyTitle
     }
@@ -164,33 +235,6 @@ class Major: Requirements {
 
         
         super.init(title: majorTitle, requirements: requirements)
-    }
-    
-    override func friendlyTitle() -> String {
-        var friendlyTitle = title
-        switch major {
-        case .ece:
-            friendlyTitle = "Electrical and\nComputer Engineering"
-        case .aep:
-            friendlyTitle = "Applied and\nEngineering Physics"
-        case .cheme:
-            break
-        case .meche:
-            break
-        case .orie:
-            friendlyTitle = "Operations Research\nand\nInformation Engineering"
-        case .bme:
-            break
-        case .cs:
-            break
-        case .isst:
-            friendlyTitle = "Information Science\nand\nSystems Engineering"
-        case .mse:
-            break
-        case .civil:
-            break
-        }
-        return friendlyTitle
     }
 }
 

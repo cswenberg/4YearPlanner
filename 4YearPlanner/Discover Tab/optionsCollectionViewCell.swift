@@ -24,8 +24,7 @@ class optionsCollectionViewCell: UICollectionViewCell {
         
         let gradient = CAGradientLayer()
         gradient.frame = contentView.frame
-        gradient.colors = [UIColor.red.cgColor,
-        UIColor.blue.cgColor]
+        gradient.colors = [UIColor.cyan.cgColor, UIColor.yellow.cgColor]
         gradient.locations = [0,1]
         gradient.startPoint = CGPoint(x: 1, y: 0)
         gradient.endPoint = CGPoint(x: 0, y: 1)

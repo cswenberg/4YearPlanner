@@ -29,14 +29,17 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         view.backgroundColor = .white
 
         
-//        let newclass = Class(subject: "MATH", number: "6969", title: "Infinite foils & connected surfaces", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
-//        coursesToDisplay.append(newclass)
-//        coursesToDisplay.append(newclass)
-//        coursesToDisplay.append(newclass)
+        let newclass = Class(subject: "MATH", number: "6969", title: "Infinite foils & connected surfaces", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
+        coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
+        coursesToDisplay.append(newclass)
         
         // Button for the MySchedule Tab
         fallButton = UIButton()
-        fallButton.layer.cornerRadius = 32
+        fallButton.layer.cornerRadius = fallButton.intrinsicContentSize.height/2
         fallButton.setTitle("Fall", for: .normal)
         fallButton.titleLabel?.font = .systemFont(ofSize: 32)
         fallButton.setTitleColor(.black, for: .normal)
@@ -44,7 +47,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         
         // Button for Settings Tab
         springButton = UIButton()
-        springButton.layer.cornerRadius = 32
+        springButton.layer.cornerRadius = springButton.intrinsicContentSize.height/2
         springButton.setTitle("Spring", for: .normal)
         springButton.titleLabel?.font = .systemFont(ofSize: 32)
         springButton.setTitleColor(.black, for: .normal)
@@ -85,7 +88,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         // Fall Button
         fallButton.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
-            make.width.equalTo(fallButton.intrinsicContentSize.width + 30)
+            make.width.equalTo(springButton.intrinsicContentSize.width)
         }
         // Spring Button
         springButton.snp.makeConstraints { (make) in

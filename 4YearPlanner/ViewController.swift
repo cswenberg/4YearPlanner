@@ -20,11 +20,15 @@ class HomeViewController: UIViewController {
     var myScheduleButton: UIButton!
     var settingsButton: UIButton!
     var buttonGradient: CAGradientLayer!
+    var courses = [Class]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
 
+        Network.getAllCourses { (courses) in
+            print(courses)
+        }
         let tabsFont = UIFont.systemFont(ofSize: 20)
         
         containerView = UIView()
@@ -39,8 +43,7 @@ class HomeViewController: UIViewController {
         
     // Set initial gradient
         buttonGradient = CAGradientLayer()
-        buttonGradient.colors = [UIColor.red.cgColor,
-                                 UIColor.blue.cgColor]
+        buttonGradient.colors = [UIColor.blue.cgColor,UIColor.white.cgColor]
         buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
         buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
         buttonGradient.cornerRadius = 16
@@ -176,8 +179,7 @@ class HomeViewController: UIViewController {
     func setBackgroundGradient (button: UIButton) {
         print("tries to set gradient for \(button)")
         buttonGradient = CAGradientLayer()
-        buttonGradient.colors = [UIColor.red.cgColor,
-                                 UIColor.blue.cgColor]
+        buttonGradient.colors = [UIColor.blue.cgColor, UIColor.white.cgColor]
         buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
         buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
         buttonGradient.cornerRadius = 16

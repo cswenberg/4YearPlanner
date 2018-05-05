@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 var sharedVars = globalVars()
 
@@ -26,5 +27,16 @@ class globalVars {
     var searchSubject = ""
     var searchNumber = ""
     var searchTerm = ""
+    
+    var iceBlue = UIColor(red: 204, green: 255, blue: 255, alpha: 1)
+    var redOrange = UIColor(red: 255, green: 80, blue: 80, alpha: 1)
+    var lightOrange = UIColor(red: 255, green: 531, blue: 51, alpha: 1)
+    var lightPurp = UIColor(red: 203, green: 153, blue: 255, alpha: 1)
+    var deepPurp = UIColor(red: 102, green: 0, blue: 204, alpha: 1)
+    var cyan = UIColor(red: 102, green: 255, blue: 255, alpha: 1)
+    var cerulean = UIColor(red: 0, green: 204, blue: 153, alpha: 1)
+    var limeGreen = UIColor(red: 153, green: 255, blue: 102, alpha: 1)
+    var lightPink = UIColor(red: 255, green: 204, blue: 255, alpha: 1)
+    var regularPink = UIColor(red: 255, green: 102, blue: 204, alpha: 1)
     
 }
