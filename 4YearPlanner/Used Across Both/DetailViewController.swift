@@ -31,6 +31,8 @@ class DetailViewController: UIViewController {
     var courseName: String!
     var creditsNum: String!
     var descriptionText: String!
+    var semesterStepper: UIStepper!
+    var semesterLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +98,20 @@ class DetailViewController: UIViewController {
         deleteButton.titleLabel?.textAlignment = .center
         deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         
+        semesterStepper = UIStepper()
+        semesterStepper.maximumValue = 8
+        semesterStepper.minimumValue = 1
+        semesterStepper.stepValue = 1
+        semesterStepper.value = 1
+        semesterStepper.addTarget(self, action: #selector(stepperHit), for: .valueChanged)
+        
+        semesterLabel = UILabel()
+        semesterLabel.text = "Semester \(sharedVars.selected_semester)"
+        semesterLabel.textColor = .black
+        semesterLabel.font = .systemFont(ofSize: 24)
+        semesterLabel.textAlignment = .center
+        
+        
         // Only show save button if not in list of classes already
         if !hasClass() {
             view.addSubview(saveButton)
@@ -104,6 +120,18 @@ class DetailViewController: UIViewController {
                 make.centerX.equalToSuperview()
                 make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
                 make.height.equalTo(saveButton.intrinsicContentSize.height)
+            }
+            view.addSubview(semesterStepper)
+            semesterStepper.snp.makeConstraints { (make) in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(saveButton.snp.top).offset(-60)
+            }
+            view.addSubview(semesterLabel)
+            semesterLabel.snp.makeConstraints { (make) in
+                make.width.equalTo(semesterLabel.intrinsicContentSize.width + 20)
+                make.bottom.equalTo(semesterStepper.snp.top).offset(-20)
+                make.centerX.equalToSuperview()
+                
             }
         }
         else {
@@ -211,5 +239,11 @@ class DetailViewController: UIViewController {
             }
         }
         return false
+    }
+    
+    @IBAction func stepperHit(_ sender: UIStepper) {
+        print("stepper changed to \(Int(sender.value))")
+        semesterLabel.text = "Semester \(Int(sender.value))"
+        sharedVars.selected_semester = Int(sender.value)
     }
 }
