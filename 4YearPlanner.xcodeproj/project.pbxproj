@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2235F9C1209E2CF000FDB21A /* Schedule-addViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2235F9C0209E2CF000FDB21A /* Schedule-addViewController.swift */; };
 		22411A0C20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22411A0B20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift */; };
 		224BC6F32098D1D500978E40 /* Singleton Vars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BC6F22098D1D500978E40 /* Singleton Vars.swift */; };
 		224BC6F520995ED000978E40 /* CourseNetworks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224BC6F420995ED000978E40 /* CourseNetworks.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2235F9C0209E2CF000FDB21A /* Schedule-addViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schedule-addViewController.swift"; sourceTree = "<group>"; };
 		22411A0B20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFromMyScheduleViewController.swift; sourceTree = "<group>"; };
 		224BC6F22098D1D500978E40 /* Singleton Vars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singleton Vars.swift"; sourceTree = "<group>"; };
 		224BC6F420995ED000978E40 /* CourseNetworks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseNetworks.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				22411A0B20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift */,
 				4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */,
 				4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */,
+				2235F9C0209E2CF000FDB21A /* Schedule-addViewController.swift */,
 			);
 			path = "My Schedule Tab";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			files = (
 				46E0C61F20926FC60027B4FC /* Class.swift in Sources */,
 				22411A0C20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift in Sources */,
+				2235F9C1209E2CF000FDB21A /* Schedule-addViewController.swift in Sources */,
 				4662D0A7209489B600C62AF2 /* SemesterCollectionViewCell.swift in Sources */,
 				46E0C60C20926F760027B4FC /* ViewController.swift in Sources */,
 				46E0C61220926F760027B4FC /* _YearPlanner.xcdatamodeld in Sources */,

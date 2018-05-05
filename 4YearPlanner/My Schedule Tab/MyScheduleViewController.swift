@@ -131,9 +131,9 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
         print("add course button pressed")
-        let navVC = AddFromMyScheduleViewController()
+        let navVC = Schedule_addViewController()
         //navVC.delegate = self
-        navigationController?.pushViewController(navVC, animated: true)
+        present(navVC, animated: true, completion: nil)
     }
     
     // Changes Semester label/ Stores new semester number
