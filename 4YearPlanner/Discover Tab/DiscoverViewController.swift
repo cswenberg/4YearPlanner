@@ -142,9 +142,26 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         if let searchText = searchBar.text {
             if !searchText.isEmpty {
                 if searchText.contains(" "){
-                    
+                    var textParams = searchText.components(separatedBy: " ")
+                    sharedVars.searchSubject = textParams[0]
+                    sharedVars.searchNumber = textParams[1]
+                    print("Subject: "+sharedVars.searchSubject+" Number: "+sharedVars.searchNumber)
+                } else {
+                    if isClassNumber(s: searchText) {sharedVars.searchNumber = searchText
+                        print("Number: "+sharedVars.searchNumber)
+                    }
+                    else {sharedVars.searchSubject = searchText
+                        print("Subject: "+sharedVars.searchSubject)
+                    }
                 }
             }
         }
+    }
+    
+    func isClassNumber(s: String) -> Bool {
+        for num in 0...9 {
+            if s.contains(String(num)) {return true}
+        }
+        return false
     }
 }

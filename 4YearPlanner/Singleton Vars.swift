@@ -22,4 +22,8 @@ class globalVars {
     var myMajor: Major!
     var myMinor: Requirements!
     var discoverCourses = [Class]()
+    
+    var searchSubject = ""
+    var searchNumber = ""
+    
 }
