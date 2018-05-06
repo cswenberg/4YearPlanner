@@ -68,8 +68,6 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         } else {
             cell.cellObject = Minors(title: sharedVars.myMajor.minorOptions[indexPath.item], requirements: [])
         }
-        print(cell.cellObject.title + " loaded")
-        print(indexPath.item % 4)
         cell.gradientNum = Int(indexPath.item)
         cell.gradient.colors = [sharedVars.gradientList[indexPath.item % 4][0], sharedVars.gradientList[indexPath.item % 4][1]]
         cell.titleLabel.text = cell.cellObject.friendlyTitle()
@@ -89,10 +87,8 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(sharedVars.current_category+" was hit")
 
         if sharedVars.current_category == "Colleges" {
-            print(cellsToDisplay[indexPath.item].cellObject)
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
                 print(selectedCollege.title+" was selected")

@@ -138,7 +138,6 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        print("reloaded data")
         return 1
     }
     
@@ -163,7 +162,6 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func setBackgroundGradient (button: UIButton) {
-        print("tries to set gradient for \(button)")
         buttonGradient = CAGradientLayer()
         buttonGradient.colors = [UIColor.red.cgColor,
                                  UIColor.blue.cgColor]

@@ -81,7 +81,6 @@ class HomeViewController: UIViewController {
     }
     
     func setupConstraints() {
-        print("setting up constraints")
     // Tabs StackView
         tabsStackView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(40)
@@ -153,7 +152,6 @@ class HomeViewController: UIViewController {
     
     // Changes variable selectedButton to buttons title
     @objc func buttonPressed (sender:UIButton) {
-        print(discoverButton.bounds)
         if sharedVars.current_tab != sender.titleLabel?.text {
             if sharedVars.current_tab == "Discover" {
                 if discoverButton.layer.sublayers![0] is CAGradientLayer {
@@ -177,7 +175,6 @@ class HomeViewController: UIViewController {
     }
     
     func setBackgroundGradient (button: UIButton) {
-        print("tries to set gradient for \(button)")
         buttonGradient = CAGradientLayer()
         buttonGradient.colors = sharedVars.tabGradient
         buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)

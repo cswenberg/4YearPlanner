@@ -13,7 +13,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     func reloadMyClasses() {
         myCoursesCollectionView.reloadData()
-        print("reloaded data")
     }
     
     var niceBlue = UIColor(displayP3Red: 69, green: 69, blue: 255, alpha: 1)
@@ -130,7 +129,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
-        print("add course button pressed")
         let navVC = Schedule_addViewController()
         //navVC.delegate = self
         present(navVC, animated: true, completion: nil)

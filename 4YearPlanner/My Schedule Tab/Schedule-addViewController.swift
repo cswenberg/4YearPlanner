@@ -91,14 +91,9 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
                     var textParams = searchText.components(separatedBy: " ")
                     sharedVars.searchSubject = textParams[0]
                     sharedVars.searchNumber = textParams[1]
-                    print("Subject: "+sharedVars.searchSubject+" Number: "+sharedVars.searchNumber)
                 } else {
-                    if isClassNumber(s: searchText) {sharedVars.searchNumber = searchText
-                        print("Number: "+sharedVars.searchNumber)
-                    }
-                    else {sharedVars.searchSubject = searchText
-                        print("Subject: "+sharedVars.searchSubject)
-                    }
+                    if isClassNumber(s: searchText) {sharedVars.searchNumber = searchText}
+                    else {sharedVars.searchSubject = searchText}
                 }
                 Network.getCourses { (courses) in
                     print(courses)
@@ -130,7 +125,6 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     
     // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
-        print("Back Button Pressed")
         dismiss(animated: false, completion: nil)
     }
     
