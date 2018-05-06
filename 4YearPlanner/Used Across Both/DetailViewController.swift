@@ -211,13 +211,11 @@ class DetailViewController: UIViewController {
     
     // Returns from modal VC and changes value of stored variable
     @objc func saveButtonPressed(sender: UIButton) {
-        print("Save Button Pressed")
         saveClass()
         dismiss(animated: true, completion: nil)
     }
     
     @objc func deleteButtonPressed(sender: UIButton) {
-        print("Delete Button Pressed")
         deleteClass()
         delegate?.reloadMyClasses()
         dismiss(animated: true, completion: nil)
@@ -225,7 +223,6 @@ class DetailViewController: UIViewController {
     
     // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
-        print("Back Button Pressed")
         dismiss(animated: true, completion: nil)
     }
     
@@ -236,15 +233,11 @@ class DetailViewController: UIViewController {
     func deleteClass() {
         let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
         let index = getClassIndex(classList: classes, chosenClass: detailedClass)
-        print(index)
         sharedVars.mySemesters[sharedVars.selected_semester-1].classes.remove(at: index)
-        print(detailedClass.classLabel()+" was removed")
     }
     
     func getClassIndex(classList: [Class], chosenClass: Class) -> Int {
-        print(classList)
         for i in 0...classList.count-1 {
-            print(classList[i].classLabel()+" vs. "+chosenClass.classLabel())
             if classList[i].equals(someclass: chosenClass) {return i}
         }
         return -1
@@ -260,7 +253,6 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func stepperHit(_ sender: UIStepper) {
-        print("stepper changed to \(Int(sender.value))")
         semesterLabel.text = "Semester \(Int(sender.value))"
         sharedVars.selected_semester = Int(sender.value)
     }

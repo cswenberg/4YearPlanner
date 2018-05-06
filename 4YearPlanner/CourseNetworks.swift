@@ -32,7 +32,6 @@ class Network {
                 sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
                 sharedVars.allCourses = classes
-                print("do something")
             
             case .failure(let error):
                 print("Error", error)
@@ -65,10 +64,8 @@ class Network {
                 for each in json["data"]["courses"].arrayValue {
                     classes.append(Class(from: each))
                 }
-                print(classes)
                 sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
-                print("successful request")
                 
             case .failure(let error):
                 print("Error", error)

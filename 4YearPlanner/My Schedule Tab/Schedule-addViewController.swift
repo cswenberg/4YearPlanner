@@ -116,7 +116,6 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
         }
     }
     @objc func reload2() {
-        print("2")
         if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
             optionsviewcontroller.addCoursesCollectionView.reloadData()
         }

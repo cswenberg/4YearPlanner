@@ -146,13 +146,10 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                     var textParams = searchText.components(separatedBy: " ")
                     sharedVars.searchSubject = textParams[0]
                     sharedVars.searchNumber = textParams[1]
-                    print("Subject: "+sharedVars.searchSubject+" Number: "+sharedVars.searchNumber)
                 } else {
                     if isClassNumber(s: searchText) {sharedVars.searchNumber = searchText
-                        print("Number: "+sharedVars.searchNumber)
                     }
                     else {sharedVars.searchSubject = searchText
-                        print("Subject: "+sharedVars.searchSubject)
                     }
                 }
                 Network.getCourses { (courses) in
