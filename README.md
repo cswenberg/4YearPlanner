@@ -22,6 +22,10 @@ of courses to make planning ahead easier for Cornell's undergraduate population.
 Link to Backend Repo: https://github.com/Omarrasheed/4YearPlannerBackend
 URL for running server: http://35.190.187.113/planner/courses
 
+IOS: Multiple ViewControllers with Navigation throughout the app to take you through the different pages; Various CollectionViews to present information on different pages; Queried from our database/API that we created 
+
+Backend: Deployed our app on Google Cloud and wrote multiple get routes to pull for our swift. We also wrote a post route to put anything into the database
+
 Disclaimer: Search function is still a little bit buggy. Also DetailView sometimes picks up the wrong class
 
 # Home Page:
