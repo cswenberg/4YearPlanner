@@ -123,7 +123,6 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
             cell.titleLabel.text = cell.cellClass.title
             
             cellsInCollection.append(cell)
-            print(cell.cellClass.classLabel())
             cell.setNeedsUpdateConstraints()
             return cell
         }
