@@ -91,7 +91,6 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         if sharedVars.current_category == "Colleges" {
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
-                print(selectedCollege.title+" was selected")
                 sharedVars.myCollege = selectedCollege
                 majorOptions = sharedVars.myCollege.majorOptions
             }
