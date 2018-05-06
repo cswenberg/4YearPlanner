@@ -31,6 +31,7 @@ class Network {
                 }
                 sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
+                sharedVars.allCourses = classes
                 print("do something")
             
             case .failure(let error):

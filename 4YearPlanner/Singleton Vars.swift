@@ -23,6 +23,7 @@ class globalVars {
     var myMajor: Major!
     var myMinor: Requirements!
     var discoverCourses = [Class]()
+    var allCourses = [Class]()
     var termColor = UIColor(red: 120/255, green: 154/255, blue: 241/255, alpha: 1)
     var tabGradient = [UIColor(red: 9/255, green: 154/255, blue: 255/255, alpha: 1).cgColor, UIColor(red: 202/255, green: 227/255, blue: 255/255, alpha: 1).cgColor]
     var gradientList = [[UIColor(red: 241/255, green: 178/255, blue: 122/255, alpha: 1).cgColor, UIColor(red: 219/255, green: 86/255, blue: 147/255, alpha: 1).cgColor],

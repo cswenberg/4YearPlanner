@@ -50,8 +50,8 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         addCourseButton = UIButton()
         addCourseButton.setTitle("+", for: .normal)
         addCourseButton.setTitleColor(.black , for: .normal)
-        addCourseButton.titleLabel!.font = .systemFont(ofSize: 36)
-        addCourseButton.layer.cornerRadius = 20
+        addCourseButton.titleLabel!.font = .systemFont(ofSize: 30)
+        addCourseButton.layer.cornerRadius = 30
         addCourseButton.layer.borderWidth = 4
         addCourseButton.addTarget(self, action: #selector(addCourseButtonPress), for: .touchUpInside)
         
@@ -75,6 +75,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         scheduleButtonsStackView.distribution = .equalCentering
         scheduleButtonsStackView.backgroundColor = .blue
         
+        
         //my courses collection view
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -94,18 +95,16 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func setupMyScheduleConstraints() {
         // selected semester label
         selectedSemesterLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(20)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
             make.width.equalTo(selectedSemesterLabel.intrinsicContentSize.width + 10)
             make.centerX.equalToSuperview()
-            //make.leading.equalTo(view.snp.leading).offset(20)
-            //make.trailing.equalTo(view.snp.trailing).offset(-20)
         }
         // 'My Schedule' buttons stack view
         scheduleButtonsStackView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(10)
-            make.height.equalTo(80)
+            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(30)
+            make.height.equalTo(60)
         }
         // add course button
         addCourseButton.snp.makeConstraints { (make) in
@@ -124,7 +123,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         }
         // my courses collection view
         myCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(scheduleButtonsStackView.snp.bottom).offset(10)
+            make.top.equalTo(scheduleButtonsStackView.snp.bottom).offset(20)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -180,7 +179,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     // Present Modal VC for detail view
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let dVC = DetailViewController()
-        //   dVC.delegate = self
+        dVC.delegate = self
         let selectedCell = cellsInCollection[indexPath.item]
         if let cellClass = selectedCell.cellClass {
             dVC.detailedClass = cellClass

@@ -35,6 +35,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         fallButton.setTitle("Fall", for: .normal)
         fallButton.titleLabel?.font = .systemFont(ofSize: 32)
         fallButton.setTitleColor(.black, for: .normal)
+        fallButton.layer.borderWidth = 2
+        fallButton.layer.borderColor = sharedVars.termColor.cgColor
         fallButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
         // Button for Settings Tab
@@ -43,6 +45,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         springButton.setTitle("Spring", for: .normal)
         springButton.titleLabel?.font = .systemFont(ofSize: 32)
         springButton.setTitleColor(.black, for: .normal)
+        springButton.layer.borderWidth = 2
+        springButton.layer.borderColor = sharedVars.termColor.cgColor
         springButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     
         
@@ -96,7 +100,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == semestersCollectionView {
             return 8
-        } else{
+        } else {
             return sharedVars.discoverCourses.count
         }
     }
@@ -211,10 +215,3 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
 }
-
-
-
-
-
-
-

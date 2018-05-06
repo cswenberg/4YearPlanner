@@ -33,11 +33,13 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         
         classLabel = UILabel()
         classLabel.textColor = .white
-        classLabel.font = .systemFont(ofSize:36)
+        classLabel.font = .systemFont(ofSize:24)
+        classLabel.numberOfLines = 0
         
         titleLabel = UILabel()
         titleLabel.textColor = .white
-        titleLabel.font = .systemFont(ofSize: 24)
+        titleLabel.font = .systemFont(ofSize: 16)
+        titleLabel.numberOfLines = 0
         
         contentView.addSubview(classLabel)
         contentView.addSubview(titleLabel)

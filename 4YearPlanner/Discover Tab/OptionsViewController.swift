@@ -54,7 +54,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if sharedVars.current_category == "Colleges" {return allColleges.count}
         else if sharedVars.current_category == "Majors" {return sharedVars.myCollege.majorOptions.count}
-        else {return allMinors.count}
+        else {return sharedVars.myMajor.minorOptions.count}
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -66,7 +66,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             majorOptions = sharedVars.myCollege.majorOptions
             cell.cellObject = Major(title: majorOptions[indexPath.item], requirements: [])
         } else {
-            cell.cellObject = Minors(title: allMinors[indexPath.item], requirements: [])
+            cell.cellObject = Minors(title: sharedVars.myMajor.minorOptions[indexPath.item], requirements: [])
         }
         print(cell.cellObject.title + " loaded")
         print(indexPath.item % 4)
@@ -102,6 +102,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         } else if sharedVars.current_category == "Majors" {
             if (cellsToDisplay[indexPath.item].cellObject as! Major?) != nil {
                 let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major?
+                sharedVars.myMajor = selectedMajor
                 cellsToDisplay = []
             }
         } else if sharedVars.current_category == "Minors" {

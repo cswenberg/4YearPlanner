@@ -36,7 +36,8 @@ class optionsCollectionViewCell: UICollectionViewCell {
         titleLabel = UILabel()
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 30)
+        titleLabel.font = .systemFont(ofSize: 23)
+        titleLabel.numberOfLines = 0
         
         contentView.addSubview(titleLabel)
     }

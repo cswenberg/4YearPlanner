@@ -44,20 +44,21 @@ class DetailViewController: UIViewController {
         view.backgroundColor = .white
         
         courseLabel = UILabel()
-        courseLabel.font = .boldSystemFont(ofSize: 24)
+        courseLabel.font = .boldSystemFont(ofSize: 28)
         courseLabel.text = courseName
         courseLabel.textColor = .black
         view.addSubview(courseLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.text = "Description"
-        descriptionLabel.font = .systemFont(ofSize: 20)
+        descriptionLabel.font = .boldSystemFont(ofSize: 20)
         view.addSubview(descriptionLabel)
         
         descriptionTextView = UITextView()
-        descriptionTextView.font = .systemFont(ofSize: 16)
+        descriptionTextView.font = .systemFont(ofSize: 14)
         descriptionTextView.textColor = .black
         descriptionTextView.text = descriptionText
+        descriptionTextView.textAlignment = .center
         descriptionTextView.isEditable = false
         view.addSubview(descriptionTextView)
         
@@ -70,6 +71,7 @@ class DetailViewController: UIViewController {
         prereqTextView.font = .systemFont(ofSize: 16)
         prereqTextView.textColor = .black
         prereqTextView.text = prereqText
+        prereqTextView.textAlignment = .center
         prereqTextView.isEditable = false
         view.addSubview(prereqTextView)
         
@@ -167,7 +169,7 @@ class DetailViewController: UIViewController {
         }
         // description label
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(courseLabel.snp.bottom).offset(50)
+            make.top.equalTo(courseLabel.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
             make.height.equalTo(descriptionLabel.intrinsicContentSize.height)
         }
@@ -176,7 +178,7 @@ class DetailViewController: UIViewController {
             make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().offset(-20)
-            make.height.equalTo(160)
+            make.height.equalTo(240)
         }
         // prereq label
         prereqLabel.snp.makeConstraints { (make) in

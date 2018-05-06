@@ -105,6 +105,7 @@ enum majors: String {
 
 enum minors: String {
     case nm = "No Minor"
+    //engineering
     case ase = "Aerospace Engineering"
     case am = "Applied Mathematics"
     case be = "Biological Engineering"
@@ -125,11 +126,109 @@ enum minors: String {
     case orie = "Operations Research and Management Science"
     case ses = "Science of Earth Systems"
     case sust = "Sustainable Energy Systems"
+    //arts and sciences
+    case esa = "Eastern Asian Studies"
+    case cogsci = "Cognitive Science"
+    case math = "Mathematics"
+    case pma = "Performing & Media Arts"
+    case js = "Jewish Studies"
+    case ams = "American Studies"
+    case infoa = "Information Science "
+    case music = "Music"
+    case hist = "History"
+    case vs = "Visual Studies"
+    case eng = "English"
+    case clciv = "Classical Civilization"
+    case scies = "Science of Earth Systems "
+    case mitw = "Minority, Indienous & Third World Studies"
+    case aas = "Asian American Studies"
+    case sas = "South Asian Studies"
+    case phil = "Philosophy"
+    case las = "Latin American Studies"
+    case gs = "German Studies"
+    case arab = "Arabic"
+    case ls = "Law and Society"
+    case ast = "Astronomy"
+    case rus = "Russian"
+    case theat = "Theatre"
+    case medi = "Medival Studies"
+    case vik = "Viking Studies"
+    case cita = "Computing in the Arts"
+    case phys = "Physics"
+    case ins = "Inequality Studies"
+    case gad = "Game Design "
+    case fren = "French"
+    case hista = "History of Art"
+    case seas = "Southeast Asian Studies"
+    case ling = "Linguistics"
+    case pbs = "Portuguese & Brazilian Studies"
+    case cpej = "Crime, Prisons, Education & Justice"
+    case hc = "History of Capitalism"
+    case ital = "Italian"
+    case nes = "Near Eastern Studies"
+    case biosci = "Biological Sciences"
+    case csa = "Computer Science "
+    case dan = "Dance"
+    case lat = "Latina/o Studies"
+    case rels = "Religious Studies"
+    case clas = "Classics"
+    case ixr = "International Relations"
+    case arch = "Archaeology"
+    case caps = "China & Asia-Pacific Studies"
+    case psych = "Psychology"
+    case sts = "Science & Technology Studies"
+    case anthr = "Anthropology"
+    case film = "Film"
+    case afr = "Africana Studies"
+    case cw = "Creative Writing"
+    case lgbt = "LGBT Studies"
+    case span = "Spanish"
+    case fgs = "Feminist, Gender & Sexuality Studies"
+    // Hotel
+    case re = "Real Estate"
+    //Cals
+    case agm = "Agricultural Management"
+    case aiis = "American Indian and Indigenous Studies"
+    case anisci = "Animal Science"
+    case appe = "Applied Economics"
+    case atmosci = "Atmospheric Science"
+    case biosc = "Biological Science"
+    case biostat = "Biometry and Statistics"
+    case busi = "Business"
+    case cc = "Climate Change"
+    case comm = "Communication"
+    case cfs = "Community Food Systems"
+    case cm = "Crop Management"
+    case dscoc = "Development Sociology"
+    case edu = "Education"
+    case ent = "Entomology"
+    case eer = "Environmental, Energy, and Resource Economics"
+    case ess = "Environmental & Sustainability Sciences"
+    case foodsci = "Food Science"
+    case ged = "Globalization, Ethnicity & Development"
+    case hort = "Horticulture"
+    case hfba = "Horticulture with a Focus in the Botanical Arts"
+    case idb = "Infectious Disease Biology"
+    case infos = " Information Science"
+    case ids = "International Development Studies"
+    case itd = "International Trade & Development"
+    case lands = "Landscape Studies"
+    case lead = "Leadership"
+    case marb = "Marine Biology"
+    case nutri = "Nutrition & Health"
+    case plb = "Plant Breeding"
+    case scie = "Sciene of Earth Systems"
+    case sois = "Soil Systems"
+    case viti = "Viticulture & Enology"
 }
 
 let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture, .ilr]
 
-let allMinors: [minors] = [.nm,.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
+let allEngMinors: [minors] = [.nm,.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
+
+let allCals: [minors] = [.agm, .aiis, .anisci, .appe, .atmosci, .biosc, .biostat, .busi, .cc, .comm, .cfs, .cm, .dscoc, .edu, .ent, .eer ,.ess, .foodsci, .ged, .hort, .hfba, .idb, .infos, .ids, .itd, .lands, .lead, .marb, .nutri, .plb, .scie, .sois, .viti]
+
+let allAS: [minors] = [.esa, .cogsci, .math, .pma, .js, .ams, .infoa, .music, .hist, .vs, .eng, .clciv, .scies, .mitw, .aas, .sas, .phil, .las, .gs, .arab, .ls, .ast, .rus, .theat, .medi, .vik, .cita, .phys, .ins, .gad, .fren, .hista, .seas, .ling, .pbs, .cpej, .hc, .ital, .nes, .biosci, .csa, .dan, .lat, .rels, .clas, .ixr, .arch, .caps, .psych, .sts, .anthr, .film, .afr, .cw, .lgbt, .span, .fgs]
 
 class Requirements {
     
@@ -228,10 +327,155 @@ class College: Requirements {
 class Major: Requirements {
 
     var major: majors
+    var minorOptions: [minors]
     
     init (title: majors, requirements: [Class]) {
         major = title
         let majorTitle = major.rawValue
+        switch major  {
+        case .ece:
+            minorOptions = allEngMinors
+        case .aep:
+            minorOptions = allEngMinors
+        case .cheme:
+            minorOptions = allEngMinors
+        case .meche:
+            minorOptions = allEngMinors
+        case .orie:
+            minorOptions = allEngMinors
+        case .bme:
+            minorOptions = allEngMinors
+        case .cs:
+            minorOptions = allEngMinors
+        case .isst:
+            minorOptions = allEngMinors
+        case .mse:
+            minorOptions = allEngMinors
+        case .civil:
+            minorOptions = allEngMinors
+        case .music:
+            minorOptions = allAS
+        case .sts:
+            minorOptions = allAS
+        case .gov:
+            minorOptions = allAS
+        case .scholar:
+            minorOptions = allAS
+        case .asian:
+            minorOptions = allAS
+        case .soc:
+            minorOptions = allAS
+        case .eng:
+            minorOptions = allAS
+        case .arch:
+            minorOptions = allAS
+        case .infsc:
+            minorOptions = allAS
+        case .complit:
+            minorOptions = allAS
+        case .ses:
+            minorOptions = allAS
+        case .astro:
+            minorOptions = allAS
+        case .acompsci:
+            minorOptions = allAS
+        case .phys:
+            minorOptions = allAS
+        case .ling:
+            minorOptions = allAS
+        case .germstud:
+            minorOptions = allAS
+        case .chinpacstud:
+            minorOptions = allAS
+        case .hist:
+            minorOptions = allAS
+        case .astats:
+            minorOptions = allAS
+        case .achem:
+            minorOptions = allAS
+        case .french:
+            minorOptions = allAS
+        case .anthro:
+            minorOptions = allAS
+        case .ital:
+            minorOptions = allAS
+        case .amerstud:
+            minorOptions = allAS
+        case .psych:
+            minorOptions = allAS
+        case .fem:
+            minorOptions = allAS
+        case .span:
+            minorOptions = allAS
+        case .afristud:
+            minorOptions = allAS
+        case .neaststud:
+            minorOptions = allAS
+        case .relig:
+            minorOptions = allAS
+        case .perfmed:
+            minorOptions = allAS
+        case .aecon:
+            minorOptions = allAS
+        case .amath:
+            minorOptions = allAS
+        case .classic:
+            minorOptions = allAS
+        case .philos:
+            minorOptions = allAS
+        case .aBS:
+            minorOptions = allAS
+        case .histart:
+            minorOptions = allAS
+        case .im:
+            minorOptions = allAS
+        case .biologsci:
+            minorOptions = allAS
+        case .agsci:
+            minorOptions = allCals
+        case .atmosci:
+            minorOptions = allCals
+        case .anisci:
+            minorOptions = allCals
+        case .aem:
+            minorOptions = allCals
+        case .bioeng:
+            minorOptions = allCals
+        case .biomstat:
+            minorOptions = allCals
+        case .comm:
+            minorOptions = allCals
+        case .devsoc:
+            minorOptions = allCals
+        case .ento:
+            minorOptions = allCals
+        case .ess:
+            minorOptions = allCals
+        case .enveng:
+            minorOptions = allCals
+        case .foodsci:
+            minorOptions = allCals
+        case .gphs:
+            minorOptions = allCals
+        case .iard:
+            minorOptions = allCals
+        case .landarch:
+            minorOptions = allCals
+        case .nutrisci:
+            minorOptions = allCals
+        case .plantsci:
+            minorOptions = allCals
+        case .vines:
+            minorOptions = allCals
+        case .smom:
+            minorOptions = allAS
+        case .hold:
+            minorOptions = allAS
+        case .fare:
+            minorOptions = allAS
+        case .ilr:
+            minorOptions = allAS
+        }
 
         
         super.init(title: majorTitle, requirements: requirements)

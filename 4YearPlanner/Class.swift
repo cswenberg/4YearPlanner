@@ -116,8 +116,13 @@ class Class {
         self.title = json["title"].stringValue
         self.description = json["description"].stringValue
         self.term = [json["term"].stringValue]
-        self.credits = json["credits"].intValue
-        self.pulledPrereqs = json["prerequisites"].stringValue
+        self.credits = json["creditsMax"].intValue
+        let pulledPrereqs2 = json["prereqs"].stringValue
+        if pulledPrereqs2 == "" || pulledPrereqs2 == " " {
+            self.pulledPrereqs = "None"
+        } else {
+            self.pulledPrereqs = pulledPrereqs2
+        }
     }
     /** Return: boolean to answer if two classes are the same by comparing subject and number */
     func equals(someclass: Class) -> Bool {

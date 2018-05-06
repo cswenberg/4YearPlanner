@@ -55,7 +55,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     func setupConstraints() {
         // back button
         backButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(20)
             make.width.equalTo(backButton.intrinsicContentSize.width)
             make.leading.equalToSuperview().offset(20)
             make.height.equalTo(backButton.intrinsicContentSize.height)
@@ -80,7 +80,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(UIWebView.reload), object: nil)
         self.perform(#selector(self.reload), with: searchText, afterDelay: 1.0)
     }
     
@@ -100,7 +100,25 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
                         print("Subject: "+sharedVars.searchSubject)
                     }
                 }
+                Network.getCourses { (courses) in
+                    print(courses)
+                }
+                if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+                    optionsviewcontroller.addCoursesCollectionView.reloadData()
+                }
             }
+            else {
+                sharedVars.discoverCourses = sharedVars.allCourses
+                if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+                    optionsviewcontroller.addCoursesCollectionView.reloadData()
+                }
+            }
+        }
+    }
+    @objc func reload2() {
+        print("2")
+        if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+            optionsviewcontroller.addCoursesCollectionView.reloadData()
         }
     }
     
@@ -114,7 +132,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
         print("Back Button Pressed")
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

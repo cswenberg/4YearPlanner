@@ -163,23 +163,15 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                 }
             }
             else {
-                Network.getAllCourses { (courses) in
-                    print(courses)
+                sharedVars.discoverCourses = sharedVars.allCourses
+                if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+                    optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
-                NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload2), object: nil)
-                self.perform(#selector(self.reload2), with: searchText, afterDelay: 3.0)
             }
         }
     }
-@objc func reload2() {
-    print("2")
-    if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-        optionsviewcontroller.addCoursesCollectionView.reloadData()
-    }
-}
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("stopped")
-    }
+
+
     
     func isClassNumber(s: String) -> Bool {
         for num in 0...9 {
