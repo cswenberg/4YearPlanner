@@ -21,21 +21,13 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     var fallSelected = false
     var springSelected = false
     
-    var coursesToDisplay = [Class]()
+    var courses = [Class]()
+    
     var cellsInCollection = [MyCoursesCollectionViewCell]()
     var buttonGradient: CAGradientLayer!
     
     override func viewDidLoad() {
         view.backgroundColor = .white
-
-        
-        let newclass = Class(subject: "MATH", number: "6969", title: "Infinite foils & connected surfaces", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
-        coursesToDisplay.append(newclass)
-        coursesToDisplay.append(newclass)
-        coursesToDisplay.append(newclass)
-        coursesToDisplay.append(newclass)
-        coursesToDisplay.append(newclass)
-        coursesToDisplay.append(newclass)
         
         // Button for the MySchedule Tab
         fallButton = UIButton()
@@ -58,8 +50,6 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         termsStackView = UIStackView(arrangedSubviews: [fallButton, springButton])
         termsStackView.axis = .horizontal
         termsStackView.distribution = .equalCentering
-        
-        //setBackgroundGradient(button: fallButton)
         
         //add courses collection view
         let addCourseLayout = UICollectionViewFlowLayout()
@@ -107,7 +97,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         if collectionView == semestersCollectionView {
             return 8
         } else{
-            return coursesToDisplay.count
+            return sharedVars.discoverCourses.count
         }
     }
     
@@ -120,9 +110,14 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
             return cell
         } else {
             let cell = addCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: addcourseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
-            cell.cellClass = coursesToDisplay[indexPath.item]
+            cell.cellClass = sharedVars.discoverCourses[indexPath.item]
+            cell.gradientNum = indexPath.item
+            cell.backgroundColor = .blue
+            cell.layer.cornerRadius = 20
             cell.classLabel.text = cell.cellClass.classLabel()
             cell.titleLabel.text = cell.cellClass.title
+            print(cell.layer.sublayers)
+            print(cell.gradient.colors)
             cellsInCollection.append(cell)
             print(cell.cellClass.classLabel())
             cell.setNeedsUpdateConstraints()
@@ -154,7 +149,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
                 dVC.detailedClass = cellClass
                 dVC.courseName = cellClass.classLabel()
                 dVC.creditsNum = String(describing: cellClass.credits)
-                //  dVC.prereqList = cellClass.prerequisites
+                dVC.prereqList = [cellClass.pulledPrereqs!]
+                dVC.prereqText = cellClass.pulledPrereqs
                 dVC.descriptionText = cellClass.description
                 present(dVC, animated: true, completion: nil)
             }
@@ -177,19 +173,19 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         switchSelected(s: (sender.titleLabel?.text)!)
         if sender.titleLabel?.text == "Fall" {
             if fallSelected {
-                setBackgroundGradient(button: fallButton)
+                fallButton.backgroundColor = sharedVars.termColor
                 fallButton.setTitleColor(.white, for: .normal)
             } else {
-                fallButton.layer.sublayers![0].removeFromSuperlayer()
+                fallButton.backgroundColor = .white
                 fallButton.setTitleColor(.black, for: .normal)
             }
         }
         else if sender.titleLabel?.text == "Spring" {
             if springSelected {
-                setBackgroundGradient(button: springButton)
+                springButton.backgroundColor = sharedVars.termColor
                 springButton.setTitleColor(.white, for: .normal)
             } else {
-                springButton.layer.sublayers![0].removeFromSuperlayer()
+                springButton.backgroundColor = .white
                 springButton.setTitleColor(.black, for: .normal)
             }
         }
@@ -197,7 +193,10 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         else if fallSelected {sharedVars.searchTerm = "fall"}
         else if springSelected {sharedVars.searchTerm = "spring"}
         else {sharedVars.searchTerm = ""}
-        print(sharedVars.searchTerm)
+        Network.getAllCourses { (courses) in
+            print(courses)
+        }
+        addCoursesCollectionView.reloadData()
     }
     
     func switchSelected(s: String) {

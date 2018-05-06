@@ -81,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				22411A0B20965E2D00BA02D9 /* AddFromMyScheduleViewController.swift */,
-				4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */,
 				4662D09C2094072500C62AF2 /* MyScheduleViewController.swift */,
 				2235F9C0209E2CF000FDB21A /* Schedule-addViewController.swift */,
 			);
@@ -103,6 +102,7 @@
 		22411A0F2096691200BA02D9 /* Used Across Both */ = {
 			isa = PBXGroup;
 			children = (
+				4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */,
 				22E73789209463F5006DA8AA /* DetailViewController.swift */,
 			);
 			path = "Used Across Both";

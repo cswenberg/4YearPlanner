@@ -23,11 +23,18 @@ class globalVars {
     var myMajor: Major!
     var myMinor: Requirements!
     var discoverCourses = [Class]()
+    var termColor = UIColor(red: 120/255, green: 154/255, blue: 241/255, alpha: 1)
+    var tabGradient = [UIColor(red: 9/255, green: 154/255, blue: 255/255, alpha: 1).cgColor, UIColor(red: 202/255, green: 227/255, blue: 255/255, alpha: 1).cgColor]
+    var gradientList = [[UIColor(red: 241/255, green: 178/255, blue: 122/255, alpha: 1).cgColor, UIColor(red: 219/255, green: 86/255, blue: 147/255, alpha: 1).cgColor],
+                                     [UIColor(red: 139/255, green: 112/217, blue: 217/255, alpha: 1).cgColor, UIColor(red: 214/255, green: 147/255, blue: 225/255, alpha: 1).cgColor],
+                                     [UIColor(red: 71/255, green: 166/255, blue: 252/255, alpha: 1).cgColor, UIColor(red: 54/255, green: 229/255, blue: 211/255, alpha: 1).cgColor],
+                                     [UIColor(red: 94/255, green: 210/255, blue: 133/255, alpha: 1).cgColor , UIColor(red: 69/255, green: 225/255, blue: 197/255, alpha: 1).cgColor]]
     
     var searchSubject = ""
     var searchNumber = ""
     var searchTerm = ""
-    
+    var orange = UIColor(red: 241, green: 178, blue: 122, alpha: 1)
+    var nextorange = UIColor(red: 219, green: 86, blue: 147, alpha: 1)
     var iceBlue = UIColor(red: 204, green: 255, blue: 255, alpha: 1)
     var redOrange = UIColor(red: 255, green: 80, blue: 80, alpha: 1)
     var lightOrange = UIColor(red: 255, green: 531, blue: 51, alpha: 1)

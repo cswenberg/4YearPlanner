@@ -10,6 +10,7 @@ import UIKit
 
 
 class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate {
+    
     func reloadMyClasses() {
         myCoursesCollectionView.reloadData()
         print("reloaded data")
@@ -33,7 +34,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        if sharedVars.mySemesters[0].classes.count == 0 {initSemesters()}
+        //if sharedVars.mySemesters[0].classes.count == 0 {initSemesters()}
         coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
         
         //current selected semester label
@@ -164,8 +165,12 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = myCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: courseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
         cell.cellClass = coursesToDisplay[indexPath.item]
+        cell.gradientNum = indexPath.item
+        cell.gradient.colors = [[sharedVars.gradientList[cell.gradientNum % 4][0], sharedVars.gradientList[cell.gradientNum % 4][1]]]
         cell.classLabel.text = cell.cellClass.classLabel()
         cell.titleLabel.text = cell.cellClass.title
+        print(cell.gradient.colors)
+        cell.backgroundColor = .black
         cell.layer.cornerRadius = 24
         cell.setNeedsUpdateConstraints()
         cellsInCollection.append(cell)

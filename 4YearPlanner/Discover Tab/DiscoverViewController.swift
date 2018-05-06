@@ -32,7 +32,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.backgroundColor = .lightGray
+        searchBarTextField?.backgroundColor = UIColor(red: 237/255, green: 237/255, blue: 237/255, alpha: 1)
         if let backgroundView = searchBarTextField?.subviews.first {
             backgroundView.layer.cornerRadius = 20
             backgroundView.clipsToBounds = true
@@ -116,6 +116,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
                 reverseSwitchCollection()
                 optionsviewcontroller.optionsCollectionView.reloadData()
+                optionsviewcontroller.cellsToDisplay = []
             }
         } else {
             reverseSwitchCollection()
@@ -153,6 +154,11 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                     else {sharedVars.searchSubject = searchText
                         print("Subject: "+sharedVars.searchSubject)
                     }
+                }
+                Network.getCourses { (courses) in
+                    print(courses)}
+                if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+                    optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
             }
         }

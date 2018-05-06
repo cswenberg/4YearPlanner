@@ -43,7 +43,7 @@ class HomeViewController: UIViewController {
         
     // Set initial gradient
         buttonGradient = CAGradientLayer()
-        buttonGradient.colors = [UIColor.blue.cgColor,UIColor.white.cgColor]
+        buttonGradient.colors = sharedVars.tabGradient
         buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
         buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
         buttonGradient.cornerRadius = 16
@@ -179,7 +179,7 @@ class HomeViewController: UIViewController {
     func setBackgroundGradient (button: UIButton) {
         print("tries to set gradient for \(button)")
         buttonGradient = CAGradientLayer()
-        buttonGradient.colors = [UIColor.blue.cgColor, UIColor.white.cgColor]
+        buttonGradient.colors = sharedVars.tabGradient
         buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
         buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
         buttonGradient.cornerRadius = 16

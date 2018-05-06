@@ -53,7 +53,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if sharedVars.current_category == "Colleges" {return allColleges.count}
-        else if sharedVars.current_category == "Majors" {return majorOptions.count}
+        else if sharedVars.current_category == "Majors" {return sharedVars.myCollege.majorOptions.count}
         else {return allMinors.count}
     }
     
@@ -69,8 +69,12 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             cell.cellObject = Minors(title: allMinors[indexPath.item], requirements: [])
         }
         print(cell.cellObject.title + " loaded")
+        print(indexPath.item % 4)
+        cell.gradientNum = Int(indexPath.item)
+        cell.gradient.colors = [sharedVars.gradientList[indexPath.item % 4][0], sharedVars.gradientList[indexPath.item % 4][1]]
         cell.titleLabel.text = cell.cellObject.friendlyTitle()
         cell.layer.cornerRadius = 10
+        
         cell.setNeedsUpdateConstraints()
         cellsToDisplay.append(cell)
         return cell
@@ -86,6 +90,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(sharedVars.current_category+" was hit")
+
         if sharedVars.current_category == "Colleges" {
             print(cellsToDisplay[indexPath.item].cellObject)
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
@@ -98,7 +103,6 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             if (cellsToDisplay[indexPath.item].cellObject as! Major?) != nil {
                 let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major?
                 cellsToDisplay = []
-                print(selectedMajor?.title)
             }
         } else if sharedVars.current_category == "Minors" {
             if (cellsToDisplay[indexPath.item].cellObject as! Minors?) != nil {

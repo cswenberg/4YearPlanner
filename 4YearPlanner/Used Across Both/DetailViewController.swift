@@ -22,8 +22,9 @@ class DetailViewController: UIViewController {
     var descriptionLabel: UILabel!
     var descriptionTextView: UITextView!
     var prereqLabel: UILabel!
-    var prereqList = [Class]()
+    var prereqList = [String]()
     var prereqCollectionView: UICollectionView!
+    var prereqTextView: UITextView!
     var creditsLabel: UILabel!
     var backButton: UIButton!
     var saveButton: UIButton!
@@ -31,6 +32,7 @@ class DetailViewController: UIViewController {
     var courseName: String!
     var creditsNum: String!
     var descriptionText: String!
+    var prereqText: String!
     var semesterStepper: UIStepper!
     var semesterLabel: UILabel!
     
@@ -56,12 +58,20 @@ class DetailViewController: UIViewController {
         descriptionTextView.font = .systemFont(ofSize: 16)
         descriptionTextView.textColor = .black
         descriptionTextView.text = descriptionText
+        descriptionTextView.isEditable = false
         view.addSubview(descriptionTextView)
         
         prereqLabel = UILabel()
         prereqLabel.text = "Pre-Requisites"
         prereqLabel.font = .systemFont(ofSize: 20)
         view.addSubview(prereqLabel)
+        
+        prereqTextView = UITextView()
+        prereqTextView.font = .systemFont(ofSize: 16)
+        prereqTextView.textColor = .black
+        prereqTextView.text = prereqText
+        prereqTextView.isEditable = false
+        view.addSubview(prereqTextView)
         
         creditsLabel = UILabel()
         creditsLabel.font = .systemFont(ofSize: 20)
@@ -166,14 +176,20 @@ class DetailViewController: UIViewController {
             make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().offset(-20)
-            make.height.equalTo(80)
-            
+            make.height.equalTo(160)
         }
-        // prerequisited label
+        // prereq label
         prereqLabel.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionTextView.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.height.equalTo(prereqLabel.intrinsicContentSize.height)
+        }
+        // prereq text view
+        prereqTextView.snp.makeConstraints { (make) in
+            make.top.equalTo(prereqLabel.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
         }
         // credits label
         creditsLabel.snp.makeConstraints { (make) in

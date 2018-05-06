@@ -39,14 +39,18 @@ class Network {
     }
     
     static func getCourses(_ completion: @escaping ([Class]) -> Void) {
+        let term: String
+        var parameters = Parameters()
+        if sharedVars.searchTerm == ""{
+            term = "fall and spring"
+        } else {
+            term = sharedVars.searchTerm
+        }
+        if sharedVars.searchSubject != "" {parameters["subject"]=sharedVars.searchSubject}
+        if sharedVars.searchNumber != "" {parameters["number"]=sharedVars.searchNumber}
+        if sharedVars.searchTerm != "" {parameters["term"]=term}
         
-        let parameters: Parameters = [
-            "subject" : sharedVars.searchSubject,
-            "number" : sharedVars.searchNumber,
-            "term" : sharedVars.searchTerm
-            ]
-        
-        Alamofire.request(endpoint, parameters: parameters).validate().responseJSON { (response) in
+        Alamofire.request(endpoint, parameters: parameters).responseJSON { (response) in
             
             switch response.result {
                 
@@ -58,6 +62,9 @@ class Network {
                 for each in json["results"].arrayValue {
                     classes.append(Class(from: each))
                 }
+                print(classes)
+                sharedVars.discoverCourses = []
+                sharedVars.discoverCourses = classes
                 print("successful request")
                 
             case .failure(let error):

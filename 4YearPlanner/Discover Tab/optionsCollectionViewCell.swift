@@ -14,17 +14,17 @@ class optionsCollectionViewCell: UICollectionViewCell {
     var cellObject: Requirements!
     var titleLabel: UILabel!
     var gradient: CAGradientLayer!
+    var gradientNum: Int! = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         let niceGray = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
         contentView.backgroundColor = niceGray
-        
         contentView.layer.cornerRadius = 20
         
-        let gradient = CAGradientLayer()
+        gradient = CAGradientLayer()
         gradient.frame = contentView.frame
-        gradient.colors = [UIColor.cyan.cgColor, UIColor.yellow.cgColor]
+        gradient.colors = [[sharedVars.gradientList[gradientNum % 4][0], sharedVars.gradientList[gradientNum % 4][1]]]
         gradient.locations = [0,1]
         gradient.startPoint = CGPoint(x: 1, y: 0)
         gradient.endPoint = CGPoint(x: 0, y: 1)
