@@ -32,7 +32,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.backgroundColor = UIColor(red: 237/255, green: 237/255, blue: 237/255, alpha: 1)
+        searchBarTextField?.backgroundColor = sharedVars.searchBarGray
         if let backgroundView = searchBarTextField?.subviews.first {
             backgroundView.layer.cornerRadius = 20
             backgroundView.clipsToBounds = true
@@ -135,7 +135,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         }
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: "reload", object: nil)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(UIWebView.reload), object: nil)
         self.perform(#selector(self.reload), with: searchText, afterDelay: 1.0)
     }
     
@@ -156,12 +156,29 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                     }
                 }
                 Network.getCourses { (courses) in
-                    print(courses)}
+                    print(courses)
+                }
                 if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
                     optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
             }
+            else {
+                Network.getAllCourses { (courses) in
+                    print(courses)
+                }
+                NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload2), object: nil)
+                self.perform(#selector(self.reload2), with: searchText, afterDelay: 3.0)
+            }
         }
+    }
+@objc func reload2() {
+    print("2")
+    if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+        optionsviewcontroller.addCoursesCollectionView.reloadData()
+    }
+}
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("stopped")
     }
     
     func isClassNumber(s: String) -> Bool {

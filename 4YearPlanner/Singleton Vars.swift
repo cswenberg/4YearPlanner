@@ -29,6 +29,7 @@ class globalVars {
                                      [UIColor(red: 139/255, green: 112/217, blue: 217/255, alpha: 1).cgColor, UIColor(red: 214/255, green: 147/255, blue: 225/255, alpha: 1).cgColor],
                                      [UIColor(red: 71/255, green: 166/255, blue: 252/255, alpha: 1).cgColor, UIColor(red: 54/255, green: 229/255, blue: 211/255, alpha: 1).cgColor],
                                      [UIColor(red: 94/255, green: 210/255, blue: 133/255, alpha: 1).cgColor , UIColor(red: 69/255, green: 225/255, blue: 197/255, alpha: 1).cgColor]]
+    var searchBarGray = UIColor(red: 237/255, green: 237/255, blue: 237/255, alpha: 1)
     
     var searchSubject = ""
     var searchNumber = ""

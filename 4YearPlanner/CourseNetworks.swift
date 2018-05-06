@@ -24,11 +24,13 @@ class Network {
             case .success(let json):
                 
                 let json = JSON(json)
-                var classes: [Class] = []
+                var classes = [Class]()
                 
                 for each in json["data"]["courses"].arrayValue {
-                    sharedVars.discoverCourses.append(Class(from: each))
+                    classes.append(Class(from: each))
                 }
+                sharedVars.discoverCourses = []
+                sharedVars.discoverCourses = classes
                 print("do something")
             
             case .failure(let error):
@@ -50,7 +52,7 @@ class Network {
         if sharedVars.searchNumber != "" {parameters["number"]=sharedVars.searchNumber}
         if sharedVars.searchTerm != "" {parameters["term"]=term}
         
-        Alamofire.request(endpoint, parameters: parameters).responseJSON { (response) in
+        Alamofire.request(endpoint, parameters: parameters).validate().responseJSON { (response) in
             
             switch response.result {
                 
@@ -59,7 +61,7 @@ class Network {
                 let json = JSON(json)
                 var classes: [Class] = []
                 
-                for each in json["results"].arrayValue {
+                for each in json["data"]["courses"].arrayValue {
                     classes.append(Class(from: each))
                 }
                 print(classes)

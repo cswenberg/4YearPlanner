@@ -25,7 +25,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.backgroundColor = .lightGray
+        searchBarTextField?.backgroundColor = sharedVars.searchBarGray
         if let backgroundView = searchBarTextField?.subviews.first {
             backgroundView.layer.cornerRadius = 20
             backgroundView.clipsToBounds = true
@@ -80,7 +80,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: "reload", object: nil)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
         self.perform(#selector(self.reload), with: searchText, afterDelay: 1.0)
     }
     

@@ -165,13 +165,13 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = myCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: courseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
         cell.cellClass = coursesToDisplay[indexPath.item]
-        cell.gradientNum = indexPath.item
-        cell.gradient.colors = [[sharedVars.gradientList[cell.gradientNum % 4][0], sharedVars.gradientList[cell.gradientNum % 4][1]]]
         cell.classLabel.text = cell.cellClass.classLabel()
         cell.titleLabel.text = cell.cellClass.title
-        print(cell.gradient.colors)
+        cell.gradientNum = indexPath.item
+        cell.gradient.colors = [sharedVars.gradientList[indexPath.item % 4][0], sharedVars.gradientList[indexPath.item % 4][1]]
+        cell.layer.insertSublayer(cell.gradient, at: 0)
+        cell.layer.cornerRadius = 20
         cell.backgroundColor = .black
-        cell.layer.cornerRadius = 24
         cell.setNeedsUpdateConstraints()
         cellsInCollection.append(cell)
         return cell

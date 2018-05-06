@@ -112,12 +112,12 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
             let cell = addCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: addcourseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
             cell.cellClass = sharedVars.discoverCourses[indexPath.item]
             cell.gradientNum = indexPath.item
-            cell.backgroundColor = .blue
+            cell.gradient.colors = [sharedVars.gradientList[indexPath.item % 4][0], sharedVars.gradientList[indexPath.item % 4][1]]
+            cell.layer.insertSublayer(cell.gradient, at: 0)
             cell.layer.cornerRadius = 20
             cell.classLabel.text = cell.cellClass.classLabel()
             cell.titleLabel.text = cell.cellClass.title
-            print(cell.layer.sublayers)
-            print(cell.gradient.colors)
+            
             cellsInCollection.append(cell)
             print(cell.cellClass.classLabel())
             cell.setNeedsUpdateConstraints()
@@ -134,6 +134,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+        print("reloaded data")
         return 1
     }
     

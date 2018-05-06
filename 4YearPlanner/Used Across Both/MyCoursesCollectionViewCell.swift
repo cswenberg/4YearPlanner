@@ -26,10 +26,10 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         gradient.frame = contentView.frame
         gradient.colors = [[sharedVars.gradientList[gradientNum % 4][0], sharedVars.gradientList[gradientNum % 4][1]]]
         gradient.locations = [0,1]
-        gradient.startPoint = CGPoint(x: 350, y: 0)
-        gradient.endPoint = CGPoint(x: 0, y: 120)
+        gradient.startPoint = CGPoint(x: 1, y: 0)
+        gradient.endPoint = CGPoint(x: 0, y: 1)
         gradient.cornerRadius = contentView.layer.cornerRadius
-        //contentView.layer.addSublayer(gradient)
+        contentView.layer.insertSublayer(gradient, at: 0)
         
         classLabel = UILabel()
         classLabel.textColor = .white
