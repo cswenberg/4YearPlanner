@@ -1,7 +1,6 @@
-4YearPlanner
-Omar Rasheed, Conner Swenberg, Eric Kim
+Created by: Omar Rasheed, Conner Swenberg, Eric Kim
 
-4-Year-Planner: A simple guide to planning your undergraduate career
+4-Year-Planner: A simple guide to planning your undergraduate career at Cornell
 
 4YearPlanner seeks out to assist Cornell undergraduates plan their class loads for their 4 years at Cornell.  
 Through accessing Cornell's courses API, we draw information from all classes available in the fall and spring.
