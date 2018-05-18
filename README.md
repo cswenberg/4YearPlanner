@@ -1,5 +1,5 @@
 4YearPlanner
-Omar Rasheed, Conner Swenberg, Eric Kim, Zheng Gu
+Omar Rasheed, Conner Swenberg, Eric Kim
 
 4-Year-Planner: A simple guide to planning your undergraduate career
 
