@@ -197,17 +197,5 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    func initSemesters() {
-        for i in 1...8 {
-            let newClass = Class(subject: "CS", number: "211"+"\(i)", title: "Object-Oriented Programming", description: "1,2,3,4 take more xannies and pour some more", term: ["Fall"], credits: 69, prerequisites: [])
-            sharedVars.mySemesters[i-1].addClass(newclass: newClass)
-            if i%2 == 0 {
-                let anothaClass = Class(subject: "PHYS", number: "1116", title: "Physics: Introduction to Mechanics", description: "", term: ["Fall", "Spring"], credits: 4, prerequisites: [])
-                sharedVars.mySemesters[i-1].addClass(newclass: anothaClass)
-            }
-        }
-    }
-
 }
 

@@ -86,8 +86,8 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         return 1
     }
     
+    // Change page based on position in the order
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         if sharedVars.current_category == "Colleges" {
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []

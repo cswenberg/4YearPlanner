@@ -14,9 +14,8 @@ import SwiftyJSON
 class Network {
     private static let endpoint = "http://35.190.187.113/planner/courses"
     
+    // Pulls all of the courses from the DB
     static func getAllCourses(_ completion: @escaping ([Class]) -> Void) {
-    
-        
         Alamofire.request(endpoint).responseJSON { (response) in
             
             switch response.result {
@@ -33,6 +32,9 @@ class Network {
                 sharedVars.discoverCourses = classes
                 sharedVars.allCourses = classes
             
+            // Change the singleton variable to stop the while loop
+                sharedVars.loadedNewCourses = true
+            
             case .failure(let error):
                 print("Error", error)
                 completion([])
@@ -40,7 +42,9 @@ class Network {
         }
     }
     
+    // Pulls the filtered courses from the DB
     static func getCourses(_ completion: @escaping ([Class]) -> Void) {
+        
         let term: String
         var parameters = Parameters()
         if sharedVars.searchTerm == ""{
@@ -66,6 +70,10 @@ class Network {
                 }
                 sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
+                
+            // Change singleton variable to stop the while loop
+                sharedVars.loadedNewCourses = true
+                print("done")
                 
             case .failure(let error):
                 print("Error", error)

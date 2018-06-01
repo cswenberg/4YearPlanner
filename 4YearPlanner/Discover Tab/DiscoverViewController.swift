@@ -134,12 +134,16 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             updateChildViewController()
         }
     }
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(UIWebView.reload), object: nil)
-        self.perform(#selector(self.reload), with: searchText, afterDelay: 1.0)
-    }
     
-    @objc func reload (string: String) {
+    // testing new function for SearchBar (trying to reduce lag and bugs)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
+        self.perform(#selector(reload), with: nil, afterDelay: 1.0)
+    }
+
+    // function that happens after 1 second delay
+    @objc func reload () {
         if let searchText = searchBar.text {
             if !searchText.isEmpty {
                 if searchText.contains(" "){
@@ -155,14 +159,31 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                 Network.getCourses { (courses) in
                     print(courses)
                 }
+                print("Boutta hit while loop")
                 if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-                    optionsviewcontroller.addCoursesCollectionView.reloadData()
+                    while (true) {
+                        print("is in while loop")
+                        if sharedVars.loadedNewCourses == true {
+                            print("hit if statement")
+                            optionsviewcontroller.addCoursesCollectionView.reloadData()
+                            sharedVars.loadedNewCourses = false
+                            break
+                        }
+                    }
+                    print("broke while loop")
                 }
             }
             else {
                 sharedVars.discoverCourses = sharedVars.allCourses
                 if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-                    optionsviewcontroller.addCoursesCollectionView.reloadData()
+                    while (true) {
+                        print("in second while loop")
+                        if sharedVars.loadedNewCourses == true {
+                            optionsviewcontroller.addCoursesCollectionView.reloadData()
+                            sharedVars.loadedNewCourses = false
+                            break
+                        }
+                    }
                 }
             }
         }

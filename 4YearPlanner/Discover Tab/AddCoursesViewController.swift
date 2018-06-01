@@ -160,6 +160,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // function to setup gradients
     func setBackgroundGradient (button: UIButton) {
         buttonGradient = CAGradientLayer()
         buttonGradient.colors = [UIColor.red.cgColor,
@@ -171,6 +172,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         button.layer.insertSublayer(buttonGradient, at: 0)
     }
     
+    // Change classes based on filter
     @objc func buttonPressed (sender:UIButton) {
         switchSelected(s: (sender.titleLabel?.text)!)
         if sender.titleLabel?.text == "Fall" {
@@ -201,6 +203,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         addCoursesCollectionView.reloadData()
     }
     
+    // Helper function for switching filter
     func switchSelected(s: String) {
         if s == "Fall" {
             if fallSelected {fallSelected = false}

@@ -226,16 +226,19 @@ class DetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    // Adds class to your schedule
     func saveClass() {
         sharedVars.mySemesters[sharedVars.selected_semester-1].classes.append(detailedClass)
     }
     
+    // Deletes class from ur schedule
     func deleteClass() {
         let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
         let index = getClassIndex(classList: classes, chosenClass: detailedClass)
         sharedVars.mySemesters[sharedVars.selected_semester-1].classes.remove(at: index)
     }
     
+    // helper for deleting the class
     func getClassIndex(classList: [Class], chosenClass: Class) -> Int {
         for i in 0...classList.count-1 {
             if classList[i].equals(someclass: chosenClass) {return i}

@@ -26,11 +26,15 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
+    // Loads all of the courses in from the beginning
+    // We need to change so that we get the recocmmended courses instead
         Network.getAllCourses { (courses) in
             print(courses)
         }
+        
         let tabsFont = UIFont.systemFont(ofSize: 20)
         
+    // Initialize the containerView that's going to hold basically everything
         containerView = UIView()
         
     // Button for the Discover Tab
@@ -174,6 +178,7 @@ class HomeViewController: UIViewController {
         
     }
     
+    //function used to add gradients
     func setBackgroundGradient (button: UIButton) {
         buttonGradient = CAGradientLayer()
         buttonGradient.colors = sharedVars.tabGradient

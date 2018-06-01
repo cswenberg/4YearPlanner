@@ -80,8 +80,9 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(UIWebView.reload), object: nil)
-        self.perform(#selector(self.reload), with: searchText, afterDelay: 1.0)
+        
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
+        self.perform(#selector(reload), with: nil , afterDelay: 1.0)
     }
     
     @objc func reload (string: String) {
