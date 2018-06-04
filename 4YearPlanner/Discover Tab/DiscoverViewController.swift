@@ -133,6 +133,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             sharedVars.current_category = "Minors"
             updateChildViewController()
         }
+        sharedVars.gradientRandomizer = Int(arc4random_uniform(4))
     }
     
     // testing new function for SearchBar (trying to reduce lag and bugs)

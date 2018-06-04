@@ -68,8 +68,9 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         } else {
             cell.cellObject = Minors(title: sharedVars.myMajor.minorOptions[indexPath.item], requirements: [])
         }
-        cell.gradientNum = Int(indexPath.item)
-        cell.gradient.colors = [sharedVars.gradientList[indexPath.item % 4][0], sharedVars.gradientList[indexPath.item % 4][1]]
+        
+        cell.gradientNum = Int(indexPath.item)+sharedVars.gradientRandomizer
+        cell.gradient.colors = [sharedVars.gradientList[cell.gradientNum % 4][0], sharedVars.gradientList[cell.gradientNum % 4][1]]
         cell.titleLabel.text = cell.cellObject.friendlyTitle()
         cell.layer.cornerRadius = 10
         
@@ -119,6 +120,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             sharedVars.current_category = "Courses"
             delegate?.showCourses()
         }
+        sharedVars.gradientRandomizer = Int(arc4random_uniform(4))
     }
 }
 
