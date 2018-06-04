@@ -27,6 +27,26 @@ Backend: Deployed our app on Google Cloud and wrote multiple get routes to pull 
 
 Disclaimer: Search function is still a little bit buggy. Also DetailView sometimes picks up the wrong class
 
+Changes to make for Summer 2018:
+- Settings tab:
+  - Export pdf of total class load (for sharing purposes)
+  - Change chosen college/major/minor
+  - petition to waive 23 credit limit
+  - Look at sample schedules for your major?
+- My Schedule:
+  - redesign interface (buttons)
+  - implement page swiping to change semesters
+  - display credit load for the semester
+- Discover:
+  - Ability to autofill schedule based on major
+  - Recommend classes to fill major/minor requirements in 'Discover'
+- Alert system for errors in a schedule
+  - Enforce prerequisites
+  - Adequate credit load (12<= <=23)
+- DetailView:
+  - Ability to relocate classes
+  - Ability to adjust credit type/amount
+
 # Home Page:
 ![screenshot-homepage](https://user-images.githubusercontent.com/36868927/39670328-18e89c16-50d0-11e8-9bb2-f7d1984902c3.png)
 
