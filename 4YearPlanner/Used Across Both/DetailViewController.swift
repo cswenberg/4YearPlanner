@@ -19,6 +19,7 @@ class DetailViewController: UIViewController {
     
     var detailedClass: Class!
     var courseLabel: UILabel!
+    var courseTitle: UILabel!
     var descriptionLabel: UILabel!
     var descriptionTextView: UITextView!
     var prereqLabel: UILabel!
@@ -42,6 +43,11 @@ class DetailViewController: UIViewController {
         let niceGreen = UIColor(red: 0.25, green: 0.85, blue: 0.51, alpha: 1)
         
         view.backgroundColor = .white
+        
+        courseTitle = UILabel()
+        courseTitle.text = detailedClass.title
+        courseTitle.font = .systemFont(ofSize: 28)
+        view.addSubview(courseTitle)
         
         courseLabel = UILabel()
         courseLabel.font = .boldSystemFont(ofSize: 28)
@@ -167,9 +173,15 @@ class DetailViewController: UIViewController {
             //   make.width.equalTo(courseLabel.intrinsicContentSize.width)
             make.height.equalTo(courseLabel.intrinsicContentSize.height)
         }
+        //course title
+        courseTitle.snp.makeConstraints{ (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(courseLabel.snp.bottom).offset(10)
+            make.width.equalTo(courseTitle.intrinsicContentSize.width)
+        }
         // description label
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(courseLabel.snp.bottom).offset(24)
+            make.top.equalTo(courseTitle.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
             make.height.equalTo(descriptionLabel.intrinsicContentSize.height)
         }
