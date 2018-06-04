@@ -66,7 +66,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             majorOptions = sharedVars.myCollege.majorOptions
             cell.cellObject = Major(title: majorOptions[indexPath.item], requirements: [])
         } else {
-            cell.cellObject = Minors(title: sharedVars.myMajor.minorOptions[indexPath.item], requirements: [])
+            cell.cellObject = Minor(title: sharedVars.myMajor.minorOptions[indexPath.item], requirements: [])
         }
         
         cell.gradientNum = Int(indexPath.item)+sharedVars.gradientRandomizer
@@ -96,14 +96,15 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
                 majorOptions = sharedVars.myCollege.majorOptions
             }
         } else if sharedVars.current_category == "Majors" {
-            if (cellsToDisplay[indexPath.item].cellObject as! Major?) != nil {
-                let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major?
-                sharedVars.myMajor = selectedMajor
+            if let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major? {
                 cellsToDisplay = []
+                sharedVars.myMajor = selectedMajor
+                minorOptions = sharedVars.myMajor.minorOptions
             }
         } else if sharedVars.current_category == "Minors" {
-            if (cellsToDisplay[indexPath.item].cellObject as! Minors?) != nil {
+            if let selectedMinor = cellsToDisplay[indexPath.item].cellObject as! Minor? {
                 cellsToDisplay = []
+                sharedVars.myMinor = selectedMinor
             }
         }
         switchCollection()

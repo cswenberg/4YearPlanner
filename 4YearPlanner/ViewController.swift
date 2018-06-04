@@ -130,10 +130,12 @@ class HomeViewController: UIViewController {
         if sharedVars.current_tab=="My Schedule" {
             let myscheduleViewController = MyScheduleViewController()
             newViewController = myscheduleViewController
-        } else {
+        } else if sharedVars.current_tab=="Discover"{
             let discoverViewController = DiscoverViewController()
-            
             newViewController = discoverViewController
+        } else {
+            let settingsViewController = SettingsViewController()
+            newViewController = settingsViewController
         }
         containerViewController = newViewController
         addChildViewController(containerViewController)

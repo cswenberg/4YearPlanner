@@ -75,7 +75,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         }
         // subContainer view
         subContainerView.snp.makeConstraints{ (make) in
-            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.top.equalTo(searchBar.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }

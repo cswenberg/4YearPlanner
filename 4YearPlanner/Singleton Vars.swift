@@ -21,7 +21,7 @@ class globalVars {
     var mySemesters: [Semester] = [Semester(number: 1),Semester(number: 2),Semester(number: 3),Semester(number: 4),Semester(number: 5),Semester(number: 6),Semester(number: 7),Semester(number: 8)]
     var myCollege: College!
     var myMajor: Major!
-    var myMinor: Requirements!
+    var myMinor: Minor!
     var discoverCourses = [Class]()
     var allCourses = [Class]()
     var searchSubject = ""

@@ -26,6 +26,7 @@
 		46E0C61F20926FC60027B4FC /* Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C61E20926FC60027B4FC /* Class.swift */; };
 		46E0C62120926FD10027B4FC /* Requirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C62020926FD10027B4FC /* Requirements.swift */; };
 		5EDCA5B2F202C6247D088156 /* Pods_4YearPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C438FCE3D4FB435908F17A0 /* Pods_4YearPlanner.framework */; };
+		99C2181B20C5E2EF00E7C0C4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C2181A20C5E2EF00E7C0C4 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		46E0C62020926FD10027B4FC /* Requirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirements.swift; sourceTree = "<group>"; };
 		4EFA9FF5B4B4EB29D34E37BD /* Pods-4YearPlanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-4YearPlanner.debug.xcconfig"; path = "Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner.debug.xcconfig"; sourceTree = "<group>"; };
 		5D68EBFADEE9568E4BB1AA69 /* Pods-4YearPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-4YearPlanner.release.xcconfig"; path = "Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner.release.xcconfig"; sourceTree = "<group>"; };
+		99C2181A20C5E2EF00E7C0C4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9C438FCE3D4FB435908F17A0 /* Pods_4YearPlanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_4YearPlanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 				46E0C61E20926FC60027B4FC /* Class.swift */,
 				46E0C62020926FD10027B4FC /* Requirements.swift */,
 				224BC6F22098D1D500978E40 /* Singleton Vars.swift */,
+				99C2181A20C5E2EF00E7C0C4 /* SettingsViewController.swift */,
 				22411A0D209666F100BA02D9 /* My Schedule Tab */,
 				22411A0E2096673800BA02D9 /* Discover Tab */,
 				22411A0F2096691200BA02D9 /* Used Across Both */,
@@ -279,6 +282,7 @@
 				22E7378A209463F5006DA8AA /* DetailViewController.swift in Sources */,
 				4662D0A32094750200C62AF2 /* AddCoursesViewController.swift in Sources */,
 				4662D0A52094753C00C62AF2 /* OptionsViewController.swift in Sources */,
+				99C2181B20C5E2EF00E7C0C4 /* SettingsViewController.swift in Sources */,
 				224BC6F32098D1D500978E40 /* Singleton Vars.swift in Sources */,
 				224BC6F520995ED000978E40 /* CourseNetworks.swift in Sources */,
 				46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */,

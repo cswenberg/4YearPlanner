@@ -482,7 +482,7 @@ class Major: Requirements {
     }
 }
 
-class Minors: Requirements {
+class Minor: Requirements {
     var minor: minors
     
     init(title: minors, requirements: [Class]) {
