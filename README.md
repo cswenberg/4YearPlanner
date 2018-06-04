@@ -40,6 +40,7 @@ Changes to make for Summer 2018:
 - Discover:
   - Ability to autofill schedule based on major
   - Recommend classes to fill major/minor requirements in 'Discover'
+  - Search bar
 - Alert system for errors in a schedule
   - Enforce prerequisites
   - Adequate credit load (12<= <=23)
