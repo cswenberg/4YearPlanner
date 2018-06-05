@@ -43,7 +43,6 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func setupDiscoverConstraints() {
-        
         // Options CollectionView
         optionsCollectionView.snp.makeConstraints { (make) in
             make.trailing.bottom.equalToSuperview().offset(-10)

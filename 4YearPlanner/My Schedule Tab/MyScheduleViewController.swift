@@ -87,13 +87,12 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         
         //credits label
         creditsLabel = UILabel()
-        creditsLabel.text = "\(sharedVars.mySemesters[sharedVars.selected_semester-1].credits) credits"
         creditsLabel.font = .systemFont(ofSize: 20)
-        creditsLabel.backgroundColor = sharedVars.niceOrange
         creditsLabel.textColor = .white
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 10
         creditsLabel.clipsToBounds = true
+        updateCredits()
         
         view.addSubview(creditsLabel)
         view.addSubview(myCoursesCollectionView)
@@ -176,6 +175,11 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     // Refreshes credit total for new selected semester
     func updateCredits() {
         creditsLabel.text = "\(sharedVars.mySemesters[sharedVars.selected_semester-1].credits) credits"
+        if sharedVars.mySemesters[sharedVars.selected_semester-1].credits<12 {
+            creditsLabel.backgroundColor = sharedVars.niceOrange
+        } else {
+            creditsLabel.backgroundColor = sharedVars.niceGreen
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -215,7 +219,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
         UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = 360
+        let width = view.frame.size.width-12
         return CGSize(width: width, height: 120)
     }
     

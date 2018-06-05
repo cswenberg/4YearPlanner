@@ -129,11 +129,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == semestersCollectionView {
-            return CGSize(width: view.frame.width, height: 100)
-        } else {
-            return CGSize(width: 360, height: 120)
-        }
+        let width = view.frame.size.width - 12
+        return CGSize(width: width, height: 120)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
