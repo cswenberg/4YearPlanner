@@ -39,8 +39,6 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let niceOrange = UIColor(red: 1, green: 0.73, blue: 0.19, alpha: 1)
-        let niceGreen = UIColor(red: 0.25, green: 0.85, blue: 0.51, alpha: 1)
         
         view.backgroundColor = .white
         
@@ -82,8 +80,8 @@ class DetailViewController: UIViewController {
         view.addSubview(prereqTextView)
         
         creditsLabel = UILabel()
-        creditsLabel.font = .systemFont(ofSize: 20)
-        creditsLabel.backgroundColor = niceOrange
+        creditsLabel.font = .systemFont(ofSize: 24)
+        creditsLabel.backgroundColor = sharedVars.niceOrange
         creditsLabel.textColor = .white
         creditsLabel.text = creditsNum+" credits"
         creditsLabel.textAlignment = .center
@@ -101,7 +99,7 @@ class DetailViewController: UIViewController {
         saveButton = UIButton()
         saveButton.setTitle("Save", for: .normal)
         saveButton.titleLabel?.font = .systemFont(ofSize: 32)
-        saveButton.backgroundColor = niceGreen
+        saveButton.backgroundColor = sharedVars.niceGreen
         saveButton.layer.cornerRadius = 16
         saveButton.clipsToBounds = true
         saveButton.titleLabel?.textAlignment = .center
@@ -240,14 +238,14 @@ class DetailViewController: UIViewController {
     
     // Adds class to your schedule
     func saveClass() {
-        sharedVars.mySemesters[sharedVars.selected_semester-1].classes.append(detailedClass)
+        sharedVars.mySemesters[sharedVars.selected_semester-1].addClass(newclass: detailedClass)
     }
     
     // Deletes class from ur schedule
     func deleteClass() {
-        let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
-        let index = getClassIndex(classList: classes, chosenClass: detailedClass)
-        sharedVars.mySemesters[sharedVars.selected_semester-1].classes.remove(at: index)
+        //let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
+        //let index = getClassIndex(classList: classes, chosenClass: detailedClass)
+        sharedVars.mySemesters[sharedVars.selected_semester-1].removeClass(someclass: detailedClass)
     }
     
     // helper for deleting the class

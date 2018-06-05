@@ -28,6 +28,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var coursesToDisplay = [Class]()
     var cellsInCollection = [MyCoursesCollectionViewCell]()
     var labelGradient: CAGradientLayer!
+    var creditsLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         selectedSemesterLabel.textColor = .black
         selectedSemesterLabel.backgroundColor = niceBlue
         selectedSemesterLabel.layer.cornerRadius = 24
-        selectedSemesterLabel.font = .systemFont(ofSize: 48)
+        selectedSemesterLabel.font = .systemFont(ofSize: 36)
         selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
         selectedSemesterLabel.textAlignment = .center
         
@@ -74,7 +75,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         scheduleButtonsStackView.distribution = .equalCentering
         scheduleButtonsStackView.backgroundColor = .blue
         
-        
         //my courses collection view
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -85,6 +85,17 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         myCoursesCollectionView.backgroundColor = .white
         myCoursesCollectionView.bounces = true
         
+        //credits label
+        creditsLabel = UILabel()
+        creditsLabel.text = "\(sharedVars.mySemesters[sharedVars.selected_semester-1].credits) credits"
+        creditsLabel.font = .systemFont(ofSize: 20)
+        creditsLabel.backgroundColor = sharedVars.niceOrange
+        creditsLabel.textColor = .white
+        creditsLabel.textAlignment = .center
+        creditsLabel.layer.cornerRadius = 10
+        creditsLabel.clipsToBounds = true
+        
+        view.addSubview(creditsLabel)
         view.addSubview(myCoursesCollectionView)
         view.addSubview(selectedSemesterLabel)
         view.addSubview(scheduleButtonsStackView)
@@ -94,10 +105,16 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func setupMyScheduleConstraints() {
         // selected semester label
         selectedSemesterLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(20)
+            make.top.leading.equalToSuperview().offset(20)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
             make.width.equalTo(selectedSemesterLabel.intrinsicContentSize.width + 10)
-            make.centerX.equalToSuperview()
+        }
+        // credits label
+        creditsLabel.snp.makeConstraints{ (make) in
+            make.centerY.equalTo(selectedSemesterLabel.snp.centerY)
+            make.trailing.equalToSuperview().offset(-10)
+            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
+            make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
         // 'My Schedule' buttons stack view
         scheduleButtonsStackView.snp.makeConstraints { (make) in
@@ -139,6 +156,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         if sharedVars.selected_semester != 1 {
             sharedVars.selected_semester-=1
             selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+            updateCredits()
             coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
             myCoursesCollectionView.reloadData()
         }
@@ -149,9 +167,15 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         if sharedVars.selected_semester != 8 {
             sharedVars.selected_semester+=1
             selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+            updateCredits()
             coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
             myCoursesCollectionView.reloadData()
         }
+    }
+    
+    // Refreshes credit total for new selected semester
+    func updateCredits() {
+        creditsLabel.text = "\(sharedVars.mySemesters[sharedVars.selected_semester-1].credits) credits"
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -191,7 +215,8 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
         UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 350, height: 120)
+        let width = 360
+        return CGSize(width: width, height: 120)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

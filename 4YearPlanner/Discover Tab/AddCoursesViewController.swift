@@ -132,7 +132,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         if collectionView == semestersCollectionView {
             return CGSize(width: view.frame.width, height: 100)
         } else {
-            return CGSize(width: 350, height: 120)
+            return CGSize(width: 360, height: 120)
         }
     }
     

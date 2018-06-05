@@ -50,5 +50,6 @@ class globalVars {
     var limeGreen = UIColor(red: 153, green: 255, blue: 102, alpha: 1)
     var lightPink = UIColor(red: 255, green: 204, blue: 255, alpha: 1)
     var regularPink = UIColor(red: 255, green: 102, blue: 204, alpha: 1)
-    
+    let niceOrange = UIColor(red: 1, green: 0.73, blue: 0.19, alpha: 1)
+    let niceGreen = UIColor(red: 0.25, green: 0.85, blue: 0.51, alpha: 1)
 }

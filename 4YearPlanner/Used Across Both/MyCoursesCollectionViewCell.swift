@@ -16,7 +16,7 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
     var classLabel: UILabel!
     var titleLabel: UILabel!
     var gradient: CAGradientLayer!
-    var gradientNum = 0
+    var gradientNum = sharedVars.gradientRandomizer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
