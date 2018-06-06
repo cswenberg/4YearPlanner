@@ -52,8 +52,8 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if sharedVars.current_category == "Colleges" {return allColleges.count}
-        else if sharedVars.current_category == "Majors" {return sharedVars.myCollege.majorOptions.count}
-        else {return sharedVars.myMajor.minorOptions.count}
+        else if sharedVars.current_category == "Majors" {return userData.myCollege.majorOptions.count}
+        else {return userData.myMajor.minorOptions.count}
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -62,10 +62,10 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         if sharedVars.current_category == "Colleges" {
             cell.cellObject = College(title: allColleges[indexPath.item],requirements: [])
         } else if sharedVars.current_category == "Majors"{
-            majorOptions = sharedVars.myCollege.majorOptions
+            majorOptions = userData.myCollege.majorOptions
             cell.cellObject = Major(title: majorOptions[indexPath.item], requirements: [])
         } else {
-            cell.cellObject = Minor(title: sharedVars.myMajor.minorOptions[indexPath.item], requirements: [])
+            cell.cellObject = Minor(title: userData.myMajor.minorOptions[indexPath.item], requirements: [])
         }
         
         cell.gradientNum = Int(indexPath.item)+sharedVars.gradientRandomizer
@@ -91,19 +91,19 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         if sharedVars.current_category == "Colleges" {
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
-                sharedVars.myCollege = selectedCollege
-                majorOptions = sharedVars.myCollege.majorOptions
+                userData.myCollege = selectedCollege
+                majorOptions = userData.myCollege.majorOptions
             }
         } else if sharedVars.current_category == "Majors" {
             if let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major? {
                 cellsToDisplay = []
-                sharedVars.myMajor = selectedMajor
-                minorOptions = sharedVars.myMajor.minorOptions
+                userData.myMajor = selectedMajor
+                minorOptions = userData.myMajor.minorOptions
             }
         } else if sharedVars.current_category == "Minors" {
             if let selectedMinor = cellsToDisplay[indexPath.item].cellObject as! Minor? {
                 cellsToDisplay = []
-                sharedVars.myMinor = selectedMinor
+                userData.myMinor = selectedMinor
             }
         }
         switchCollection()

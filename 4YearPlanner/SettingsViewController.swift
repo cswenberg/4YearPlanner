@@ -27,19 +27,19 @@ class SettingsViewController: UIViewController {
         //collegeLabel
         collegeLabel = UILabel()
         collegeLabel.text = "College:  None Selected"
-        if let collegeText = sharedVars.myCollege?.getTitle() {
+        if let collegeText = userData.myCollege?.getTitle() {
             collegeLabel.text = "College:  \(collegeText)"
         }
         //majorLabel
         majorLabel = UILabel()
         majorLabel.text = "Major:     None Selected"
-        if let majorText = sharedVars.myMajor?.getTitle() {
+        if let majorText = userData.myMajor?.getTitle() {
             majorLabel.text = "Major:     \(majorText)"
         }
         //minorLabel
         minorLabel = UILabel()
         minorLabel.text = "Minor:     None Selected"
-        if let minorText = sharedVars.myMinor?.getTitle() {
+        if let minorText = userData.myMinor?.getTitle() {
             minorLabel.text = "Minor:     \(minorText)"
         }
         

@@ -35,7 +35,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         view.backgroundColor = .white
         
         //if sharedVars.mySemesters[0].classes.count == 0 {initSemesters()}
-        coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
+        coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
         
         //current selected semester label
         selectedSemesterLabel = UILabel()
@@ -156,7 +156,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             sharedVars.selected_semester-=1
             selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
             updateCredits()
-            coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
+            coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
@@ -167,15 +167,15 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             sharedVars.selected_semester+=1
             selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
             updateCredits()
-            coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
+            coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
             myCoursesCollectionView.reloadData()
         }
     }
     
     // Refreshes credit total for new selected semester
     func updateCredits() {
-        creditsLabel.text = "\(sharedVars.mySemesters[sharedVars.selected_semester-1].credits) credits"
-        if sharedVars.mySemesters[sharedVars.selected_semester-1].credits<12 {
+        creditsLabel.text = "\(userData.mySemesters[sharedVars.selected_semester-1].credits) credits"
+        if userData.mySemesters[sharedVars.selected_semester-1].credits<12 {
             creditsLabel.backgroundColor = sharedVars.niceOrange
         } else {
             creditsLabel.backgroundColor = sharedVars.niceGreen
@@ -183,7 +183,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        coursesToDisplay = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
+        coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
         return coursesToDisplay.count
     }
     
