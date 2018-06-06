@@ -31,6 +31,7 @@ class HomeViewController: UIViewController {
         Network.getAllCourses { (courses) in
             print(courses)
         }
+        userData.loadDefaults()
         
         let tabsFont = UIFont.systemFont(ofSize: 20)
         

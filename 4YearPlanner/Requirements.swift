@@ -230,7 +230,7 @@ let allCals: [minors] = [.agm, .aiis, .anisci, .appe, .atmosci, .biosc, .biostat
 
 let allAS: [minors] = [.esa, .cogsci, .math, .pma, .js, .ams, .infoa, .music, .hist, .vs, .eng, .clciv, .scies, .mitw, .aas, .sas, .phil, .las, .gs, .arab, .ls, .ast, .rus, .theat, .medi, .vik, .cita, .phys, .ins, .gad, .fren, .hista, .seas, .ling, .pbs, .cpej, .hc, .ital, .nes, .biosci, .csa, .dan, .lat, .rels, .clas, .ixr, .arch, .caps, .psych, .sts, .anthr, .film, .afr, .cw, .lgbt, .span, .fgs]
 
-class Requirements {
+class Requirements: NSObject {
     
     var requirements: [Class]
     var title: String

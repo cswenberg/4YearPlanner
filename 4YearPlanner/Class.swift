@@ -47,6 +47,7 @@ class Semester {
         credits+=newclass.credits
         numCourses+=1
         newclass.semesterTaken = number
+        userData.setMySemesters()
     }
     /** Removes a class from this semester's schedule */
     func removeClass(someclass: Class) {
@@ -56,6 +57,7 @@ class Semester {
         someclass.semesterTaken = nil
         let index = classes.index(where: {$0.equals(someclass: someclass)})
         classes.remove(at: index!)
+        userData.setMySemesters()
     }
     /** Return: boolean that expresses if enough credits are being taken for current schedule */
     func enoughCredits() -> Bool {

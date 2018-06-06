@@ -87,23 +87,23 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     // Change page based on position in the order
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    @objc func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if sharedVars.current_category == "Colleges" {
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
-                userData.myCollege = selectedCollege
+                userData.setCollege(college: selectedCollege)
                 majorOptions = userData.myCollege.majorOptions
             }
         } else if sharedVars.current_category == "Majors" {
             if let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major? {
                 cellsToDisplay = []
-                userData.myMajor = selectedMajor
+                userData.setMajor(major: selectedMajor)
                 minorOptions = userData.myMajor.minorOptions
             }
         } else if sharedVars.current_category == "Minors" {
             if let selectedMinor = cellsToDisplay[indexPath.item].cellObject as! Minor? {
                 cellsToDisplay = []
-                userData.myMinor = selectedMinor
+                userData.setMinor(minor: selectedMinor)
             }
         }
         switchCollection()
