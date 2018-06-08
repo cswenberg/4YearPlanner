@@ -48,23 +48,17 @@ Changes to make for Summer 2018:
   - Ability to relocate classes
   - Ability to adjust credit type/amount
 
-# Home Page:
-![screenshot-homepage](https://user-images.githubusercontent.com/36868927/39670328-18e89c16-50d0-11e8-9bb2-f7d1984902c3.png)
+## Home Page:
+<img src="Images/Home-Screen.png" width=300>
 
-# Applying Filter for term:
-![screenshot-term filter](https://user-images.githubusercontent.com/36868927/39670327-18dbeb06-50d0-11e8-908c-54ddb5e24948.png)
+## Filtering Courses by Term:
+<img src="Images/Applying-Filter-for-Term.png" width=300>
 
-# Searching by name:
-![screenshot-search by class](https://user-images.githubusercontent.com/36868927/39670326-18cffdd2-50d0-11e8-91ce-49e3d156e9bb.png)
+## Searching by name:
+<img src="Images/Searching-by-Name.png" width=300>
 
-# Semester1 Info stored
-![screenshot- semester1](https://user-images.githubusercontent.com/36868927/39670323-18abc7fa-50d0-11e8-9562-7e7ce67f48b0.png)
+## Semester Info stored:
+<img src="Images/Semester-1-Info-Stored.png" width=300>    <img src="Images/Semester-2-Info-Stored.png" width=300>
 
-# Semester2 Info stored
-![screenshot-semester 2](https://user-images.githubusercontent.com/36868927/39670325-18c4d240-50d0-11e8-98f9-a550875c0e3d.png)
-
-# DetailView for Class
-![screenshot- detailview](https://user-images.githubusercontent.com/36868927/39670324-18b8a628-50d0-11e8-837a-fb21630a0d58.png)
-
-
-
+## DetailView for a Course:
+<img src="Images/DetailView-for-Selected-Course.png" width=300>
