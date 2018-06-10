@@ -24,6 +24,7 @@ enum colleges: String {
     case ilr = "Industrial Labor Relations"
 }
 
+
 enum majors: String {
     //engineering
     case ece = "Electrical and Computer Engineering"
@@ -44,7 +45,7 @@ enum majors: String {
     case asian = "Asian Studies"
     case soc = "Sociology"
     case eng = "English"
-    case arch = "Archaeology"
+    case archae = "Archaeology"
     case infsc = "Information Science"
     case complit = "Comparitive Literature"
     case ses = "Science of Earth Systems"
@@ -101,6 +102,8 @@ enum majors: String {
     case fare = "Finance, Accounting, & Real Estate"
     //ilr
     case ilr = "Industrial Labor Relations"
+    //aep
+    case archi = "Architecture, Art, and Planning"
 }
 
 enum minors: String {
@@ -222,14 +225,6 @@ enum minors: String {
     case viti = "Viticulture & Enology"
 }
 
-let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture, .ilr]
-
-let allEngMinors: [minors] = [.nm,.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
-
-let allCals: [minors] = [.agm, .aiis, .anisci, .appe, .atmosci, .biosc, .biostat, .busi, .cc, .comm, .cfs, .cm, .dscoc, .edu, .ent, .eer ,.ess, .foodsci, .ged, .hort, .hfba, .idb, .infos, .ids, .itd, .lands, .lead, .marb, .nutri, .plb, .scie, .sois, .viti]
-
-let allAS: [minors] = [.esa, .cogsci, .math, .pma, .js, .ams, .infoa, .music, .hist, .vs, .eng, .clciv, .scies, .mitw, .aas, .sas, .phil, .las, .gs, .arab, .ls, .ast, .rus, .theat, .medi, .vik, .cita, .phys, .ins, .gad, .fren, .hista, .seas, .ling, .pbs, .cpej, .hc, .ital, .nes, .biosci, .csa, .dan, .lat, .rels, .clas, .ixr, .arch, .caps, .psych, .sts, .anthr, .film, .afr, .cw, .lgbt, .span, .fgs]
-
 class Requirements: NSObject {
     
     var requirements: [Class]
@@ -275,53 +270,31 @@ class College: Requirements {
     var college: colleges
     var majorOptions: [majors]
     
-    init (title: colleges, requirements: [Class]) {
+    init (Enum: colleges, requirements: [Class]) {
         var majorChoices = [majors]()
-        college = title
+        college = Enum
         let collegeTitle = college.rawValue
         switch college {
         case .engineering:
-            majorChoices = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil,.im]
+            majorChoices = requirementData.engMajorOptions
         case .artsnsciences:
-            majorChoices = [.music,.sts,.gov,.scholar,.asian,.soc,.eng,.arch,.infsc,.complit,.ses,.astro,.cs,.phys,.ling,.germstud,.chinpacstud,.hist,.astats,.achem,.french,.anthro,.ital,.amerstud,.psych,.fem,.span,.afristud,.neaststud,.relig,.perfmed,.aecon,.amath,.classic,.philos,.aBS,.histart,.im,.biologsci]
+            majorChoices = requirementData.artsMajorOptions
         case .cals:
-            majorChoices = [.agsci,.atmosci,.anisci,.aem,.bioeng,.biomstat,.comm,.devsoc,.ento,.ess,.enveng,.foodsci,.gphs,.iard,.landarch,.nutrisci,.plantsci,.vines,.infsc,.ses]
+            majorChoices = requirementData.calsMajorOptions
         case .hotel:
-            majorChoices = [.smom,.hold,.fare]
+            majorChoices = requirementData.hotelMajorOptions
         case .dyson:
-            majorChoices = [.aem]
+            majorChoices = requirementData.dysonMajorOptions
         case .architecture:
-            majorChoices = [.arch]
+            majorChoices = requirementData.archiMajorOptions
         case .ilr:
-            majorChoices = [.ilr]
+            majorChoices = requirementData.ilrMajorOptions
         }
         majorOptions = majorChoices
         super.init(title: collegeTitle, requirements: requirements)
     }
+
     
-    override func friendlyTitle() -> String {
-        var friendlyTitle = title
-        switch college {
-        case .cals:
-            friendlyTitle = "CALS"
-        case .artsnsciences:
-            friendlyTitle = "Arts\n&\nSciences"
-        case .engineering:
-            break
-        case .hotel:
-            friendlyTitle = "Hotel Admin."
-            break
-        case .dyson:
-            friendlyTitle = "Dyson"
-            break
-        case .architecture:
-            friendlyTitle = "AAP"
-            break
-        case .ilr:
-            friendlyTitle = "ILR"
-        }
-        return friendlyTitle
-    }
 }
 
 class Major: Requirements {
@@ -329,152 +302,17 @@ class Major: Requirements {
     var major: majors
     var minorOptions: [minors]
     
-    init (title: majors, requirements: [Class]) {
-        major = title
+    init (Enum: majors, requirements: [Class]) {
+        major = Enum
         let majorTitle = major.rawValue
-        switch major  {
-        case .ece:
-            minorOptions = allEngMinors
-        case .aep:
-            minorOptions = allEngMinors
-        case .cheme:
-            minorOptions = allEngMinors
-        case .meche:
-            minorOptions = allEngMinors
-        case .orie:
-            minorOptions = allEngMinors
-        case .bme:
-            minorOptions = allEngMinors
-        case .cs:
-            minorOptions = allEngMinors
-        case .isst:
-            minorOptions = allEngMinors
-        case .mse:
-            minorOptions = allEngMinors
-        case .civil:
-            minorOptions = allEngMinors
-        case .music:
-            minorOptions = allAS
-        case .sts:
-            minorOptions = allAS
-        case .gov:
-            minorOptions = allAS
-        case .scholar:
-            minorOptions = allAS
-        case .asian:
-            minorOptions = allAS
-        case .soc:
-            minorOptions = allAS
-        case .eng:
-            minorOptions = allAS
-        case .arch:
-            minorOptions = allAS
-        case .infsc:
-            minorOptions = allAS
-        case .complit:
-            minorOptions = allAS
-        case .ses:
-            minorOptions = allAS
-        case .astro:
-            minorOptions = allAS
-        case .acompsci:
-            minorOptions = allAS
-        case .phys:
-            minorOptions = allAS
-        case .ling:
-            minorOptions = allAS
-        case .germstud:
-            minorOptions = allAS
-        case .chinpacstud:
-            minorOptions = allAS
-        case .hist:
-            minorOptions = allAS
-        case .astats:
-            minorOptions = allAS
-        case .achem:
-            minorOptions = allAS
-        case .french:
-            minorOptions = allAS
-        case .anthro:
-            minorOptions = allAS
-        case .ital:
-            minorOptions = allAS
-        case .amerstud:
-            minorOptions = allAS
-        case .psych:
-            minorOptions = allAS
-        case .fem:
-            minorOptions = allAS
-        case .span:
-            minorOptions = allAS
-        case .afristud:
-            minorOptions = allAS
-        case .neaststud:
-            minorOptions = allAS
-        case .relig:
-            minorOptions = allAS
-        case .perfmed:
-            minorOptions = allAS
-        case .aecon:
-            minorOptions = allAS
-        case .amath:
-            minorOptions = allAS
-        case .classic:
-            minorOptions = allAS
-        case .philos:
-            minorOptions = allAS
-        case .aBS:
-            minorOptions = allAS
-        case .histart:
-            minorOptions = allAS
-        case .im:
-            minorOptions = allAS
-        case .biologsci:
-            minorOptions = allAS
-        case .agsci:
-            minorOptions = allCals
-        case .atmosci:
-            minorOptions = allCals
-        case .anisci:
-            minorOptions = allCals
-        case .aem:
-            minorOptions = allCals
-        case .bioeng:
-            minorOptions = allCals
-        case .biomstat:
-            minorOptions = allCals
-        case .comm:
-            minorOptions = allCals
-        case .devsoc:
-            minorOptions = allCals
-        case .ento:
-            minorOptions = allCals
-        case .ess:
-            minorOptions = allCals
-        case .enveng:
-            minorOptions = allCals
-        case .foodsci:
-            minorOptions = allCals
-        case .gphs:
-            minorOptions = allCals
-        case .iard:
-            minorOptions = allCals
-        case .landarch:
-            minorOptions = allCals
-        case .nutrisci:
-            minorOptions = allCals
-        case .plantsci:
-            minorOptions = allCals
-        case .vines:
-            minorOptions = allCals
-        case .smom:
-            minorOptions = allAS
-        case .hold:
-            minorOptions = allAS
-        case .fare:
-            minorOptions = allAS
-        case .ilr:
-            minorOptions = allAS
+        if requirementData.engMajorOptions.contains(major) {
+            minorOptions = requirementData.allEngMinors
+        } else if requirementData.artsMajorOptions.contains(major) {
+            minorOptions = requirementData.allAS
+        } else if requirementData.calsMajorOptions.contains(major) {
+            minorOptions = requirementData.allCals
+        } else {
+            minorOptions = requirementData.allAS
         }
 
         
@@ -485,8 +323,8 @@ class Major: Requirements {
 class Minor: Requirements {
     var minor: minors
     
-    init(title: minors, requirements: [Class]) {
-        self.minor = title
+    init(Enum: minors, requirements: [Class]) {
+        self.minor = Enum
         let minorTitle = minor.rawValue
         super.init(title: minorTitle, requirements: requirements)
     }

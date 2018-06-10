@@ -123,7 +123,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         }
         // add course button
         addCourseButton.snp.makeConstraints { (make) in
-            make.height.equalTo(addCourseButton.intrinsicContentSize.height)
+            make.height.equalToSuperview()
             make.width.equalTo(60)
         }
         // go left button

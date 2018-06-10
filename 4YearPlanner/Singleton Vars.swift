@@ -13,8 +13,27 @@ var sharedVars = globalVars()
 
 class globalVars {
     
-    var current_tab = "Discover"
-    var current_category = "Colleges"
+    var current_tab: String = ""
+    func setTab() {
+        current_tab = "Discover"
+        if userData.myMinor != nil {
+            current_tab = "My Schedule"
+        }
+    }
+    
+    var current_category: String = ""
+    func setCategory() {
+        if userData.myCollege == nil {
+            current_category = "Colleges"
+        } else if userData.myMajor == nil {
+            current_category = "Majors"
+        } else if userData.myMinor == nil {
+            current_category = "Minors"
+        } else {
+            current_category = "Courses"
+        }
+    }
+    
     var current_term = "Fall"
     var selected_semester = 1
     let cellGradientList = [[0.0, 0.0, 0.0, 1.0]]

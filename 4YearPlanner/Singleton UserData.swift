@@ -26,38 +26,51 @@ class userInfo {
             mySemesters = semesters
         }
         if let decodedData = defaults.object(forKey: "myCollege") as! Data? {
-            let college = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! College
-            myCollege = college
+            let collegeString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
+            myCollege = stringToCollege(collegeString: collegeString)
         }
         if let decodedData = defaults.object(forKey: "myMajor") as! Data? {
-            let major = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! Major
-            myMajor = major
+            let majorString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
+            myMajor = stringToMajor(majorString: majorString)
         }
         if let decodedData = defaults.object(forKey: "myMinor") as! Data? {
-            let minor = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! Minor
-            myMinor = minor
+            let minorString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
+            myMinor = stringToMinor(minorString: minorString)
         }
     }
     
+    func stringToCollege(collegeString: String) -> College {
+        return College(Enum: requirementData.stringCollegeDict[collegeString]!, requirements: requirementData.getCollegeRequirements(collegeName: collegeString))
+    }
+    
+    func stringToMajor(majorString: String) -> Major {
+        return Major(Enum: requirementData.stringMajorDict[majorString]!, requirements: [])
+    }
+    
+    func stringToMinor(minorString: String) -> Minor {
+        return Minor(Enum: requirementData.stringMinorDict[minorString]!, requirements: [])
+    }
+    
+    
     @objc func setCollege(college: College)  {
         myCollege = college
-//        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myCollege)
-//        let defaults = UserDefaults.standard
-//        defaults.set(encodedData, forKey: "myCollege")
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myCollege.getTitle())
+        let defaults = UserDefaults.standard
+        defaults.set(encodedData, forKey: "myCollege")
     }
     
     func setMajor(major: Major) {
         myMajor = major
-//        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMajor)
-//        let defaults = UserDefaults.standard
-//        defaults.set(encodedData, forKey: "myMajor")
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMajor.getTitle())
+        let defaults = UserDefaults.standard
+        defaults.set(encodedData, forKey: "myMajor")
     }
     
     func setMinor(minor: Minor) {
         myMinor = minor
-//        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMinor)
-//        let defaults = UserDefaults.standard
-//        defaults.set(encodedData, forKey: "myMinor")
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMinor.getTitle())
+        let defaults = UserDefaults.standard
+        defaults.set(encodedData, forKey: "myMinor")
     }
     
     func setMySemesters() {

@@ -26,6 +26,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        
         // Layout for options collectionView
         let optionLayout = UICollectionViewFlowLayout()
         optionLayout.scrollDirection = .vertical
@@ -51,7 +52,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if sharedVars.current_category == "Colleges" {return allColleges.count}
+        if sharedVars.current_category == "Colleges" {return requirementData.allColleges.count}
         else if sharedVars.current_category == "Majors" {return userData.myCollege.majorOptions.count}
         else {return userData.myMajor.minorOptions.count}
     }
@@ -60,12 +61,12 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         
         let cell = optionsCollectionView.dequeueReusableCell(withReuseIdentifier: optionsReuseIdentifier, for: indexPath) as! optionsCollectionViewCell
         if sharedVars.current_category == "Colleges" {
-            cell.cellObject = College(title: allColleges[indexPath.item],requirements: [])
+            cell.cellObject = College(Enum: requirementData.allColleges[indexPath.item],requirements: [])
         } else if sharedVars.current_category == "Majors"{
             majorOptions = userData.myCollege.majorOptions
-            cell.cellObject = Major(title: majorOptions[indexPath.item], requirements: [])
+            cell.cellObject = Major(Enum: majorOptions[indexPath.item], requirements: [])
         } else {
-            cell.cellObject = Minor(title: userData.myMajor.minorOptions[indexPath.item], requirements: [])
+            cell.cellObject = Minor(Enum: userData.myMajor.minorOptions[indexPath.item], requirements: [])
         }
         
         cell.gradientNum = Int(indexPath.item)+sharedVars.gradientRandomizer

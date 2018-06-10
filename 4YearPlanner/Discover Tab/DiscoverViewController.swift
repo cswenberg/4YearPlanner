@@ -25,6 +25,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        
         subContainerView = UIView()
         subContainerView.backgroundColor = .white
         
