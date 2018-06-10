@@ -78,4 +78,14 @@ class userInfo {
         let defaults = UserDefaults.standard
         defaults.set(encodedData, forKey: "mySemesters")
     }
+    
+    func resetUserInfo() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "myCollege")
+        defaults.removeObject(forKey: "myMajor")
+        defaults.removeObject(forKey: "myMinor")
+        myMajor = nil
+        myCollege = nil
+        myMinor = nil
+    }
 }

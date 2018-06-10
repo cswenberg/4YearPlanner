@@ -14,7 +14,7 @@ class SettingsViewController: UIViewController {
     var collegeLabel: UILabel!
     var majorLabel: UILabel!
     var minorLabel: UILabel!
-    
+    var resetButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,11 +42,22 @@ class SettingsViewController: UIViewController {
         if let minorText = userData.myMinor?.getTitle() {
             minorLabel.text = "Minor:     \(minorText)"
         }
+        //resetButton
+        resetButton = UIButton()
+        resetButton.setTitle("Reset My Information", for: .normal)
+        resetButton.titleLabel?.font = .systemFont(ofSize: 24)
+        resetButton.backgroundColor = .red
+        resetButton.layer.cornerRadius = 16
+        resetButton.clipsToBounds = true
+        resetButton.titleLabel?.textAlignment = .center
+        resetButton.addTarget(self, action: #selector(resetButtonPressed), for: .touchUpInside)
+        
         
         view.addSubview(myInfoLabel)
         view.addSubview(collegeLabel)
         view.addSubview(majorLabel)
         view.addSubview(minorLabel)
+        view.addSubview(resetButton)
         
         setUpConstraints()
     }
@@ -76,6 +87,21 @@ class SettingsViewController: UIViewController {
             make.top.equalTo(majorLabel.snp.bottom).offset(20)
             make.width.equalTo(minorLabel.intrinsicContentSize.width)
         }
+        //reset button
+        resetButton.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().offset(-40)
+            make.width.equalTo(resetButton.intrinsicContentSize.width + 20)
+            make.height.equalTo(resetButton.intrinsicContentSize.height)
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    @objc func resetButtonPressed() {
+        collegeLabel.text = "College:  None Selected"
+        majorLabel.text = "Major:     None Selected"
+        minorLabel.text = "Minor:     None Selected"
+        userData.resetUserInfo()
+        sharedVars.setCategory()
     }
     
     override func didReceiveMemoryWarning() {

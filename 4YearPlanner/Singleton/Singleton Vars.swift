@@ -44,6 +44,7 @@ class globalVars {
     var searchTerm = ""
     var loadedNewCourses = false
     
+    let tabsFont = UIFont.systemFont(ofSize: 20)
     var tabGradient = [UIColor(red: 9/255, green: 154/255, blue: 255/255, alpha: 1).cgColor, UIColor(red: 202/255, green: 227/255, blue: 255/255, alpha: 1).cgColor]
     var gradientList = [[UIColor(red: 241/255, green: 178/255, blue: 122/255, alpha: 1).cgColor, UIColor(red: 219/255, green: 86/255, blue: 147/255, alpha: 1).cgColor],
                         [UIColor(red: 139/255, green: 112/217, blue: 217/255, alpha: 1).cgColor, UIColor(red: 214/255, green: 147/255, blue: 225/255, alpha: 1).cgColor],

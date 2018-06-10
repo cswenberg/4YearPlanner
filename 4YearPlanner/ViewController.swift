@@ -9,7 +9,6 @@
 import UIKit
 import SnapKit
 
-let tabsFont = UIFont.systemFont(ofSize: 20)
 
 class HomeViewController: UIViewController {
     
@@ -44,7 +43,7 @@ class HomeViewController: UIViewController {
         discoverButton = UIButton()
         discoverButton.layer.cornerRadius = 16
         discoverButton.setTitle("Discover", for: .normal)
-        discoverButton.titleLabel?.font = tabsFont
+        discoverButton.titleLabel?.font = sharedVars.tabsFont
         discoverButton.setTitleColor(.black, for: .normal)
         discoverButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         discoverButton.bounds = discoverButton.frame
@@ -53,7 +52,7 @@ class HomeViewController: UIViewController {
         myScheduleButton = UIButton()
         myScheduleButton.layer.cornerRadius = 16
         myScheduleButton.setTitle("My Schedule", for: .normal)
-        myScheduleButton.titleLabel?.font = tabsFont
+        myScheduleButton.titleLabel?.font = sharedVars.tabsFont
         myScheduleButton.setTitleColor(.black, for: .normal)
         myScheduleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         myScheduleButton.bounds = myScheduleButton.frame
@@ -62,7 +61,7 @@ class HomeViewController: UIViewController {
         settingsButton = UIButton()
         settingsButton.layer.cornerRadius = 16
         settingsButton.setTitle("Settings", for: .normal)
-        settingsButton.titleLabel?.font = tabsFont
+        settingsButton.titleLabel?.font = sharedVars.tabsFont
         settingsButton.setTitleColor(.black, for: .normal)
         settingsButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         settingsButton.bounds = settingsButton.frame
