@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController {
     var majorLabel: UILabel!
     var minorLabel: UILabel!
     var resetButton: UIButton!
+    var cloutLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,12 +53,18 @@ class SettingsViewController: UIViewController {
         resetButton.titleLabel?.textAlignment = .center
         resetButton.addTarget(self, action: #selector(resetButtonPressed), for: .touchUpInside)
         
+        //cloutLabel
+        cloutLabel = UILabel()
+        cloutLabel.text = "Created by Omar Rasheed and Conner Swenberg, Designed by Eric Kim"
+        cloutLabel.textColor = .lightGray
+        cloutLabel.font = .systemFont(ofSize: 8)
         
         view.addSubview(myInfoLabel)
         view.addSubview(collegeLabel)
         view.addSubview(majorLabel)
         view.addSubview(minorLabel)
         view.addSubview(resetButton)
+        view.addSubview(cloutLabel)
         
         setUpConstraints()
     }
@@ -87,9 +94,15 @@ class SettingsViewController: UIViewController {
             make.top.equalTo(majorLabel.snp.bottom).offset(20)
             make.trailing.equalToSuperview()
         }
+        //clout label
+        cloutLabel.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().offset(-20)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(cloutLabel.intrinsicContentSize.height)
+        }
         //reset button
         resetButton.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().offset(-40)
+            make.bottom.equalTo(cloutLabel.snp.top).offset(-10)
             make.width.equalTo(resetButton.intrinsicContentSize.width+20)
             make.height.equalTo(resetButton.intrinsicContentSize.height)
             make.centerX.equalToSuperview()

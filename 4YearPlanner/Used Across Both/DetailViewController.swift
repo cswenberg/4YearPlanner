@@ -203,13 +203,6 @@ class DetailViewController: UIViewController {
             make.width.equalToSuperview().offset(-20)
             make.height.equalTo(40)
         }
-        // credits label
-        creditsLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40)
-            make.trailing.equalToSuperview().offset(-20)
-            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
-            make.height.equalTo(creditsLabel.intrinsicContentSize.height)
-        }
         // back button
         backButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(40)
@@ -217,11 +210,19 @@ class DetailViewController: UIViewController {
             make.leading.equalToSuperview().offset(20)
             make.height.equalTo(backButton.intrinsicContentSize.height)
         }
+        // credits label
+        creditsLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(backButton.snp.centerY)
+            make.trailing.equalToSuperview().offset(-20)
+            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
+            make.height.equalTo(creditsLabel.intrinsicContentSize.height)
+        }
     }
     
     // Returns from modal VC and changes value of stored variable
     @objc func saveButtonPressed(sender: UIButton) {
         saveClass()
+        delegate?.reloadMyClasses()
         dismiss(animated: true, completion: nil)
     }
     
@@ -236,12 +237,12 @@ class DetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    // Adds class to your schedule
+    // Adds class to schedule
     func saveClass() {
         userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: detailedClass)
     }
     
-    // Deletes class from ur schedule
+    // Deletes class from schedule
     func deleteClass() {
         //let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
         //let index = getClassIndex(classList: classes, chosenClass: detailedClass)
@@ -258,9 +259,7 @@ class DetailViewController: UIViewController {
     
     func hasClass() -> Bool {
         for eachSemester in userData.mySemesters {
-            for eachClass in eachSemester.classes {
-                if detailedClass.equals(someclass: eachClass) {return true}
-            }
+            if eachSemester.contains(someclass: detailedClass) {return true}
         }
         return false
     }
