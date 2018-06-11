@@ -73,24 +73,24 @@ class SettingsViewController: UIViewController {
         collegeLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
             make.top.equalTo(myInfoLabel.snp.bottom).offset(20)
-            make.width.equalTo(collegeLabel.intrinsicContentSize.width)
+            make.trailing.equalToSuperview()
         }
         //major label
         majorLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
             make.top.equalTo(collegeLabel.snp.bottom).offset(20)
-            make.width.equalTo(majorLabel.intrinsicContentSize.width)
+            make.trailing.equalToSuperview()
         }
         //minor label
         minorLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
             make.top.equalTo(majorLabel.snp.bottom).offset(20)
-            make.width.equalTo(minorLabel.intrinsicContentSize.width)
+            make.trailing.equalToSuperview()
         }
         //reset button
         resetButton.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-40)
-            make.width.equalTo(resetButton.intrinsicContentSize.width + 20)
+            make.width.equalTo(resetButton.intrinsicContentSize.width+20)
             make.height.equalTo(resetButton.intrinsicContentSize.height)
             make.centerX.equalToSuperview()
         }

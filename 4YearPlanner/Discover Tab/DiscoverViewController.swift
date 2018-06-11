@@ -13,9 +13,14 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     func showCourses() {
         updateChildViewController()
     }
+    
+    func updateCategoryLabel() {
+        categoryLabel.text = sharedVars.current_category
+    }
 
     var searchBar: UISearchBar!
     var backButton: UIButton!
+    var categoryLabel: UILabel!
     
     var subContainerView: UIView!
     var subContainerViewController: UIViewController!
@@ -45,13 +50,19 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
         backButton.setTitleColor(.black, for: .normal)
-        backButton.titleLabel?.font = .systemFont(ofSize: 32)
+        backButton.titleLabel?.font = .systemFont(ofSize: 36)
         backButton.titleLabel?.textAlignment = .center
         backButton.addTarget(self, action: #selector(discoverBackButtonPressed), for: .touchUpInside)
+        
+        // Category Label
+        categoryLabel = UILabel()
+        categoryLabel.text = sharedVars.current_category
+        categoryLabel.font = .boldSystemFont(ofSize: 36)
         
         view.addSubview(backButton)
         view.addSubview(searchBar)
         view.addSubview(subContainerView)
+        view.addSubview(categoryLabel)
         
         setupDiscoverConstraints()
         updateChildViewController()
@@ -74,9 +85,16 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             make.top.equalToSuperview().offset(10)
             make.height.equalTo(40)
         }
+        // Category Label
+        categoryLabel.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.width.equalTo(categoryLabel.intrinsicContentSize.width+20)
+            make.height.equalTo(categoryLabel.intrinsicContentSize.height)
+        }
         // subContainer view
         subContainerView.snp.makeConstraints{ (make) in
-            make.top.equalTo(searchBar.snp.bottom)
+            make.top.equalTo(categoryLabel.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -128,10 +146,13 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     func reverseSwitchCollection() {
         if sharedVars.current_category == "Majors" {
             sharedVars.current_category = "Colleges"
+            updateCategoryLabel()
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Majors"
+            updateCategoryLabel()
         } else if sharedVars.current_category == "Courses" {
             sharedVars.current_category = "Minors"
+            updateCategoryLabel()
             updateChildViewController()
         }
         sharedVars.gradientRandomizer = Int(arc4random_uniform(4))

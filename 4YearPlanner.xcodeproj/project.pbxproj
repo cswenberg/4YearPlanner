@@ -169,8 +169,8 @@
 		99C2182120CCB23F00E7C0C4 /* Singleton */ = {
 			isa = PBXGroup;
 			children = (
-				99C2181E20C7602700E7C0C4 /* Singleton UserData.swift */,
 				224BC6F22098D1D500978E40 /* Singleton Vars.swift */,
+				99C2181E20C7602700E7C0C4 /* Singleton UserData.swift */,
 				99C2181C20C5FC5B00E7C0C4 /* Singelton Requirements.swift */,
 			);
 			path = Singleton;

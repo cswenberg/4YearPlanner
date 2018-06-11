@@ -10,6 +10,7 @@ import UIKit
 
 protocol showCoursesDelegate {
     func showCourses()
+    func updateCategoryLabel()
 }
 
 class OptionsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -115,11 +116,14 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     func switchCollection() {
         if sharedVars.current_category == "Colleges" {
             sharedVars.current_category = "Majors"
+            delegate?.updateCategoryLabel()
         } else if sharedVars.current_category == "Majors" {
             sharedVars.current_category = "Minors"
+            delegate?.updateCategoryLabel()
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Courses"
             delegate?.showCourses()
+            delegate?.updateCategoryLabel()
         }
         sharedVars.gradientRandomizer = Int(arc4random_uniform(4))
     }

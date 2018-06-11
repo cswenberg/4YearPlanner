@@ -42,7 +42,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         selectedSemesterLabel.textColor = .black
         selectedSemesterLabel.backgroundColor = niceBlue
         selectedSemesterLabel.layer.cornerRadius = 24
-        selectedSemesterLabel.font = .systemFont(ofSize: 36)
+        selectedSemesterLabel.font = .boldSystemFont(ofSize: 36)
         selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
         selectedSemesterLabel.textAlignment = .center
         
@@ -104,7 +104,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func setupMyScheduleConstraints() {
         // selected semester label
         selectedSemesterLabel.snp.makeConstraints { (make) in
-            make.top.leading.equalToSuperview().offset(20)
+            make.top.leading.equalToSuperview().offset(10)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
             make.width.equalTo(selectedSemesterLabel.intrinsicContentSize.width + 10)
         }

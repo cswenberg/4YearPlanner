@@ -45,7 +45,7 @@ class Network {
     // Pulls the filtered courses from the DB
     static func getCourses(_ completion: @escaping ([Class]) -> Void) {
         
-        let term: String
+        var term: String
         var parameters = Parameters()
         if sharedVars.searchTerm == ""{
             term = "fall and spring"
