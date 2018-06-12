@@ -18,12 +18,13 @@ class userInfo {
     var myMajor: Major!
     var myMinor: Minor!
     
+    var tmpClass: Class!
     
     func loadDefaults() {
         let defaults = UserDefaults.standard
         if let decodedData = defaults.object(forKey: "mySemesters") as! Data? {
-            let semesters = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [Semester]
-            mySemesters = semesters
+            let stringSemesters = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [[String]]
+            //objectifySemesters(list: stringSemesters)
         }
         if let decodedData = defaults.object(forKey: "myCollege") as! Data? {
             let collegeString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
@@ -79,9 +80,33 @@ class userInfo {
     }
     
     func setMySemesters() {
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: mySemesters)
+        let semesters = stringifySemesters()
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: semesters)
         let defaults = UserDefaults.standard
         defaults.set(encodedData, forKey: "mySemesters")
+    }
+    
+    func stringifySemesters() -> [[String]] {
+        var semesters: [[String]] = []
+        for eachsemester in mySemesters {
+            var nestedList: [String] = []
+            for eachclass in eachsemester.classes {
+                nestedList.append(eachclass.classLabel())
+            }
+            semesters.append(nestedList)
+        }
+        return semesters
+    }
+    
+    func objectifySemesters(list: [[String]]) {
+//        var semesterIndex = 0
+//        for eachsemester in list {
+//            for eachclass in eachsemester {
+//                let classObject = Network.getClassObject(course: eachclass)
+//                mySemesters[semesterIndex].addClass(newclass: classObject)
+//            }
+//            semesterIndex+=1
+//        }
     }
     
     func setTheme() {

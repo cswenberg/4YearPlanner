@@ -14,9 +14,8 @@ class HomeViewController: UIViewController, settingsDelegate {
     
     func themeUpdated() {
         view.backgroundColor = aesthetics.backgroundColor
-        print("themeUpdated() called")
+        updateTabColors()
     }
-    
     
     var containerView: UIView!
     var containerViewController: UIViewController!
@@ -151,6 +150,7 @@ class HomeViewController: UIViewController, settingsDelegate {
             newViewController = discoverViewController
         } else {
             let settingsViewController = SettingsViewController()
+            settingsViewController.delegate = self
             newViewController = settingsViewController
         }
         containerViewController = newViewController
@@ -200,6 +200,12 @@ class HomeViewController: UIViewController, settingsDelegate {
         print(buttonGradient.frame)
         button.layer.insertSublayer(buttonGradient, at: 0)
         button.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
+    }
+    
+    func updateTabColors() {
+        discoverButton.setTitleColor(aesthetics.textColor, for: .normal)
+        myScheduleButton.setTitleColor(aesthetics.textColor, for: .normal)
+        settingsButton.setTitleColor(aesthetics.cellTextColor, for: .normal)
     }
     
     override func didReceiveMemoryWarning() {

@@ -121,9 +121,23 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
-        let navVC = Schedule_addViewController()
-        //navVC.delegate = self
-        present(navVC, animated: true, completion: nil)
+        
+        testObjectifyClass()
+        
+//        let navVC = Schedule_addViewController()
+//        //navVC.delegate = self
+//        present(navVC, animated: true, completion: nil)
+    }
+    
+    func testObjectifyClass() {
+        Network.getClassObject(course: "Math 1920")
+        print("pre iflet")
+        if let newclass = userData.tmpClass {
+            print("gottem")
+            userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: newclass)
+        }
+        print("post iflet")
+        myCoursesCollectionView.reloadData()
     }
     
     // changes semester information through swiping gestures
@@ -199,7 +213,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
         UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.size.width-12
+        let width = view.frame.size.width-20
         return CGSize(width: width, height: 120)
     }
     

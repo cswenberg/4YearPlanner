@@ -44,7 +44,6 @@ class Network {
     
     // Pulls the filtered courses from the DB
     static func getCourses(_ completion: @escaping ([Class]) -> Void) {
-        
         var term: String
         var parameters = Parameters()
         if sharedVars.searchTerm == ""{
@@ -81,4 +80,32 @@ class Network {
             }
         }
     }
+    
+    /** Return a Class object given a String representation of a class
+        ex: "Math 1920", "CS 2110" */
+    static func getClassObject(course: String) {
+        var textParams = course.components(separatedBy: " ")
+        var params = Parameters()
+        params["subject"] = textParams[0]
+        params["number"] = textParams[1]
+        print(params)
+        var returnClass: Class = Class(subject: "", number: "", title: "", description: "", term: [""], credits: 1, prerequisites: [])
+        Alamofire.request(endpoint, parameters: params).validate().responseJSON { (response) in
+            print("in request")
+            switch response.result {
+            case .success(let json):
+                print("success")
+                let json = JSON(json)
+                returnClass = Class(from: json["data"]["courses"][0])
+                userData.tmpClass = returnClass
+                print(userData.tmpClass.classLabel())
+                print(returnClass.classLabel())
+                sharedVars.loadedNewCourses = true
+                break
+            case .failure(let error):
+                print("Error", error)            }
+        }
+        print("out of request")
+    }
+    
 }

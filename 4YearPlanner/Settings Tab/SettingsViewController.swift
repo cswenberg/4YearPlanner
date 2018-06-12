@@ -152,13 +152,13 @@ class SettingsViewController: UIViewController {
         //theme label
         themeLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
-            make.top.equalTo(minorLabel.snp.bottom).offset(40)
+            make.top.equalTo(minorLabel.snp.bottom).offset(20)
             make.width.equalTo(themeLabel.intrinsicContentSize.width)
             make.height.equalTo(themeLabel.intrinsicContentSize.height)
         }
         //theme option 1 button
         themeOption1.snp.makeConstraints { (make) in
-            make.leading.equalTo(themeLabel.snp.trailing).offset(40)
+            make.leading.equalTo(themeLabel.snp.trailing).offset(20)
             make.centerY.equalTo(themeLabel.snp.centerY)
             make.width.equalTo(themeOption1.intrinsicContentSize.width+20)
             make.height.equalTo(themeOption1.intrinsicContentSize.height)

@@ -21,7 +21,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     var searchBar: UISearchBar!
     var backButton: UIButton!
     var categoryLabel: UILabel!
-     
+    
     var subContainerView: UIView!
     var subContainerViewController: UIViewController!
     
@@ -170,15 +170,14 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     @objc func reload () {
         if let searchText = searchBar.text {
             if !searchText.isEmpty {
-                if searchText.contains(" "){
+                if searchText.contains(" ") {
                     var textParams = searchText.components(separatedBy: " ")
                     sharedVars.searchSubject = textParams[0]
                     sharedVars.searchNumber = textParams[1]
+                } else if isClassNumber(s: searchText) {
+                    sharedVars.searchNumber = searchText
                 } else {
-                    if isClassNumber(s: searchText) {sharedVars.searchNumber = searchText
-                    }
-                    else {sharedVars.searchSubject = searchText
-                    }
+                    sharedVars.searchSubject = searchText
                 }
                 Network.getCourses { (courses) in
                     print(courses)
