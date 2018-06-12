@@ -31,26 +31,26 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = aesthetics.backgroundColor
         
         //if sharedVars.mySemesters[0].classes.count == 0 {initSemesters()}
         coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
         
         //current selected semester label
         selectedSemesterLabel = UILabel()
-        selectedSemesterLabel.textColor = .black
-        selectedSemesterLabel.backgroundColor = niceBlue
+        selectedSemesterLabel.textColor = aesthetics.textColor
+        selectedSemesterLabel.backgroundColor = aesthetics.backgroundColor
         selectedSemesterLabel.layer.cornerRadius = 24
         selectedSemesterLabel.font = .boldSystemFont(ofSize: 36)
         selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
-        selectedSemesterLabel.textAlignment = .center
+        selectedSemesterLabel.textAlignment = .left
         
         //add course button
         addCourseButton = UIButton()
         addCourseButton.setTitle("Add Course", for: .normal)
-        addCourseButton.setTitleColor(.white , for: .normal)
+        addCourseButton.setTitleColor(aesthetics.cellTextColor , for: .normal)
         addCourseButton.titleLabel!.font = .systemFont(ofSize: 24)
-        addCourseButton.backgroundColor = sharedVars.niceGreen
+        addCourseButton.backgroundColor = aesthetics.niceGreen
         addCourseButton.layer.cornerRadius = 16
         addCourseButton.addTarget(self, action: #selector(addCourseButtonPress), for: .touchUpInside)
         
@@ -61,13 +61,13 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         myCoursesCollectionView.dataSource = self
         myCoursesCollectionView.delegate = self
         myCoursesCollectionView.register(MyCoursesCollectionViewCell.self, forCellWithReuseIdentifier: courseReuseIdentifier)
-        myCoursesCollectionView.backgroundColor = .white
+        myCoursesCollectionView.backgroundColor = aesthetics.backgroundColor
         myCoursesCollectionView.bounces = true
         
         //credits label
         creditsLabel = UILabel()
         creditsLabel.font = .systemFont(ofSize: 20)
-        creditsLabel.textColor = .white
+        creditsLabel.textColor = aesthetics.cellTextColor
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 10
         creditsLabel.clipsToBounds = true
@@ -94,7 +94,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         selectedSemesterLabel.snp.makeConstraints { (make) in
             make.top.leading.equalToSuperview().offset(10)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
-            make.width.equalTo(selectedSemesterLabel.intrinsicContentSize.width + 10)
+            make.width.equalTo(selectedSemesterLabel.intrinsicContentSize.width+10)
         }
         // credits label
         creditsLabel.snp.makeConstraints{ (make) in
@@ -156,9 +156,9 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func updateCredits() {
         creditsLabel.text = "\(userData.mySemesters[sharedVars.selected_semester-1].credits) credits"
         if userData.mySemesters[sharedVars.selected_semester-1].credits<12 {
-            creditsLabel.backgroundColor = sharedVars.niceOrange
+            creditsLabel.backgroundColor = aesthetics.niceOrange
         } else {
-            creditsLabel.backgroundColor = sharedVars.niceGreen
+            creditsLabel.backgroundColor = aesthetics.niceGreen
         }
     }
     
@@ -173,7 +173,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         cell.classLabel.text = cell.cellClass.classLabel()
         cell.titleLabel.text = cell.cellClass.title
         cell.gradientNum = indexPath.item
-        cell.gradient.colors = [sharedVars.gradientList[indexPath.item % 4][0], sharedVars.gradientList[indexPath.item % 4][1]]
+        cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
         cell.layer.insertSublayer(cell.gradient, at: 0)
         cell.layer.cornerRadius = 20
         cell.backgroundColor = .black

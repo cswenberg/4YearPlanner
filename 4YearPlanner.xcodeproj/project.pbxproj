@@ -26,6 +26,7 @@
 		46E0C61F20926FC60027B4FC /* Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C61E20926FC60027B4FC /* Class.swift */; };
 		46E0C62120926FD10027B4FC /* Requirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C62020926FD10027B4FC /* Requirements.swift */; };
 		5EDCA5B2F202C6247D088156 /* Pods_4YearPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C438FCE3D4FB435908F17A0 /* Pods_4YearPlanner.framework */; };
+		996A703120CF497800804963 /* Singleton Aesthetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A703020CF497800804963 /* Singleton Aesthetics.swift */; };
 		99C2181B20C5E2EF00E7C0C4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C2181A20C5E2EF00E7C0C4 /* SettingsViewController.swift */; };
 		99C2181D20C5FC5B00E7C0C4 /* Singelton Requirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C2181C20C5FC5B00E7C0C4 /* Singelton Requirements.swift */; };
 		99C2181F20C7602700E7C0C4 /* Singleton UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C2181E20C7602700E7C0C4 /* Singleton UserData.swift */; };
@@ -54,6 +55,7 @@
 		46E0C62020926FD10027B4FC /* Requirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirements.swift; sourceTree = "<group>"; };
 		4EFA9FF5B4B4EB29D34E37BD /* Pods-4YearPlanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-4YearPlanner.debug.xcconfig"; path = "Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner.debug.xcconfig"; sourceTree = "<group>"; };
 		5D68EBFADEE9568E4BB1AA69 /* Pods-4YearPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-4YearPlanner.release.xcconfig"; path = "Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner.release.xcconfig"; sourceTree = "<group>"; };
+		996A703020CF497800804963 /* Singleton Aesthetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singleton Aesthetics.swift"; sourceTree = "<group>"; };
 		99C2181A20C5E2EF00E7C0C4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		99C2181C20C5FC5B00E7C0C4 /* Singelton Requirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singelton Requirements.swift"; sourceTree = "<group>"; };
 		99C2181E20C7602700E7C0C4 /* Singleton UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singleton UserData.swift"; sourceTree = "<group>"; };
@@ -93,10 +95,10 @@
 		22411A0E2096673800BA02D9 /* Discover Tab */ = {
 			isa = PBXGroup;
 			children = (
+				4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */,
+				4662D0A42094753C00C62AF2 /* OptionsViewController.swift */,
 				4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */,
 				4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */,
-				4662D0A42094753C00C62AF2 /* OptionsViewController.swift */,
-				4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */,
 				226F007820940EA5006452CE /* optionsCollectionViewCell.swift */,
 			);
 			path = "Discover Tab";
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				224BC6F22098D1D500978E40 /* Singleton Vars.swift */,
+				996A703020CF497800804963 /* Singleton Aesthetics.swift */,
 				99C2181E20C7602700E7C0C4 /* Singleton UserData.swift */,
 				99C2181C20C5FC5B00E7C0C4 /* Singelton Requirements.swift */,
 			);
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46E0C61F20926FC60027B4FC /* Class.swift in Sources */,
+				996A703120CF497800804963 /* Singleton Aesthetics.swift in Sources */,
 				2235F9C1209E2CF000FDB21A /* Schedule-addViewController.swift in Sources */,
 				4662D0A7209489B600C62AF2 /* SemesterCollectionViewCell.swift in Sources */,
 				46E0C60C20926F760027B4FC /* ViewController.swift in Sources */,

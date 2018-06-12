@@ -27,16 +27,16 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     var buttonGradient: CAGradientLayer!
     
     override func viewDidLoad() {
-        view.backgroundColor = .white
+        view.backgroundColor = aesthetics.backgroundColor
         
         // Button for the MySchedule Tab
         fallButton = UIButton()
         fallButton.layer.cornerRadius = fallButton.intrinsicContentSize.height/2
         fallButton.setTitle("Fall", for: .normal)
         fallButton.titleLabel?.font = .systemFont(ofSize: 32)
-        fallButton.setTitleColor(.black, for: .normal)
+        fallButton.setTitleColor(aesthetics.textColor, for: .normal)
         fallButton.layer.borderWidth = 2
-        fallButton.layer.borderColor = sharedVars.termColor.cgColor
+        fallButton.layer.borderColor = aesthetics.termColor.cgColor
         fallButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
         // Button for Settings Tab
@@ -44,9 +44,9 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         springButton.layer.cornerRadius = springButton.intrinsicContentSize.height/2
         springButton.setTitle("Spring", for: .normal)
         springButton.titleLabel?.font = .systemFont(ofSize: 32)
-        springButton.setTitleColor(.black, for: .normal)
+        springButton.setTitleColor(aesthetics.textColor, for: .normal)
         springButton.layer.borderWidth = 2
-        springButton.layer.borderColor = sharedVars.termColor.cgColor
+        springButton.layer.borderColor = aesthetics.termColor.cgColor
         springButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     
         
@@ -62,7 +62,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         addCoursesCollectionView.dataSource = self
         addCoursesCollectionView.delegate = self
         addCoursesCollectionView.register(MyCoursesCollectionViewCell.self, forCellWithReuseIdentifier: addcourseReuseIdentifier)
-        addCoursesCollectionView.backgroundColor = .white
+        addCoursesCollectionView.backgroundColor = aesthetics.backgroundColor
         
         view.addSubview(termsStackView)
         view.addSubview(addCoursesCollectionView)
@@ -116,7 +116,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
             let cell = addCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: addcourseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
             cell.cellClass = sharedVars.discoverCourses[indexPath.item]
             cell.gradientNum = indexPath.item
-            cell.gradient.colors = [sharedVars.gradientList[indexPath.item % 4][0], sharedVars.gradientList[indexPath.item % 4][1]]
+            cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
             cell.layer.insertSublayer(cell.gradient, at: 0)
             cell.layer.cornerRadius = 20
             cell.classLabel.text = cell.cellClass.classLabel()
@@ -129,7 +129,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.size.width - 12
+        let width = view.frame.size.width - 20
         return CGSize(width: width, height: 120)
     }
     
@@ -174,20 +174,20 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         switchSelected(s: (sender.titleLabel?.text)!)
         if sender.titleLabel?.text == "Fall" {
             if fallSelected {
-                fallButton.backgroundColor = sharedVars.termColor
-                fallButton.setTitleColor(.white, for: .normal)
+                fallButton.backgroundColor = aesthetics.termColor
+                fallButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
             } else {
-                fallButton.backgroundColor = .white
-                fallButton.setTitleColor(.black, for: .normal)
+                fallButton.backgroundColor = aesthetics.backgroundColor
+                fallButton.setTitleColor(aesthetics.textColor, for: .normal)
             }
         }
         else if sender.titleLabel?.text == "Spring" {
             if springSelected {
-                springButton.backgroundColor = sharedVars.termColor
-                springButton.setTitleColor(.white, for: .normal)
+                springButton.backgroundColor = aesthetics.termColor
+                springButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
             } else {
-                springButton.backgroundColor = .white
-                springButton.setTitleColor(.black, for: .normal)
+                springButton.backgroundColor = aesthetics.backgroundColor
+                springButton.setTitleColor(aesthetics.textColor, for: .normal)
             }
         }
         if (fallSelected && springSelected) {sharedVars.searchTerm = "fall and spring"}

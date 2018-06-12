@@ -10,7 +10,13 @@ import UIKit
 import SnapKit
 
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, settingsDelegate {
+    
+    func themeUpdated() {
+        view.backgroundColor = aesthetics.backgroundColor
+        print("themeUpdated() called")
+    }
+    
     
     var containerView: UIView!
     var containerViewController: UIViewController!
@@ -23,18 +29,19 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        
+        requirementData.dictionariesInit()
+        userData.loadDefaults()
+        sharedVars.setTab()
+        sharedVars.setCategory()
+        
+        view.backgroundColor = aesthetics.backgroundColor
 
     // Loads all of the courses in from the beginning
     // We need to change so that we get the recocmmended courses instead
         Network.getAllCourses { (courses) in
             print(courses)
         }
-        requirementData.dictionariesInit()
-        userData.loadDefaults()
-        sharedVars.setTab()
-        sharedVars.setCategory()
-        
         
     // Initialize the containerView that's going to hold basically everything
         containerView = UIView()
@@ -43,8 +50,8 @@ class HomeViewController: UIViewController {
         discoverButton = UIButton()
         discoverButton.layer.cornerRadius = 16
         discoverButton.setTitle("Discover", for: .normal)
-        discoverButton.titleLabel?.font = sharedVars.tabsFont
-        discoverButton.setTitleColor(.black, for: .normal)
+        discoverButton.titleLabel?.font = aesthetics.tabsFont
+        discoverButton.setTitleColor(aesthetics.textColor, for: .normal)
         discoverButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         discoverButton.bounds = discoverButton.frame
         
@@ -52,8 +59,8 @@ class HomeViewController: UIViewController {
         myScheduleButton = UIButton()
         myScheduleButton.layer.cornerRadius = 16
         myScheduleButton.setTitle("My Schedule", for: .normal)
-        myScheduleButton.titleLabel?.font = sharedVars.tabsFont
-        myScheduleButton.setTitleColor(.black, for: .normal)
+        myScheduleButton.titleLabel?.font = aesthetics.tabsFont
+        myScheduleButton.setTitleColor(aesthetics.textColor, for: .normal)
         myScheduleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         myScheduleButton.bounds = myScheduleButton.frame
         
@@ -61,8 +68,8 @@ class HomeViewController: UIViewController {
         settingsButton = UIButton()
         settingsButton.layer.cornerRadius = 16
         settingsButton.setTitle("Settings", for: .normal)
-        settingsButton.titleLabel?.font = sharedVars.tabsFont
-        settingsButton.setTitleColor(.black, for: .normal)
+        settingsButton.titleLabel?.font = aesthetics.tabsFont
+        settingsButton.setTitleColor(aesthetics.textColor, for: .normal)
         settingsButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         settingsButton.bounds = settingsButton.frame
         
@@ -73,7 +80,7 @@ class HomeViewController: UIViewController {
         
     // Set initial gradient
         buttonGradient = CAGradientLayer()
-        buttonGradient.colors = sharedVars.tabGradient
+        buttonGradient.colors = aesthetics.tabGradient
         buttonGradient.startPoint = CGPoint(x: 1, y: 0.5)
         buttonGradient.endPoint = CGPoint(x: 0, y: 0.5)
         buttonGradient.cornerRadius = 16
@@ -171,14 +178,14 @@ class HomeViewController: UIViewController {
             if sharedVars.current_tab == "Discover" {
                 if discoverButton.layer.sublayers![0] is CAGradientLayer {
                     discoverButton.layer.sublayers![0].removeFromSuperlayer()
-                    discoverButton.setTitleColor(.black, for: .normal)
+                    discoverButton.setTitleColor(aesthetics.textColor, for: .normal)
                 }
             } else if sharedVars.current_tab == "My Schedule" {
                 myScheduleButton.layer.sublayers![0].removeFromSuperlayer()
-                myScheduleButton.setTitleColor(.black, for: .normal)
+                myScheduleButton.setTitleColor(aesthetics.textColor, for: .normal)
             } else if sharedVars.current_tab == "Settings" {
                 settingsButton.layer.sublayers![0].removeFromSuperlayer()
-                settingsButton.setTitleColor(.black, for: .normal)
+                settingsButton.setTitleColor(aesthetics.textColor, for: .normal)
             }
             sharedVars.current_tab = (sender.titleLabel?.text)!
             setBackgroundGradient(button: sender)
@@ -192,7 +199,7 @@ class HomeViewController: UIViewController {
         print(button.bounds)
         print(buttonGradient.frame)
         button.layer.insertSublayer(buttonGradient, at: 0)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
     }
     
     override func didReceiveMemoryWarning() {

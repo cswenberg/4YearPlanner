@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 class Network {
-    private static let endpoint = "http://35.190.187.113/planner/courses"
+    private static let endpoint = "http://54.245.146.135/planner/courses"
     
     // Pulls all of the courses from the DB
     static func getAllCourses(_ completion: @escaping ([Class]) -> Void) {

@@ -18,14 +18,15 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     var optionsCollectionView: UICollectionView!
     var optionsReuseIdentifier = "optionCell"
     
-    var majorOptions = [majors]()
+    var majorOptions = [majors]() 
     var minorOptions = [minors]()
     var cellsToDisplay = [optionsCollectionViewCell]()
     var delegate: showCoursesDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        
+        view.backgroundColor = aesthetics.backgroundColor
         
         
         // Layout for options collectionView
@@ -37,7 +38,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         optionsCollectionView.dataSource = self
         optionsCollectionView.delegate = self
         optionsCollectionView.register(optionsCollectionViewCell.self, forCellWithReuseIdentifier: optionsReuseIdentifier)
-        optionsCollectionView.backgroundColor = .white
+        optionsCollectionView.backgroundColor = aesthetics.backgroundColor
        
         view.addSubview(optionsCollectionView)
         
@@ -70,8 +71,8 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             cell.cellObject = Minor(Enum: userData.myMajor.minorOptions[indexPath.item], requirements: [])
         }
         
-        cell.gradientNum = Int(indexPath.item)+sharedVars.gradientRandomizer
-        cell.gradient.colors = [sharedVars.gradientList[cell.gradientNum % 4][0], sharedVars.gradientList[cell.gradientNum % 4][1]]
+        cell.gradientNum = Int(indexPath.item)+aesthetics.gradientRandomizer
+        cell.gradient.colors = [aesthetics.gradientList[cell.gradientNum % 4][0], aesthetics.gradientList[cell.gradientNum % 4][1]]
         cell.titleLabel.text = cell.cellObject.friendlyTitle()
         cell.layer.cornerRadius = 10
         
@@ -125,7 +126,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             delegate?.showCourses()
             delegate?.updateCategoryLabel()
         }
-        sharedVars.gradientRandomizer = Int(arc4random_uniform(4))
+        aesthetics.gradientRandomizer = Int(arc4random_uniform(4))
     }
 }
 

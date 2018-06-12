@@ -40,27 +40,30 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = aesthetics.backgroundColor
         
         courseTitle = UILabel()
         courseTitle.text = detailedClass.title
         courseTitle.font = .systemFont(ofSize: 28)
+        courseTitle.textColor = aesthetics.textColor
         view.addSubview(courseTitle)
         
         courseLabel = UILabel()
         courseLabel.font = .boldSystemFont(ofSize: 28)
         courseLabel.text = courseName
-        courseLabel.textColor = .black
+        courseLabel.textColor = aesthetics.textColor
         view.addSubview(courseLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.text = "Description"
         descriptionLabel.font = .boldSystemFont(ofSize: 20)
+        descriptionLabel.textColor = aesthetics.textColor
         view.addSubview(descriptionLabel)
         
         descriptionTextView = UITextView()
         descriptionTextView.font = .systemFont(ofSize: 14)
-        descriptionTextView.textColor = .black
+        descriptionTextView.textColor = aesthetics.textColor
+        descriptionTextView.backgroundColor = aesthetics.backgroundColor
         descriptionTextView.text = descriptionText
         descriptionTextView.textAlignment = .center
         descriptionTextView.isEditable = false
@@ -69,11 +72,13 @@ class DetailViewController: UIViewController {
         prereqLabel = UILabel()
         prereqLabel.text = "Pre-Requisites"
         prereqLabel.font = .systemFont(ofSize: 20)
+        prereqLabel.textColor = aesthetics.textColor
         view.addSubview(prereqLabel)
         
         prereqTextView = UITextView()
         prereqTextView.font = .systemFont(ofSize: 16)
-        prereqTextView.textColor = .black
+        prereqTextView.textColor = aesthetics.textColor
+        prereqTextView.backgroundColor = aesthetics.backgroundColor
         prereqTextView.text = prereqText
         prereqTextView.textAlignment = .center
         prereqTextView.isEditable = false
@@ -81,8 +86,8 @@ class DetailViewController: UIViewController {
         
         creditsLabel = UILabel()
         creditsLabel.font = .systemFont(ofSize: 24)
-        creditsLabel.backgroundColor = sharedVars.niceOrange
-        creditsLabel.textColor = .white
+        creditsLabel.backgroundColor = aesthetics.niceOrange
+        creditsLabel.textColor = aesthetics.cellTextColor
         creditsLabel.text = creditsNum+" credits"
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 10
@@ -91,7 +96,7 @@ class DetailViewController: UIViewController {
         
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
-        backButton.setTitleColor(.black, for: .normal)
+        backButton.setTitleColor(aesthetics.textColor, for: .normal)
         backButton.titleLabel?.font = .systemFont(ofSize: 48)
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         view.addSubview(backButton)
@@ -99,7 +104,8 @@ class DetailViewController: UIViewController {
         saveButton = UIButton()
         saveButton.setTitle("Save", for: .normal)
         saveButton.titleLabel?.font = .systemFont(ofSize: 32)
-        saveButton.backgroundColor = sharedVars.niceGreen
+        saveButton.setTitleColor(aesthetics.cellTextColor, for: .normal)
+        saveButton.backgroundColor = aesthetics.niceGreen
         saveButton.layer.cornerRadius = 16
         saveButton.clipsToBounds = true
         saveButton.titleLabel?.textAlignment = .center
@@ -108,6 +114,7 @@ class DetailViewController: UIViewController {
         deleteButton = UIButton()
         deleteButton.setTitle("Delete", for: .normal)
         deleteButton.titleLabel?.font = .systemFont(ofSize: 32)
+        deleteButton.setTitleColor(aesthetics.cellTextColor, for: .normal)
         deleteButton.backgroundColor = .red
         deleteButton.layer.cornerRadius = 16
         deleteButton.clipsToBounds = true
@@ -123,7 +130,7 @@ class DetailViewController: UIViewController {
         
         semesterLabel = UILabel()
         semesterLabel.text = "Semester \(sharedVars.selected_semester)"
-        semesterLabel.textColor = .black
+        semesterLabel.textColor = aesthetics.textColor
         semesterLabel.font = .systemFont(ofSize: 24)
         semesterLabel.textAlignment = .center
         

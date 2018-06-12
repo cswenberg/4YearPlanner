@@ -16,7 +16,7 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
     var classLabel: UILabel!
     var titleLabel: UILabel!
     var gradient: CAGradientLayer!
-    var gradientNum = sharedVars.gradientRandomizer
+    var gradientNum = aesthetics.gradientRandomizer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,7 +24,7 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         
         gradient = CAGradientLayer()
         gradient.frame = contentView.frame
-        gradient.colors = [[sharedVars.gradientList[gradientNum % 4][0], sharedVars.gradientList[gradientNum % 4][1]]]
+        gradient.colors = [[aesthetics.gradientList[gradientNum % 4][0], aesthetics.gradientList[gradientNum % 4][1]]]
         gradient.locations = [0,1]
         gradient.startPoint = CGPoint(x: 1, y: 0)
         gradient.endPoint = CGPoint(x: 0, y: 1)
@@ -32,12 +32,12 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         contentView.layer.insertSublayer(gradient, at: 0)
         
         classLabel = UILabel()
-        classLabel.textColor = .white
+        classLabel.textColor = aesthetics.cellTextColor
         classLabel.font = .systemFont(ofSize:24)
         classLabel.numberOfLines = 0
         
         titleLabel = UILabel()
-        titleLabel.textColor = .white
+        titleLabel.textColor = aesthetics.cellTextColor
         titleLabel.font = .systemFont(ofSize: 16)
         titleLabel.numberOfLines = 0
         

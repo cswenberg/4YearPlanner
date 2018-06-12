@@ -37,6 +37,11 @@ class userInfo {
             let minorString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
             myMinor = stringToMinor(minorString: minorString)
         }
+        if let decodedData = defaults.object(forKey: "selectedTheme") as! Data? {
+            let theme = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
+            aesthetics.selectedTheme = theme
+        }
+        aesthetics.updateTheme()
     }
     
     func stringToCollege(collegeString: String) -> College {
@@ -52,7 +57,7 @@ class userInfo {
     }
     
     
-    @objc func setCollege(college: College)  {
+    func setCollege(college: College)  {
         myCollege = college
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: myCollege.getTitle())
         let defaults = UserDefaults.standard
@@ -77,6 +82,12 @@ class userInfo {
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: mySemesters)
         let defaults = UserDefaults.standard
         defaults.set(encodedData, forKey: "mySemesters")
+    }
+    
+    func setTheme() {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: aesthetics.selectedTheme)
+        let defaults = UserDefaults.standard
+        defaults.set(encodedData, forKey: "selectedTheme")
     }
     
     func resetUserInfo() {

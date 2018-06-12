@@ -19,13 +19,13 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = aesthetics.backgroundColor
         
         searchBar = UISearchBar()
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.backgroundColor = sharedVars.searchBarGray
+        searchBarTextField?.backgroundColor = aesthetics.searchBarGray
         if let backgroundView = searchBarTextField?.subviews.first {
             backgroundView.layer.cornerRadius = 20
             backgroundView.clipsToBounds = true
@@ -34,13 +34,13 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
         definesPresentationContext = true
         
         subContainerView = UIView()
-        subContainerView.backgroundColor = .white
+        subContainerView.backgroundColor = aesthetics.backgroundColor
         subContainerViewController = AddCoursesViewController()
         subContainerView.addSubview(subContainerViewController.view)
     
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
-        backButton.setTitleColor(.black, for: .normal)
+        backButton.setTitleColor(aesthetics.textColor, for: .normal)
         backButton.titleLabel?.font = .systemFont(ofSize: 48)
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         view.addSubview(backButton)

@@ -28,7 +28,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = aesthetics.backgroundColor
         
         
         subContainerView = UIView()
@@ -38,7 +38,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         let searchBarTextField = searchBar.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.backgroundColor = sharedVars.searchBarGray
+        searchBarTextField?.backgroundColor = aesthetics.searchBarGray
         if let backgroundView = searchBarTextField?.subviews.first {
             backgroundView.layer.cornerRadius = 20
             backgroundView.clipsToBounds = true
@@ -49,7 +49,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         // Back Button
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
-        backButton.setTitleColor(.black, for: .normal)
+        backButton.setTitleColor(aesthetics.textColor, for: .normal)
         backButton.titleLabel?.font = .systemFont(ofSize: 36)
         backButton.titleLabel?.textAlignment = .center
         backButton.addTarget(self, action: #selector(discoverBackButtonPressed), for: .touchUpInside)
@@ -58,6 +58,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         categoryLabel = UILabel()
         categoryLabel.text = sharedVars.current_category
         categoryLabel.font = .boldSystemFont(ofSize: 36)
+        categoryLabel.textColor = aesthetics.textColor
         
         view.addSubview(backButton)
         view.addSubview(searchBar)
@@ -155,7 +156,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             updateCategoryLabel()
             updateChildViewController()
         }
-        sharedVars.gradientRandomizer = Int(arc4random_uniform(4))
+        aesthetics.gradientRandomizer = Int(arc4random_uniform(4))
     }
     
     // testing new function for SearchBar (trying to reduce lag and bugs)
