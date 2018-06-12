@@ -21,7 +21,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     var searchBar: UISearchBar!
     var backButton: UIButton!
     var categoryLabel: UILabel!
-    
+     
     var subContainerView: UIView!
     var subContainerViewController: UIViewController!
     
