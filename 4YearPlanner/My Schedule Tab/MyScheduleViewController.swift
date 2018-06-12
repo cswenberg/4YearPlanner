@@ -18,17 +18,16 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var niceBlue = UIColor(displayP3Red: 69, green: 69, blue: 255, alpha: 1)
     
     //Shared with main view controller
-    var scheduleButtonsStackView: UIStackView!
     var selectedSemesterLabel: UILabel!
     var addCourseButton: UIButton!
-    var goLeftButton: UIButton!
-    var goRightButton: UIButton!
     var myCoursesCollectionView: UICollectionView!
     var courseReuseIdentifier = "myCourseReuseIdentifier"
     var coursesToDisplay = [Class]()
     var cellsInCollection = [MyCoursesCollectionViewCell]()
     var labelGradient: CAGradientLayer!
     var creditsLabel: UILabel!
+    var swipeRight: UISwipeGestureRecognizer!
+    var swipeLeft: UISwipeGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,32 +47,12 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         
         //add course button
         addCourseButton = UIButton()
-        addCourseButton.setTitle("+", for: .normal)
-        addCourseButton.setTitleColor(.black , for: .normal)
-        addCourseButton.titleLabel!.font = .systemFont(ofSize: 30)
-        addCourseButton.layer.cornerRadius = 30
-        addCourseButton.layer.borderWidth = 4
+        addCourseButton.setTitle("Add Course", for: .normal)
+        addCourseButton.setTitleColor(.white , for: .normal)
+        addCourseButton.titleLabel!.font = .systemFont(ofSize: 24)
+        addCourseButton.backgroundColor = sharedVars.niceGreen
+        addCourseButton.layer.cornerRadius = 16
         addCourseButton.addTarget(self, action: #selector(addCourseButtonPress), for: .touchUpInside)
-        
-        //go left button
-        goLeftButton = UIButton()
-        goLeftButton.setTitle("<", for: .normal)
-        goLeftButton.setTitleColor(.black, for: .normal)
-        goLeftButton.titleLabel!.font = .systemFont(ofSize: 36)
-        goLeftButton.addTarget(self, action: #selector(goLeftButtonPress), for: .touchUpInside)
-        
-        //go right button
-        goRightButton = UIButton()
-        goRightButton.setTitle(">", for: .normal)
-        goRightButton.setTitleColor(.black, for: .normal)
-        goRightButton.titleLabel!.font = .systemFont(ofSize: 36)
-        goRightButton.addTarget(self, action: #selector(goRightButtonPress), for: .touchUpInside)
-        
-        // StackView for buttons within 'My Schedule' tab
-        scheduleButtonsStackView = UIStackView(arrangedSubviews: [goLeftButton, addCourseButton, goRightButton])
-        scheduleButtonsStackView.axis = .horizontal
-        scheduleButtonsStackView.distribution = .equalCentering
-        scheduleButtonsStackView.backgroundColor = .blue
         
         //my courses collection view
         let layout = UICollectionViewFlowLayout()
@@ -94,10 +73,19 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         creditsLabel.clipsToBounds = true
         updateCredits()
         
+        //swipeRight gesture
+        swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipe))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.view.addGestureRecognizer(swipeRight)
+        //swipeLeft gesture
+        swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipe))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.view.addGestureRecognizer(swipeLeft)
+        
         view.addSubview(creditsLabel)
         view.addSubview(myCoursesCollectionView)
         view.addSubview(selectedSemesterLabel)
-        view.addSubview(scheduleButtonsStackView)
+        view.addSubview(addCourseButton)
         setupMyScheduleConstraints()
     }
     
@@ -115,31 +103,19 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
-        // 'My Schedule' buttons stack view
-        scheduleButtonsStackView.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(30)
-            make.height.equalTo(60)
-        }
+       
         // add course button
         addCourseButton.snp.makeConstraints { (make) in
-            make.height.equalToSuperview()
-            make.width.equalTo(60)
-        }
-        // go left button
-        goLeftButton.snp.makeConstraints { (make) in
-            make.height.equalToSuperview()
-            make.width.equalTo(goLeftButton.intrinsicContentSize.width*4)
-        }
-        // go right button
-        goRightButton.snp.makeConstraints { (make) in
-            make.height.equalToSuperview()
-            make.width.equalTo(goRightButton.intrinsicContentSize.width*4)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-20)
+            make.height.equalTo(addCourseButton.intrinsicContentSize.height)
+            make.width.equalTo(addCourseButton.intrinsicContentSize.width+20)
         }
         // my courses collection view
         myCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(scheduleButtonsStackView.snp.bottom).offset(20)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(20)
+            make.bottom.equalTo(addCourseButton.snp.top).offset(-10)
+            make.leading.trailing.equalToSuperview()
         }
     }
     
@@ -150,25 +126,29 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         present(navVC, animated: true, completion: nil)
     }
     
-    // Changes Semester label/ Stores new semester number
-    @objc func goLeftButtonPress(sender: UIButton) {
-        if sharedVars.selected_semester != 1 {
-            sharedVars.selected_semester-=1
-            selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
-            updateCredits()
-            coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
-            myCoursesCollectionView.reloadData()
-        }
-    }
-    
-    // Changes Semester Label/ Stores new semester number
-    @objc func goRightButtonPress(sender: UIButton) {
-        if sharedVars.selected_semester != 8 {
-            sharedVars.selected_semester+=1
-            selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
-            updateCredits()
-            coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
-            myCoursesCollectionView.reloadData()
+    // changes semester information through swiping gestures
+    @objc func respondToSwipe(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                if sharedVars.selected_semester != 1 {
+                    sharedVars.selected_semester-=1
+                    selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+                    updateCredits()
+                    coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
+                    myCoursesCollectionView.reloadData()
+                }
+            case UISwipeGestureRecognizerDirection.left:
+                if sharedVars.selected_semester != 8 {
+                    sharedVars.selected_semester+=1
+                    selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+                    updateCredits()
+                    coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
+                    myCoursesCollectionView.reloadData()
+                }
+            default:
+                break
+            }
         }
     }
     
