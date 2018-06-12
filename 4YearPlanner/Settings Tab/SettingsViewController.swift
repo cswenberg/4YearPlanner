@@ -24,6 +24,7 @@ class SettingsViewController: UIViewController {
     var themeLabel: UILabel!
     var themeOption1: UIButton!
     var themeOption2: UIButton!
+    var clearSchedulesButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,17 @@ class SettingsViewController: UIViewController {
         resetButton.titleLabel?.textAlignment = .center
         resetButton.addTarget(self, action: #selector(resetButtonPressed), for: .touchUpInside)
         
+        //Wipe Semester Info Button
+        clearSchedulesButton = UIButton()
+        clearSchedulesButton.setTitle("Clear my Schedule", for: .normal)
+        clearSchedulesButton.titleLabel?.font = .systemFont(ofSize: 24)
+        clearSchedulesButton.titleLabel?.textColor = aesthetics.cellTextColor
+        clearSchedulesButton.backgroundColor = .red
+        clearSchedulesButton.layer.cornerRadius = 16
+        clearSchedulesButton.clipsToBounds = true
+        clearSchedulesButton.titleLabel?.textAlignment = .center
+        clearSchedulesButton.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
+        
         //cloutLabel
         cloutLabel = UILabel()
         cloutLabel.text = "Created by Omar Rasheed and Conner Swenberg, Designed by Eric Kim"
@@ -106,6 +118,7 @@ class SettingsViewController: UIViewController {
         view.addSubview(themeLabel)
         view.addSubview(themeOption1)
         view.addSubview(themeOption2)
+        view.addSubview(clearSchedulesButton)
         
         themeHighlight()
         setUpConstraints()
@@ -149,6 +162,13 @@ class SettingsViewController: UIViewController {
             make.height.equalTo(resetButton.intrinsicContentSize.height)
             make.centerX.equalToSuperview()
         }
+        //clear My Schedule button
+        clearSchedulesButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(resetButton.snp.top).offset(-10)
+            make.width.equalTo(clearSchedulesButton.intrinsicContentSize.width+20)
+            make.height.equalTo(clearSchedulesButton.intrinsicContentSize.height)
+            make.centerX.equalToSuperview()
+        }
         //theme label
         themeLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
@@ -178,6 +198,11 @@ class SettingsViewController: UIViewController {
         minorLabel.text = "Minor:     None Selected"
         userData.resetUserInfo()
         sharedVars.setCategory()
+    }
+    
+    @objc func clearButtonPressed() {
+        // clear semester info
+        userData.resetSemesters()
     }
     
     // Change classes based on filter

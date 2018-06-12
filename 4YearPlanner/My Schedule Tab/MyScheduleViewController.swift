@@ -122,11 +122,11 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
         
-        testObjectifyClass()
+        // testObjectifyClass()
         
-//        let navVC = Schedule_addViewController()
-//        //navVC.delegate = self
-//        present(navVC, animated: true, completion: nil)
+        let navVC = Schedule_addViewController()
+        //navVC.delegate = self
+        present(navVC, animated: true, completion: nil)
     }
     
     func testObjectifyClass() {

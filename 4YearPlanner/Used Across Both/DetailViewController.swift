@@ -46,6 +46,8 @@ class DetailViewController: UIViewController {
         courseTitle.text = detailedClass.title
         courseTitle.font = .systemFont(ofSize: 28)
         courseTitle.textColor = aesthetics.textColor
+        courseTitle.numberOfLines = 0
+        courseTitle.textAlignment = .center
         view.addSubview(courseTitle)
         
         courseLabel = UILabel()
@@ -134,6 +136,8 @@ class DetailViewController: UIViewController {
         semesterLabel.font = .systemFont(ofSize: 24)
         semesterLabel.textAlignment = .center
         
+        print(self.view.frame.width)
+        
         
         // Only show save button if not in list of classes already
         if !hasClass() {
@@ -182,7 +186,12 @@ class DetailViewController: UIViewController {
         courseTitle.snp.makeConstraints{ (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(courseLabel.snp.bottom).offset(10)
-            make.width.equalTo(courseTitle.intrinsicContentSize.width)
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            //make.width.equalTo(courseTitle.intrinsicContentSize.width)
+            print(courseTitle.intrinsicContentSize.width)
+            adjustHeight(label: courseTitle)
+            //make.height.equalTo(courseTitle.intrinsicContentSize.height * 2)
         }
         // description label
         descriptionLabel.snp.makeConstraints { (make) in
@@ -208,7 +217,12 @@ class DetailViewController: UIViewController {
             make.top.equalTo(prereqLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().offset(-20)
-            make.height.equalTo(40)
+            if !hasClass() {
+                make.bottom.equalTo(semesterLabel).offset(-20)
+            }
+            else {
+                make.bottom.equalTo(deleteButton).offset(-20)
+            }
         }
         // back button
         backButton.snp.makeConstraints { (make) in
@@ -224,6 +238,7 @@ class DetailViewController: UIViewController {
             make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
+        print(courseTitle.frame.width)
     }
     
     // Returns from modal VC and changes value of stored variable
@@ -269,6 +284,19 @@ class DetailViewController: UIViewController {
             if eachSemester.contains(someclass: detailedClass) {return true}
         }
         return false
+    }
+    
+    func adjustHeight(label: UILabel) {
+        if label.intrinsicContentSize.width > ((self.view.frame.width - 20)*2) {
+            label.snp.makeConstraints { (make) in
+                make.height.equalTo(label.intrinsicContentSize.height*3)
+            }
+        }
+        else if label.intrinsicContentSize.width > (self.view.frame.width - 20) {
+            label.snp.makeConstraints { (make) in
+                make.height.equalTo(label.intrinsicContentSize.height*2)
+            }
+        }
     }
     
     @IBAction func stepperHit(_ sender: UIStepper) {
