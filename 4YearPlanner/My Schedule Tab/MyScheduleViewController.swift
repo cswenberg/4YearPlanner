@@ -204,7 +204,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         if let cellClass = selectedCell.cellClass {
             dVC.detailedClass = cellClass
             dVC.courseName = cellClass.classLabel()
-            dVC.creditsNum = String(describing: cellClass.credits)
+            dVC.creditsNum = String(describing: cellClass.creditsChosen)
           //  dVC.prereqList = cellClass.prerequisites
             dVC.descriptionText = cellClass.description
             present(dVC, animated: true, completion: nil)

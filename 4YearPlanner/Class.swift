@@ -44,7 +44,7 @@ class Semester {
     /** Adds a new class to this semester's schedule */
     func addClass(newclass: Class) {
         self.classes.append(newclass)
-        credits+=newclass.credits
+        credits+=newclass.creditsChosen
         numCourses+=1
         newclass.semesterTaken = number
         userData.setMySemesters()
@@ -52,7 +52,7 @@ class Semester {
     /** Removes a class from this semester's schedule */
     func removeClass(someclass: Class) {
         if !contains(someclass: someclass) {return}
-        credits-=someclass.credits
+        credits-=someclass.creditsChosen
         numCourses-=1
         someclass.semesterTaken = nil
         let index = classes.index(where: {$0.equals(someclass: someclass)})
@@ -96,19 +96,27 @@ class Class {
     var title: String
     var description: String
     var term: [String]
-    var credits: Int
+    var creditsMin: Int
+    var creditsMax: Int
     var prerequisites: [Class]!
+    var distribution: String
+    var gradingType: String
     var pulledPrereqs: String?
     var semesterTaken: Int?
+    var creditsChosen: Int
     
-    init(subject: String, number: String, title: String, description: String, term: [String], credits: Int, prerequisites: [Class]) {
+    init(subject: String, number: String, title: String, description: String, term: [String], creditsMin: Int, creditsMax: Int, prerequisites: [Class], distribution: String, gradingType: String) {
         self.subject = subject
         self.number = number
         self.title = title
         self.description = description
         self.term = term
-        self.credits = credits
+        self.creditsMin = creditsMin
+        self.creditsMax = creditsMax
         self.prerequisites = prerequisites
+        self.distribution = distribution
+        self.gradingType = gradingType
+        self.creditsChosen = self.creditsMin
     }
     
     // initializing from API query
@@ -118,13 +126,22 @@ class Class {
         self.title = json["title"].stringValue
         self.description = json["description"].stringValue
         self.term = [json["term"].stringValue]
-        self.credits = json["creditsMax"].intValue
+        self.creditsMin = json["creditsMin"].intValue
+        self.creditsMax = json["creditsMax"].intValue
         let pulledPrereqs2 = json["prereqs"].stringValue
         if pulledPrereqs2 == "" || pulledPrereqs2 == " " {
             self.pulledPrereqs = "None"
         } else {
             self.pulledPrereqs = pulledPrereqs2
         }
+        let pulledDistribution = json["distribution"].stringValue
+        if pulledDistribution == "" || pulledDistribution == " " {
+            self.distribution = "None"
+        } else {
+            self.distribution = pulledDistribution
+        }
+        self.gradingType = json["gradingType"].stringValue
+        self.creditsChosen = self.creditsMin
     }
     /** Return: boolean to answer if two classes are the same by comparing subject and number */
     func equals(someclass: Class) -> Bool {

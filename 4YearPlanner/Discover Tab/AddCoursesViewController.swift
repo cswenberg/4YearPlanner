@@ -148,7 +148,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
             if let cellClass = selectedCell.cellClass {
                 dVC.detailedClass = cellClass
                 dVC.courseName = cellClass.classLabel()
-                dVC.creditsNum = String(describing: cellClass.credits)
+                dVC.creditsNum = String(describing: cellClass.creditsChosen)
                 dVC.prereqList = [cellClass.pulledPrereqs!]
                 dVC.prereqText = cellClass.pulledPrereqs
                 dVC.descriptionText = cellClass.description

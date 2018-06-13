@@ -26,7 +26,7 @@ class DetailViewController: UIViewController {
     var prereqList = [String]()
     var prereqCollectionView: UICollectionView!
     var prereqTextView: UITextView!
-    var creditsLabel: UILabel!
+    var creditsLabel: UIButton!
     var backButton: UIButton!
     var saveButton: UIButton!
     var deleteButton: UIButton!
@@ -86,14 +86,15 @@ class DetailViewController: UIViewController {
         prereqTextView.isEditable = false
         view.addSubview(prereqTextView)
         
-        creditsLabel = UILabel()
-        creditsLabel.font = .systemFont(ofSize: 24)
+        creditsLabel = UIButton()
+        creditsLabel.titleLabel?.font = .systemFont(ofSize: 24)
         creditsLabel.backgroundColor = aesthetics.niceOrange
-        creditsLabel.textColor = aesthetics.cellTextColor
-        creditsLabel.text = creditsNum+" credits"
-        creditsLabel.textAlignment = .center
-        creditsLabel.layer.cornerRadius = 10
+        creditsLabel.titleLabel?.textColor = aesthetics.cellTextColor
+        creditsLabel.setTitle(creditsNum+" credits", for: .normal)
+        creditsLabel.titleLabel?.textAlignment = .center
+        creditsLabel.layer.cornerRadius = 16
         creditsLabel.clipsToBounds = true
+        creditsLabel.addTarget(self, action: #selector(creditsTapped), for: .touchUpInside)
         view.addSubview(creditsLabel)
         
         backButton = UIButton()
@@ -135,8 +136,6 @@ class DetailViewController: UIViewController {
         semesterLabel.textColor = aesthetics.textColor
         semesterLabel.font = .systemFont(ofSize: 24)
         semesterLabel.textAlignment = .center
-        
-        print(self.view.frame.width)
         
         
         // Only show save button if not in list of classes already
@@ -188,10 +187,7 @@ class DetailViewController: UIViewController {
             make.top.equalTo(courseLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
-            //make.width.equalTo(courseTitle.intrinsicContentSize.width)
-            print(courseTitle.intrinsicContentSize.width)
             adjustHeight(label: courseTitle)
-            //make.height.equalTo(courseTitle.intrinsicContentSize.height * 2)
         }
         // description label
         descriptionLabel.snp.makeConstraints { (make) in
@@ -254,6 +250,10 @@ class DetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func creditsTapped() {
+        // created dropdown menu
+    }
+    
     // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -286,6 +286,7 @@ class DetailViewController: UIViewController {
         return false
     }
     
+    // Function to mess w text wrapping (course title)
     func adjustHeight(label: UILabel) {
         if label.intrinsicContentSize.width > ((self.view.frame.width - 20)*2) {
             label.snp.makeConstraints { (make) in

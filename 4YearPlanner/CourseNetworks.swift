@@ -89,7 +89,7 @@ class Network {
         params["subject"] = textParams[0]
         params["number"] = textParams[1]
         print(params)
-        var returnClass: Class = Class(subject: "", number: "", title: "", description: "", term: [""], credits: 1, prerequisites: [])
+        var returnClass: Class = Class(subject: "", number: "", title: "", description: "", term: [""], creditsMin: 1, creditsMax: 1, prerequisites: [], distribution: "", gradingType: "")
         Alamofire.request(endpoint, parameters: params).validate().responseJSON { (response) in
             print("in request")
             switch response.result {
