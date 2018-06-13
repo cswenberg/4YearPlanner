@@ -41,6 +41,4 @@ class globalVars {
     var searchSubject = ""
     var searchNumber = ""
     var searchTerm = ""
-    var loadedNewCourses = false
-
 }

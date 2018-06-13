@@ -14,6 +14,9 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func reloadMyClasses() {
         myCoursesCollectionView.reloadData()
     }
+    func reloadCredits() {
+        updateCredits()
+    }
     
     var niceBlue = UIColor(displayP3Red: 69, green: 69, blue: 255, alpha: 1)
     

@@ -111,11 +111,6 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
-    @objc func reload2() {
-        if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-            optionsviewcontroller.addCoursesCollectionView.reloadData()
-        }
-    }
     
     func isClassNumber(s: String) -> Bool {
         for num in 0...9 {

@@ -85,12 +85,16 @@ class HomeViewController: UIViewController, settingsDelegate {
         buttonGradient.cornerRadius = 16
         if sharedVars.current_tab == "Discover" {
             buttonGradient.frame = CGRect(x: 0, y: 0, width: 96, height: 36)
-            setBackgroundGradient(button: discoverButton)
+            discoverButton.layer.insertSublayer(buttonGradient, at: 0)
+            discoverButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
         }
         if sharedVars.current_tab == "My Schedule" {
             buttonGradient.frame = CGRect(x: 0, y: 0, width: 134, height: 36)
-            setBackgroundGradient(button: myScheduleButton)
+            myScheduleButton.layer.insertSublayer(buttonGradient, at: 0)
+            myScheduleButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
         }
+        
+        
         
         view.addSubview(tabsStackView)
         view.addSubview(containerView)
@@ -197,6 +201,7 @@ class HomeViewController: UIViewController, settingsDelegate {
     func setBackgroundGradient (button: UIButton) {
         buttonGradient.frame = button.bounds
         print(button.bounds)
+        print(button.frame)
         print(buttonGradient.frame)
         button.layer.insertSublayer(buttonGradient, at: 0)
         button.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)

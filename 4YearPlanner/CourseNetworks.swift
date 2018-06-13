@@ -28,12 +28,8 @@ class Network {
                 for each in json["data"]["courses"].arrayValue {
                     classes.append(Class(from: each))
                 }
-                sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
                 sharedVars.allCourses = classes
-            
-            // Change the singleton variable to stop the while loop
-                sharedVars.loadedNewCourses = true
             
             case .failure(let error):
                 print("Error", error)
@@ -69,9 +65,6 @@ class Network {
                 }
                 sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
-                
-            // Change singleton variable to stop the while loop
-                sharedVars.loadedNewCourses = true
                 print("done")
                 
             case .failure(let error):
@@ -100,7 +93,6 @@ class Network {
                 userData.tmpClass = returnClass
                 print(userData.tmpClass.classLabel())
                 print(returnClass.classLabel())
-                sharedVars.loadedNewCourses = true
                 break
             case .failure(let error):
                 print("Error", error)            }

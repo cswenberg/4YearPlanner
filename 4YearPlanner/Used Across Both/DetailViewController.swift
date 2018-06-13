@@ -11,12 +11,15 @@ import SnapKit
 
 protocol detailViewDelegate {
     func reloadMyClasses()
+    func reloadCredits()
 }
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     var delegate: detailViewDelegate?
     
+    var tempCredits: Int!
+    var creditsPickerView: UIPickerView!
     var detailedClass: Class!
     var courseLabel: UILabel!
     var courseTitle: UILabel!
@@ -26,7 +29,7 @@ class DetailViewController: UIViewController {
     var prereqList = [String]()
     var prereqCollectionView: UICollectionView!
     var prereqTextView: UITextView!
-    var creditsLabel: UIButton!
+    var creditsLabel: UITextField!
     var backButton: UIButton!
     var saveButton: UIButton!
     var deleteButton: UIButton!
@@ -41,6 +44,11 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = aesthetics.backgroundColor
+        
+        tempCredits = detailedClass.creditsChosen
+        
+        creditsPickerView = UIPickerView()
+        creditsPickerView.delegate = self
         
         courseTitle = UILabel()
         courseTitle.text = detailedClass.title
@@ -86,15 +94,17 @@ class DetailViewController: UIViewController {
         prereqTextView.isEditable = false
         view.addSubview(prereqTextView)
         
-        creditsLabel = UIButton()
-        creditsLabel.titleLabel?.font = .systemFont(ofSize: 24)
+        creditsLabel = UITextField()
+        creditsLabel.delegate = self
+        creditsLabel.font = .systemFont(ofSize: 24)
         creditsLabel.backgroundColor = aesthetics.niceOrange
-        creditsLabel.titleLabel?.textColor = aesthetics.cellTextColor
-        creditsLabel.setTitle(creditsNum+" credits", for: .normal)
-        creditsLabel.titleLabel?.textAlignment = .center
+        creditsLabel.textColor = aesthetics.cellTextColor
+        creditsLabel.text = creditsNum+" credits"
+        creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 16
         creditsLabel.clipsToBounds = true
-        creditsLabel.addTarget(self, action: #selector(creditsTapped), for: .touchUpInside)
+        creditsLabel.inputView = creditsPickerView
+        creditsLabel.tintColor = .clear
         view.addSubview(creditsLabel)
         
         backButton = UIButton()
@@ -244,18 +254,19 @@ class DetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    // Returns from modal VC and removes course from schedule
     @objc func deleteButtonPressed(sender: UIButton) {
         deleteClass()
         delegate?.reloadMyClasses()
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func creditsTapped() {
-        // created dropdown menu
-    }
-    
     // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
+        if hasClass() {
+            userData.mySemesters[sharedVars.selected_semester-1].alterCourseCredits(someclass: detailedClass, new: tempCredits)
+            delegate?.reloadCredits()
+        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -279,6 +290,7 @@ class DetailViewController: UIViewController {
         return -1
     }
     
+    // Checks if the course is already in schedule
     func hasClass() -> Bool {
         for eachSemester in userData.mySemesters {
             if eachSemester.contains(someclass: detailedClass) {return true}
@@ -298,6 +310,31 @@ class DetailViewController: UIViewController {
                 make.height.equalTo(label.intrinsicContentSize.height*2)
             }
         }
+    }
+    
+    // Stops Users from editing TextField without stopping picker view from appearing
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return false
+    }
+    
+    //Sets number of columns in picker view
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    // Sets the number of rows in the picker view
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return (detailedClass.creditsMax - detailedClass.creditsMin + 1)
+    }
+    
+    // Sets the picker options
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(detailedClass.creditsMin + row) credits"
+    }
+    
+    // Changes the objects credit amount and displays new number
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        creditsLabel.text = "\(detailedClass.creditsMin + row) credits"
+        tempCredits = detailedClass.creditsMin + row
     }
     
     @IBAction func stepperHit(_ sender: UIStepper) {

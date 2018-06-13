@@ -182,31 +182,14 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                 Network.getCourses { (courses) in
                     print(courses)
                 }
-                print("Boutta hit while loop")
                 if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-                    while (true) {
-                        print("is in while loop")
-                        if sharedVars.loadedNewCourses == true {
-                            print("hit if statement")
-                            optionsviewcontroller.addCoursesCollectionView.reloadData()
-                            sharedVars.loadedNewCourses = false
-                            break
-                        }
-                    }
-                    print("broke while loop")
+                    optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
             }
             else {
                 sharedVars.discoverCourses = sharedVars.allCourses
                 if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-                    while (true) {
-                        print("in second while loop")
-                        if sharedVars.loadedNewCourses == true {
-                            optionsviewcontroller.addCoursesCollectionView.reloadData()
-                            sharedVars.loadedNewCourses = false
-                            break
-                        }
-                    }
+                    optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
             }
         }

@@ -59,6 +59,13 @@ class Semester {
         classes.remove(at: index!)
         userData.setMySemesters()
     }
+    
+    func alterCourseCredits(someclass: Class, new: Int) {
+        let index = classes.index(where: {$0.title == someclass.title})
+        self.credits-=classes[index!].creditsChosen
+        classes[index!].creditsChosen = new
+        self.credits+=new
+    }
     /** Return: boolean that expresses if enough credits are being taken for current schedule */
     func enoughCredits() -> Bool {
         return credits>=12
@@ -77,6 +84,7 @@ class Semester {
             removeClass(someclass: eachclass)
         }
     }
+    
 }
 /**
  An instance of Class contains essential information about a certain course.
