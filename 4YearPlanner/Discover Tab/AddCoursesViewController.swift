@@ -101,6 +101,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         if collectionView == semestersCollectionView {
             return 8
         } else {
+            print("\(sharedVars.discoverCourses.count) courses were loaded")
+            print("'\(sharedVars.searchSubject) + \(sharedVars.searchNumber)' was searched")
             return sharedVars.discoverCourses.count
         }
     }
@@ -194,7 +196,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         else if fallSelected {sharedVars.searchTerm = "fall"}
         else if springSelected {sharedVars.searchTerm = "spring"}
         else {sharedVars.searchTerm = ""}
-        Network.getAllCourses { (courses) in
+        Network.getCourses { (courses) in
             print(courses)
         }
         addCoursesCollectionView.reloadData()

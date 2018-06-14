@@ -191,6 +191,9 @@ class HomeViewController: UIViewController, settingsDelegate {
                 settingsButton.layer.sublayers![0].removeFromSuperlayer()
                 settingsButton.setTitleColor(aesthetics.textColor, for: .normal)
             }
+            if sharedVars.current_tab != "Discover" {
+                sharedVars.discoverCourses = sharedVars.allCourses
+            }
             sharedVars.current_tab = (sender.titleLabel?.text)!
             setBackgroundGradient(button: sender)
             updateChildViewController()

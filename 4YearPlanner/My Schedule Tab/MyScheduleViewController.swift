@@ -90,6 +90,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         view.addSubview(selectedSemesterLabel)
         view.addSubview(addCourseButton)
         setupMyScheduleConstraints()
+        checkCredits()
     }
     
     func setupMyScheduleConstraints() {
@@ -154,6 +155,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
                     updateCredits()
                     coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
                     myCoursesCollectionView.reloadData()
+                    checkCredits()
                 }
             case UISwipeGestureRecognizerDirection.left:
                 if sharedVars.selected_semester != 8 {
@@ -162,6 +164,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
                     updateCredits()
                     coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
                     myCoursesCollectionView.reloadData()
+                    checkCredits()
                 }
             default:
                 break
@@ -176,6 +179,18 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             creditsLabel.backgroundColor = aesthetics.niceOrange
         } else {
             creditsLabel.backgroundColor = aesthetics.niceGreen
+        }
+    }
+    
+    func checkCredits() {
+        if (userData.mySemesters[sharedVars.selected_semester-1].credits)>24 {
+            let alert = UIAlertController(title: "Reminder", message: "credits > 24; you may need to petition", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default Action"), style: .default, handler: { _ in NSLog("The \"Ok\" alert occured.")}))
+            self.present(alert, animated: true, completion: nil)
+        } else if (userData.mySemesters[sharedVars.selected_semester-1].credits)<12 {
+            let alert = UIAlertController(title: "Reminder", message: "credits < 12; you won't be in good academic standing", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default Action"), style: .default, handler: { _ in NSLog("The \"Ok\" alert occured.")}))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     

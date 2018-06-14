@@ -8,7 +8,13 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate {
+class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate, networksDelegate {
+    
+    func reloadCourses() {
+        if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+            optionsviewcontroller.addCoursesCollectionView.reloadData()
+        }
+    }
     
     func showCourses() {
         updateChildViewController()
@@ -164,10 +170,12 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
         self.perform(#selector(reload), with: nil, afterDelay: 1.0)
+        
     }
 
     // function that happens after 1 second delay
     @objc func reload () {
+        Network.delegate = self
         if let searchText = searchBar.text {
             if !searchText.isEmpty {
                 if searchText.contains(" ") {
@@ -178,12 +186,11 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                     sharedVars.searchNumber = searchText
                 } else {
                     sharedVars.searchSubject = searchText
+                    sharedVars.searchNumber = ""
                 }
+                print("'\(sharedVars.searchSubject) + \(sharedVars.searchNumber)' was searched")
                 Network.getCourses { (courses) in
                     print(courses)
-                }
-                if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-                    optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
             }
             else {

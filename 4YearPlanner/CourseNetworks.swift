@@ -11,11 +11,19 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+protocol networksDelegate {
+    func reloadCourses()
+}
+
 class Network {
+    
+    static var delegate: networksDelegate?
+    
     private static let endpoint = "http://54.245.146.135/planner/courses"
     
     // Pulls all of the courses from the DB
     static func getAllCourses(_ completion: @escaping ([Class]) -> Void) {
+        
         Alamofire.request(endpoint).responseJSON { (response) in
             
             switch response.result {
@@ -65,13 +73,15 @@ class Network {
                 }
                 sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
-                print("done")
+                delegate?.reloadCourses()
+                
                 
             case .failure(let error):
                 print("Error", error)
                 completion([])
             }
         }
+
     }
     
     /** Return a Class object given a String representation of a class
@@ -99,5 +109,7 @@ class Network {
         }
         print("out of request")
     }
+    
+    
     
 }
