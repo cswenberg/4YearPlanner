@@ -109,11 +109,12 @@ class Class {
     var prerequisites: [Class]!
     var distribution: String
     var gradingType: String
+    var academicGroup: String
     var pulledPrereqs: String?
     var semesterTaken: Int?
     var creditsChosen: Int
     
-    init(subject: String, number: String, title: String, description: String, term: [String], creditsMin: Int, creditsMax: Int, prerequisites: [Class], distribution: String, gradingType: String) {
+    init(subject: String, number: String, title: String, description: String, term: [String], creditsMin: Int, creditsMax: Int, prerequisites: [Class], distribution: String, gradingType: String, academicGroup: String) {
         self.subject = subject
         self.number = number
         self.title = title
@@ -125,6 +126,7 @@ class Class {
         self.distribution = distribution
         self.gradingType = gradingType
         self.creditsChosen = self.creditsMin
+        self.academicGroup = academicGroup
     }
     
     // initializing from API query
@@ -150,6 +152,7 @@ class Class {
         }
         self.gradingType = json["gradingType"].stringValue
         self.creditsChosen = self.creditsMin
+        self.academicGroup = json["acadGroup"].stringValue
     }
     /** Return: boolean to answer if two classes are the same by comparing subject and number */
     func equals(someclass: Class) -> Bool {

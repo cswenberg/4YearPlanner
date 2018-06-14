@@ -58,6 +58,25 @@ class Network {
         if sharedVars.searchSubject != "" {parameters["subject"]=sharedVars.searchSubject}
         if sharedVars.searchNumber != "" {parameters["number"]=sharedVars.searchNumber}
         if sharedVars.searchTerm != "" {parameters["term"]=term}
+        // Messing with recommended courses
+//        switch userData.myCollege.college {
+//        case .engineering:
+//            parameters["recommended"]="EN"
+//        case .dyson:
+//            parameters["recommended"]="BU"
+//        case .artsnsciences:
+//            parameters["recommended"]="AS"
+//        case .architecture:
+//            parameters["recommended"]="AR"
+//        case .cals:
+//            parameters["recommended"]="AG"
+//        case .ilr:
+//            parameters["recommended"]="IL"
+//        case .hotel:
+//            parameters["recommended"]="BU"
+//        default:
+//            print("somethin else happened")
+//        }
         
         Alamofire.request(endpoint, parameters: parameters).validate().responseJSON { (response) in
             
@@ -81,7 +100,10 @@ class Network {
                 completion([])
             }
         }
-
+    }
+    
+    static func getRecommendedCourses(_ completion: @escaping ([Class]) -> Void) {
+        
     }
     
     /** Return a Class object given a String representation of a class
@@ -92,7 +114,7 @@ class Network {
         params["subject"] = textParams[0]
         params["number"] = textParams[1]
         print(params)
-        var returnClass: Class = Class(subject: "", number: "", title: "", description: "", term: [""], creditsMin: 1, creditsMax: 1, prerequisites: [], distribution: "", gradingType: "")
+        var returnClass: Class = Class(subject: "", number: "", title: "", description: "", term: [""], creditsMin: 1, creditsMax: 1, prerequisites: [], distribution: "", gradingType: "", academicGroup: "")
         Alamofire.request(endpoint, parameters: params).validate().responseJSON { (response) in
             print("in request")
             switch response.result {

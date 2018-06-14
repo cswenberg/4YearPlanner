@@ -22,11 +22,16 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     
     func updateCategoryLabel() {
         categoryLabel.text = sharedVars.current_category
+        if sharedVars.current_category == "Courses" {
+            
+        }
     }
 
     var searchBar: UISearchBar!
     var backButton: UIButton!
     var categoryLabel: UILabel!
+    var recommendedButton: UIButton!
+    var allCoursesButton: UIButton!
     
     var subContainerView: UIView!
     var subContainerViewController: UIViewController!
@@ -59,6 +64,20 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         backButton.titleLabel?.font = .systemFont(ofSize: 36)
         backButton.titleLabel?.textAlignment = .center
         backButton.addTarget(self, action: #selector(discoverBackButtonPressed), for: .touchUpInside)
+        
+        recommendedButton = UIButton()
+        recommendedButton.setTitle("Recommended", for: .normal)
+        recommendedButton.setTitleColor(aesthetics.textColor, for: .normal)
+        recommendedButton.titleLabel?.font = .systemFont(ofSize: 24)
+        recommendedButton.titleLabel?.textAlignment = .center
+        recommendedButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
+        
+        allCoursesButton = UIButton()
+        allCoursesButton.setTitle("All", for: .normal)
+        allCoursesButton.setTitleColor(aesthetics.textColor, for: .normal)
+        allCoursesButton.titleLabel?.font = .systemFont(ofSize: 24)
+        allCoursesButton.titleLabel?.textAlignment = .center
+        allCoursesButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
         
         // Category Label
         categoryLabel = UILabel()
@@ -199,6 +218,12 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                     optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
             }
+        }
+    }
+    
+    @objc func careerButtonPressed (sender: UIButton) {
+        if sender == allCoursesButton {
+            sharedVars.discoverCourses = sharedVars.allCourses
         }
     }
 
