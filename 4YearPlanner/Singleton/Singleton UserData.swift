@@ -126,7 +126,7 @@ class userInfo {
     }
     
     func resetSemesters() {
-        // Not sure what the defaults part is. This func might not be complete
         mySemesters = [Semester(number: 1),Semester(number: 2),Semester(number: 3),Semester(number: 4),Semester(number: 5),Semester(number: 6),Semester(number: 7),Semester(number: 8)]
+        setMySemesters()
     }
 }
