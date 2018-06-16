@@ -55,7 +55,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         courseTitle.font = .systemFont(ofSize: 28)
         courseTitle.textColor = aesthetics.textColor
         courseTitle.numberOfLines = 0
-        courseTitle.textAlignment = .center
+        courseTitle.textAlignment = .left
         view.addSubview(courseTitle)
         
         courseLabel = UILabel()
@@ -75,7 +75,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         descriptionTextView.textColor = aesthetics.textColor
         descriptionTextView.backgroundColor = aesthetics.backgroundColor
         descriptionTextView.text = descriptionText
-        descriptionTextView.textAlignment = .center
+        descriptionTextView.textAlignment = .left
         descriptionTextView.isEditable = false
         view.addSubview(descriptionTextView)
         
@@ -99,7 +99,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         creditsLabel.font = .systemFont(ofSize: 24)
         creditsLabel.backgroundColor = aesthetics.niceOrange
         creditsLabel.textColor = aesthetics.cellTextColor
-        creditsLabel.text = creditsNum+" credits"
+        creditsLabel.text = creditsNum
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 16
         creditsLabel.clipsToBounds = true
@@ -184,9 +184,16 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     func setupConstraints() {
+        // back button
+        backButton.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(40)
+            make.width.equalTo(backButton.intrinsicContentSize.width)
+            make.leading.equalToSuperview().offset(20)
+            make.height.equalTo(backButton.intrinsicContentSize.height)
+        }
         //course label
         courseLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(100)
+            make.centerY.equalTo(backButton.snp.centerY)
             make.centerX.equalToSuperview()
             //   make.width.equalTo(courseLabel.intrinsicContentSize.width)
             make.height.equalTo(courseLabel.intrinsicContentSize.height)
@@ -194,15 +201,15 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         //course title
         courseTitle.snp.makeConstraints{ (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(courseLabel.snp.bottom).offset(10)
+            make.top.equalTo(courseLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             adjustHeight(label: courseTitle)
         }
         // description label
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(courseTitle.snp.bottom).offset(24)
-            make.centerX.equalToSuperview()
+            make.top.equalTo(courseTitle.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(10)
             make.height.equalTo(descriptionLabel.intrinsicContentSize.height)
         }
         // description text view
@@ -210,12 +217,12 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().offset(-20)
-            make.height.equalTo(240)
+            make.height.equalTo(250)
         }
         // prereq label
         prereqLabel.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionTextView.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
             make.height.equalTo(prereqLabel.intrinsicContentSize.height)
         }
         // prereq text view
@@ -229,13 +236,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             else {
                 make.bottom.equalTo(deleteButton).offset(-20)
             }
-        }
-        // back button
-        backButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40)
-            make.width.equalTo(backButton.intrinsicContentSize.width)
-            make.leading.equalToSuperview().offset(20)
-            make.height.equalTo(backButton.intrinsicContentSize.height)
         }
         // credits label
         creditsLabel.snp.makeConstraints { (make) in
@@ -274,6 +274,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func saveClass() {
         userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: detailedClass)
         userData.saveSemesters()
+        analyzePreReqs()
     }
     
     // Deletes class from schedule
@@ -335,7 +336,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     // Changes the objects credit amount and displays new number
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        creditsLabel.text = "\(detailedClass.creditsMin + row) credits"
+        creditsLabel.text = "\(detailedClass.creditsMin + row)"
         tempCredits = detailedClass.creditsMin + row
     }
     
@@ -343,4 +344,30 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         semesterLabel.text = "Semester \(Int(sender.value))"
         sharedVars.selected_semester = Int(sender.value)
     }
+    
+    func analyzePreReqs() {
+        if (prereqLabel.text?.contains("None"))! {
+            print("No prereqs")
+        }
+        if (prereqLabel.text?.contains("Prerequisite:"))! {
+            print("has clasifiable prereq")
+        }
+        print("end of analysis")
+        
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

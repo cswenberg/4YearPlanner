@@ -21,26 +21,6 @@ import SwiftyJSON
  */
 class Semester: NSObject, NSCoding {
     
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(number, forKey: "number")
-        aCoder.encode(term, forKey: "term")
-        aCoder.encode(classes, forKey: "classes")
-        aCoder.encode(credits, forKey: "credits")
-        aCoder.encode(numCourses, forKey: "numCourses")
-    
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        self.number = aDecoder.decodeInteger(forKey: "number")
-        self.term = aDecoder.decodeObject(forKey: "term") as! String
-        self.classes = []
-        if let classes = aDecoder.decodeObject(forKey: "classes") as? [Class] {
-            self.classes = classes
-        }
-        self.credits = aDecoder.decodeInteger(forKey: "credits")
-        self.numCourses = aDecoder.decodeInteger(forKey: "numCourses")
-    }
-    
     var number: Int
     var term: String
     var classes: [Class]
@@ -106,6 +86,26 @@ class Semester: NSObject, NSCoding {
         }
     }
     
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(number, forKey: "number")
+        aCoder.encode(term, forKey: "term")
+        aCoder.encode(classes, forKey: "classes")
+        aCoder.encode(credits, forKey: "credits")
+        aCoder.encode(numCourses, forKey: "numCourses")
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.number = aDecoder.decodeInteger(forKey: "number")
+        self.term = aDecoder.decodeObject(forKey: "term") as! String
+        self.classes = []
+        if let classes = aDecoder.decodeObject(forKey: "classes") as? [Class] {
+            self.classes = classes
+        }
+        self.credits = aDecoder.decodeInteger(forKey: "credits")
+        self.numCourses = aDecoder.decodeInteger(forKey: "numCourses")
+    }
+    
 }
 /**
  An instance of Class contains essential information about a certain course.
@@ -120,39 +120,6 @@ class Semester: NSObject, NSCoding {
  semesterTaken - index of semester in which this class resides in the schedule, 0..8 (nil if not taken in any semester)
  */
 class Class: NSObject, NSCoding {
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(subject, forKey: "subject")
-        aCoder.encode(number, forKey: "number")
-        aCoder.encode(title, forKey: "title")
-        aCoder.encode(descriptionn, forKey: "description")
-        aCoder.encode(term, forKey: "term")
-        aCoder.encode(creditsMin, forKey: "creditsMin")
-        aCoder.encode(creditsMax, forKey: "creditsMax")
-        aCoder.encode(gradingType, forKey: "gradingType")
-        aCoder.encode(academicGroup, forKey: "academicGroup")
-        aCoder.encode(semesterTaken, forKey: "semesterTaken")
-        aCoder.encode(creditsChosen, forKey: "creditsChosen")
-        if let reqs = pulledPrereqs{
-            aCoder.encode(reqs, forKey: "pulledPrereqs")
-        }
-        aCoder.encode(distribution, forKey: "distribution")
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        self.subject = aDecoder.decodeObject(forKey: "subject") as! String
-        self.number =  aDecoder.decodeObject(forKey: "number") as! String
-        self.title = aDecoder.decodeObject(forKey: "title") as! String
-        self.descriptionn = aDecoder.decodeObject(forKey: "description") as! String
-        self.term = aDecoder.decodeObject(forKey: "term") as! [String]
-        self.creditsMin = aDecoder.decodeInteger(forKey: "creditsMin")
-        self.creditsMax = aDecoder.decodeInteger(forKey: "creditsMax")
-        self.prerequisites = []
-        self.distribution = aDecoder.decodeObject(forKey: "distribution") as! String
-        self.gradingType = aDecoder.decodeObject(forKey: "gradingType") as! String
-        self.creditsChosen = aDecoder.decodeInteger(forKey: "creditsChosen")
-        self.academicGroup = (aDecoder.decodeObject(forKey: "academicGroup") as? String)!
-        self.pulledPrereqs = aDecoder.decodeObject(forKey: "pulledPrereqs") as? String
-    }
     
     var subject: String
     var number: String
@@ -226,6 +193,39 @@ class Class: NSObject, NSCoding {
         return subject+" "+number
     }
     
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(subject, forKey: "subject")
+        aCoder.encode(number, forKey: "number")
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(descriptionn, forKey: "description")
+        aCoder.encode(term, forKey: "term")
+        aCoder.encode(creditsMin, forKey: "creditsMin")
+        aCoder.encode(creditsMax, forKey: "creditsMax")
+        aCoder.encode(gradingType, forKey: "gradingType")
+        aCoder.encode(academicGroup, forKey: "academicGroup")
+        aCoder.encode(semesterTaken, forKey: "semesterTaken")
+        aCoder.encode(creditsChosen, forKey: "creditsChosen")
+        if let reqs = pulledPrereqs{
+            aCoder.encode(reqs, forKey: "pulledPrereqs")
+        }
+        aCoder.encode(distribution, forKey: "distribution")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.subject = aDecoder.decodeObject(forKey: "subject") as! String
+        self.number =  aDecoder.decodeObject(forKey: "number") as! String
+        self.title = aDecoder.decodeObject(forKey: "title") as! String
+        self.descriptionn = aDecoder.decodeObject(forKey: "description") as! String
+        self.term = aDecoder.decodeObject(forKey: "term") as! [String]
+        self.creditsMin = aDecoder.decodeInteger(forKey: "creditsMin")
+        self.creditsMax = aDecoder.decodeInteger(forKey: "creditsMax")
+        self.prerequisites = []
+        self.distribution = aDecoder.decodeObject(forKey: "distribution") as! String
+        self.gradingType = aDecoder.decodeObject(forKey: "gradingType") as! String
+        self.creditsChosen = aDecoder.decodeInteger(forKey: "creditsChosen")
+        self.academicGroup = (aDecoder.decodeObject(forKey: "academicGroup") as? String)!
+        self.pulledPrereqs = aDecoder.decodeObject(forKey: "pulledPrereqs") as? String
+    }
 }
 
 

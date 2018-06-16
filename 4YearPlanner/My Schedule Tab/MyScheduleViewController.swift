@@ -31,6 +31,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var creditsLabel: UILabel!
     var swipeRight: UISwipeGestureRecognizer!
     var swipeLeft: UISwipeGestureRecognizer!
+    var receivedCreditAlert = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,12 +126,9 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
-        
-        testObjectifyClass()
-        
-//        let navVC = Schedule_addViewController()
-//        //navVC.delegate = self
-//        present(navVC, animated: true, completion: nil)
+        let navVC = Schedule_addViewController()
+        //navVC.delegate = self
+        present(navVC, animated: true, completion: nil)
     }
     
     func testObjectifyClass() {
@@ -150,7 +148,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
                     updateCredits()
                     coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
                     myCoursesCollectionView.reloadData()
-                    checkCredits()
+                    if !receivedCreditAlert {checkCredits()}
                 }
             case UISwipeGestureRecognizerDirection.left:
                 if sharedVars.selected_semester != 8 {
@@ -159,7 +157,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
                     updateCredits()
                     coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
                     myCoursesCollectionView.reloadData()
-                    checkCredits()
+                    if !receivedCreditAlert {checkCredits()}
                 }
             default:
                 break
@@ -178,14 +176,16 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func checkCredits() {
-        if (userData.mySemesters[sharedVars.selected_semester-1].credits)>24 {
-            let alert = UIAlertController(title: "Reminder", message: "credits > 24; you may need to petition", preferredStyle: .alert)
+        if (userData.mySemesters[sharedVars.selected_semester-1].credits)>23 {
+            let alert = UIAlertController(title: "Reminder", message: "credits > 23; you may need to petition", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default Action"), style: .default, handler: { _ in NSLog("The \"Ok\" alert occured.")}))
             self.present(alert, animated: true, completion: nil)
+            receivedCreditAlert = true
         } else if (userData.mySemesters[sharedVars.selected_semester-1].credits)<12 {
             let alert = UIAlertController(title: "Reminder", message: "credits < 12; you won't be in good academic standing", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default Action"), style: .default, handler: { _ in NSLog("The \"Ok\" alert occured.")}))
             self.present(alert, animated: true, completion: nil)
+            receivedCreditAlert = true
         }
     }
     
