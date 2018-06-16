@@ -273,6 +273,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     // Adds class to schedule
     func saveClass() {
         userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: detailedClass)
+        userData.saveSemesters()
     }
     
     // Deletes class from schedule
@@ -280,6 +281,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         //let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
         //let index = getClassIndex(classList: classes, chosenClass: detailedClass)
         userData.mySemesters[sharedVars.selected_semester-1].removeClass(someclass: detailedClass)
+        userData.saveSemesters()
     }
     
     // helper for deleting the class

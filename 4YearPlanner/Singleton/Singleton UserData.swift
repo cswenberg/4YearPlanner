@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftyJSON
 
 var userData = userInfo()
 
@@ -22,25 +23,26 @@ class userInfo {
     
     func loadDefaults() {
         let defaults = UserDefaults.standard
-        if let decodedData = defaults.object(forKey: "mySemesters") as! Data? {
-            let stringSemesters = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [[String]]
-            //objectifySemesters(list: stringSemesters)
-        }
-        if let decodedData = defaults.object(forKey: "myCollege") as! Data? {
+
+        if let decodedData = defaults.data(forKey: "myCollege") {
             let collegeString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
             myCollege = stringToCollege(collegeString: collegeString)
         }
-        if let decodedData = defaults.object(forKey: "myMajor") as! Data? {
+        if let decodedData = defaults.data(forKey: "myMajor") {
             let majorString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
             myMajor = stringToMajor(majorString: majorString)
         }
-        if let decodedData = defaults.object(forKey: "myMinor") as! Data? {
+        if let decodedData = defaults.data(forKey: "myMinor") {
             let minorString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
             myMinor = stringToMinor(minorString: minorString)
         }
-        if let decodedData = defaults.object(forKey: "selectedTheme") as! Data? {
+        if let decodedData = defaults.data(forKey: "selectedTheme") {
             let theme = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
             aesthetics.selectedTheme = theme
+        }
+        if let decodedData = defaults.data(forKey: "mySemesters") {
+            let semesters = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [Semester]
+            mySemesters = semesters
         }
         aesthetics.updateTheme()
     }
@@ -56,7 +58,6 @@ class userInfo {
     func stringToMinor(minorString: String) -> Minor {
         return Minor(Enum: requirementData.stringMinorDict[minorString]!, requirements: [])
     }
-    
     
     func setCollege(college: College)  {
         myCollege = college
@@ -79,34 +80,10 @@ class userInfo {
         defaults.set(encodedData, forKey: "myMinor")
     }
     
-    func setMySemesters() {
-        let semesters = stringifySemesters()
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: semesters)
+    func saveSemesters() {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: mySemesters)
         let defaults = UserDefaults.standard
         defaults.set(encodedData, forKey: "mySemesters")
-    }
-    
-    func stringifySemesters() -> [[String]] {
-        var semesters: [[String]] = []
-        for eachsemester in mySemesters {
-            var nestedList: [String] = []
-            for eachclass in eachsemester.classes {
-                nestedList.append(eachclass.classLabel())
-            }
-            semesters.append(nestedList)
-        }
-        return semesters
-    }
-    
-    func objectifySemesters(list: [[String]]) {
-//        var semesterIndex = 0
-//        for eachsemester in list {
-//            for eachclass in eachsemester {
-//                let classObject = Network.getClassObject(course: eachclass)
-//                mySemesters[semesterIndex].addClass(newclass: classObject)
-//            }
-//            semesterIndex+=1
-//        }
     }
     
     func setTheme() {
@@ -126,7 +103,9 @@ class userInfo {
     }
     
     func resetSemesters() {
-        mySemesters = [Semester(number: 1),Semester(number: 2),Semester(number: 3),Semester(number: 4),Semester(number: 5),Semester(number: 6),Semester(number: 7),Semester(number: 8)]
-        setMySemesters()
+        for eachsemester in mySemesters {
+            eachsemester.wipe()
+        }
+        saveSemesters()
     }
 }

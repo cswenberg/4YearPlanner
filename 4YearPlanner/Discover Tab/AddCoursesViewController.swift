@@ -153,7 +153,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
                 dVC.creditsNum = String(describing: cellClass.creditsChosen)
                 dVC.prereqList = [cellClass.pulledPrereqs!]
                 dVC.prereqText = cellClass.pulledPrereqs
-                dVC.descriptionText = cellClass.description
+                dVC.descriptionText = cellClass.descriptionn
                 present(dVC, animated: true, completion: nil)
             }
         }

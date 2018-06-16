@@ -126,21 +126,16 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
         
-        // testObjectifyClass()
+        testObjectifyClass()
         
-        let navVC = Schedule_addViewController()
-        //navVC.delegate = self
-        present(navVC, animated: true, completion: nil)
+//        let navVC = Schedule_addViewController()
+//        //navVC.delegate = self
+//        present(navVC, animated: true, completion: nil)
     }
     
     func testObjectifyClass() {
-        Network.getClassObject(course: "Math 1920")
-        print("pre iflet")
-        if let newclass = userData.tmpClass {
-            print("gottem")
-            userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: newclass)
-        }
-        print("post iflet")
+        let newcourse = Network.getClassObject(course: "Math 1920")
+        userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: newcourse)
         myCoursesCollectionView.reloadData()
     }
     
@@ -224,7 +219,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             dVC.courseName = cellClass.classLabel()
             dVC.creditsNum = String(describing: cellClass.creditsChosen)
           //  dVC.prereqList = cellClass.prerequisites
-            dVC.descriptionText = cellClass.description
+            dVC.descriptionText = cellClass.descriptionn
             present(dVC, animated: true, completion: nil)
         }
     }

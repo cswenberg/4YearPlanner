@@ -19,7 +19,28 @@ import SwiftyJSON
  credits - sum of credits from classes, 0..
  numCourses - number of courses taken in semester, 0..
  */
-class Semester {
+class Semester: NSObject, NSCoding {
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(number, forKey: "number")
+        aCoder.encode(term, forKey: "term")
+        aCoder.encode(classes, forKey: "classes")
+        aCoder.encode(credits, forKey: "credits")
+        aCoder.encode(numCourses, forKey: "numCourses")
+    
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.number = aDecoder.decodeInteger(forKey: "number")
+        self.term = aDecoder.decodeObject(forKey: "term") as! String
+        self.classes = []
+        if let classes = aDecoder.decodeObject(forKey: "classes") as? [Class] {
+            self.classes = classes
+        }
+        self.credits = aDecoder.decodeInteger(forKey: "credits")
+        self.numCourses = aDecoder.decodeInteger(forKey: "numCourses")
+    }
+    
     var number: Int
     var term: String
     var classes: [Class]
@@ -47,7 +68,7 @@ class Semester {
         credits+=newclass.creditsChosen
         numCourses+=1
         newclass.semesterTaken = number
-        userData.setMySemesters()
+        userData.saveSemesters()
     }
     /** Removes a class from this semester's schedule */
     func removeClass(someclass: Class) {
@@ -57,7 +78,7 @@ class Semester {
         someclass.semesterTaken = nil
         let index = classes.index(where: {$0.equals(someclass: someclass)})
         classes.remove(at: index!)
-        userData.setMySemesters()
+        userData.saveSemesters()
     }
     
     func alterCourseCredits(someclass: Class, new: Int) {
@@ -98,11 +119,45 @@ class Semester {
  prerequisites - list of prerequisite classes (in reverse order)
  semesterTaken - index of semester in which this class resides in the schedule, 0..8 (nil if not taken in any semester)
  */
-class Class {
+class Class: NSObject, NSCoding {
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(subject, forKey: "subject")
+        aCoder.encode(number, forKey: "number")
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(descriptionn, forKey: "description")
+        aCoder.encode(term, forKey: "term")
+        aCoder.encode(creditsMin, forKey: "creditsMin")
+        aCoder.encode(creditsMax, forKey: "creditsMax")
+        aCoder.encode(gradingType, forKey: "gradingType")
+        aCoder.encode(academicGroup, forKey: "academicGroup")
+        aCoder.encode(semesterTaken, forKey: "semesterTaken")
+        aCoder.encode(creditsChosen, forKey: "creditsChosen")
+        if let reqs = pulledPrereqs{
+            aCoder.encode(reqs, forKey: "pulledPrereqs")
+        }
+        aCoder.encode(distribution, forKey: "distribution")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.subject = aDecoder.decodeObject(forKey: "subject") as! String
+        self.number =  aDecoder.decodeObject(forKey: "number") as! String
+        self.title = aDecoder.decodeObject(forKey: "title") as! String
+        self.descriptionn = aDecoder.decodeObject(forKey: "description") as! String
+        self.term = aDecoder.decodeObject(forKey: "term") as! [String]
+        self.creditsMin = aDecoder.decodeInteger(forKey: "creditsMin")
+        self.creditsMax = aDecoder.decodeInteger(forKey: "creditsMax")
+        self.prerequisites = []
+        self.distribution = aDecoder.decodeObject(forKey: "distribution") as! String
+        self.gradingType = aDecoder.decodeObject(forKey: "gradingType") as! String
+        self.creditsChosen = aDecoder.decodeInteger(forKey: "creditsChosen")
+        self.academicGroup = (aDecoder.decodeObject(forKey: "academicGroup") as? String)!
+        self.pulledPrereqs = aDecoder.decodeObject(forKey: "pulledPrereqs") as? String
+    }
+    
     var subject: String
     var number: String
     var title: String
-    var description: String
+    var descriptionn: String
     var term: [String]
     var creditsMin: Int
     var creditsMax: Int
@@ -118,7 +173,7 @@ class Class {
         self.subject = subject
         self.number = number
         self.title = title
-        self.description = description
+        self.descriptionn = description
         self.term = term
         self.creditsMin = creditsMin
         self.creditsMax = creditsMax
@@ -134,7 +189,7 @@ class Class {
         self.subject = json["subject"].stringValue
         self.number = json["number"].stringValue
         self.title = json["title"].stringValue
-        self.description = json["description"].stringValue
+        self.descriptionn = json["description"].stringValue
         self.term = [json["term"].stringValue]
         self.creditsMin = json["creditsMin"].intValue
         self.creditsMax = json["creditsMax"].intValue

@@ -225,7 +225,7 @@ enum minors: String {
     case viti = "Viticulture & Enology"
 }
 
-class Requirements: NSObject {
+class Requirements {
     
     var requirements: [Class]
     var title: String
@@ -265,6 +265,7 @@ class Requirements: NSObject {
 
 
 class College: Requirements {
+    
     /** Enum to represent all college options, will use cases to determine requirements by using a switch and drawing information from server */
     
     var college: colleges

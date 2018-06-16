@@ -108,13 +108,13 @@ class Network {
     
     /** Return a Class object given a String representation of a class
         ex: "Math 1920", "CS 2110" */
-    static func getClassObject(course: String) {
+    static func getClassObject(course: String) -> Class {
         var textParams = course.components(separatedBy: " ")
         var params = Parameters()
         params["subject"] = textParams[0]
         params["number"] = textParams[1]
         print(params)
-        var returnClass: Class = Class(subject: "", number: "", title: "", description: "", term: [""], creditsMin: 1, creditsMax: 1, prerequisites: [], distribution: "", gradingType: "", academicGroup: "")
+        var returnClass: Class?
         Alamofire.request(endpoint, parameters: params).validate().responseJSON { (response) in
             print("in request")
             switch response.result {
@@ -124,12 +124,12 @@ class Network {
                 returnClass = Class(from: json["data"]["courses"][0])
                 userData.tmpClass = returnClass
                 print(userData.tmpClass.classLabel())
-                print(returnClass.classLabel())
-                break
             case .failure(let error):
                 print("Error", error)            }
         }
-        print("out of request")
+        while returnClass == nil {}
+        print("returnClass != nil" )
+        return returnClass!
     }
     
     
