@@ -41,4 +41,17 @@ class globalVars {
     var searchSubject = ""
     var searchNumber = ""
     var searchTerm = ""
+    
+    func yearTerm() -> String {
+        var year: String
+        var term: String
+        if selected_semester % 2 == 1 {
+            term = "Fall"
+        } else { term = "Spring"}
+        if selected_semester<=2 {year = "Freshman"}
+        else if selected_semester<=4 {year = "Sophomore"}
+        else if selected_semester<=6 {year="Junior"}
+        else {year="Senior"}
+        return year+" "+term
+    }
 }

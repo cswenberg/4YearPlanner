@@ -46,7 +46,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         selectedSemesterLabel.backgroundColor = aesthetics.backgroundColor
         selectedSemesterLabel.layer.cornerRadius = 24
         selectedSemesterLabel.font = .boldSystemFont(ofSize: 36)
-        selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+        selectedSemesterLabel.text = sharedVars.yearTerm()
         selectedSemesterLabel.textAlignment = .left
         
         //add course button
@@ -70,7 +70,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         
         //credits label
         creditsLabel = UILabel()
-        creditsLabel.font = .systemFont(ofSize: 20)
+        creditsLabel.font = .systemFont(ofSize: 24)
         creditsLabel.textColor = aesthetics.cellTextColor
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 10
@@ -99,13 +99,13 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         selectedSemesterLabel.snp.makeConstraints { (make) in
             make.top.leading.equalToSuperview().offset(10)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
-            make.width.equalTo(selectedSemesterLabel.intrinsicContentSize.width+10)
+            make.trailing.equalTo(creditsLabel.snp.leading)
         }
         // credits label
         creditsLabel.snp.makeConstraints{ (make) in
             make.centerY.equalTo(selectedSemesterLabel.snp.centerY)
-            make.trailing.equalToSuperview().offset(-10)
-            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
+            make.centerX.equalTo(view.snp.trailing).offset(-33)
+            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 12)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
        
@@ -118,7 +118,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         }
         // my courses collection view
         myCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(20)
+            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(10)
             make.bottom.equalTo(addCourseButton.snp.top).offset(-10)
             make.leading.trailing.equalToSuperview()
         }
@@ -144,7 +144,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             case UISwipeGestureRecognizerDirection.right:
                 if sharedVars.selected_semester != 1 {
                     sharedVars.selected_semester-=1
-                    selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+                    selectedSemesterLabel.text = sharedVars.yearTerm()
                     updateCredits()
                     coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
                     myCoursesCollectionView.reloadData()
@@ -153,7 +153,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             case UISwipeGestureRecognizerDirection.left:
                 if sharedVars.selected_semester != 8 {
                     sharedVars.selected_semester+=1
-                    selectedSemesterLabel.text = "Semester \(sharedVars.selected_semester)"
+                    selectedSemesterLabel.text = sharedVars.yearTerm()
                     updateCredits()
                     coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
                     myCoursesCollectionView.reloadData()
@@ -167,7 +167,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     // Refreshes credit total for new selected semester
     func updateCredits() {
-        creditsLabel.text = "\(userData.mySemesters[sharedVars.selected_semester-1].credits) credits"
+        creditsLabel.text = "\(userData.mySemesters[sharedVars.selected_semester-1].credits)"
         if userData.mySemesters[sharedVars.selected_semester-1].credits<12 {
             creditsLabel.backgroundColor = aesthetics.niceOrange
         } else {
@@ -199,6 +199,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         cell.cellClass = coursesToDisplay[indexPath.item]
         cell.classLabel.text = cell.cellClass.classLabel()
         cell.titleLabel.text = cell.cellClass.title
+        cell.creditLabel.text = String(cell.cellClass.creditsChosen)
         cell.gradientNum = indexPath.item
         cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
         cell.layer.insertSublayer(cell.gradient, at: 0)

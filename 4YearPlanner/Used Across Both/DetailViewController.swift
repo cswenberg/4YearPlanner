@@ -101,7 +101,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         creditsLabel.textColor = aesthetics.cellTextColor
         creditsLabel.text = creditsNum
         creditsLabel.textAlignment = .center
-        creditsLabel.layer.cornerRadius = 16
+        creditsLabel.layer.cornerRadius = 10
         creditsLabel.clipsToBounds = true
         creditsLabel.inputView = creditsPickerView
         creditsLabel.tintColor = .clear
@@ -241,7 +241,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         creditsLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(backButton.snp.centerY)
             make.trailing.equalToSuperview().offset(-20)
-            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 20)
+            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 12)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
         print(courseTitle.frame.width)

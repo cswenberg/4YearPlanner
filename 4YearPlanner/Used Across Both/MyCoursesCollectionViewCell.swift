@@ -17,6 +17,7 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
     var titleLabel: UILabel!
     var gradient: CAGradientLayer!
     var gradientNum = aesthetics.gradientRandomizer
+    var creditLabel: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,8 +42,17 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         titleLabel.font = .systemFont(ofSize: 16)
         titleLabel.numberOfLines = 0
         
+        creditLabel = UILabel()
+        creditLabel.textColor = aesthetics.cellTextColor
+        creditLabel.font = .systemFont(ofSize: 24)
+        creditLabel.layer.borderWidth = 1
+        creditLabel.layer.cornerRadius = 10
+        creditLabel.textAlignment = .center
+        creditLabel.layer.borderColor = aesthetics.cellTextColor.cgColor
+        
         contentView.addSubview(classLabel)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(creditLabel)
     }
     
     override func updateConstraints() {
@@ -57,6 +67,12 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(contentView.snp.centerY)
             make.leading.equalToSuperview().offset(10)
             make.trailing.bottom.equalToSuperview()
+        }
+        //credits label
+        creditLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(classLabel.snp.centerY)
+            make.trailing.equalToSuperview().offset(-10)
+            make.width.equalTo(creditLabel.intrinsicContentSize.width+12)
         }
         super.updateConstraints()
     }

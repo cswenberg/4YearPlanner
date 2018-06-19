@@ -92,7 +92,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         
         //add courses collection view
         addCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(termsStackView.snp.bottom).offset(20)
+            make.top.equalTo(termsStackView.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalToSuperview()
         }
  }

@@ -212,6 +212,7 @@ class SettingsViewController: UIViewController {
         viewDidLoad()
         delegate?.themeUpdated()
         themeHighlight()
+        userData.setTheme()
     }
     
     func themeHighlight() {
