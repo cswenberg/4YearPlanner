@@ -41,6 +41,7 @@ class globalVars {
     var searchSubject = ""
     var searchNumber = ""
     var searchTerm = ""
+    var searchCourse = "Math 1920"
     
     func yearTerm() -> String {
         var year: String

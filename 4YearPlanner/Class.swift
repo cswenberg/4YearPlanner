@@ -44,7 +44,7 @@ class Semester: NSObject, NSCoding {
     }
     /** Adds a new class to this semester's schedule */
     func addClass(newclass: Class) {
-        self.classes.append(newclass)
+        classes.append(newclass)
         credits+=newclass.creditsChosen
         numCourses+=1
         newclass.semesterTaken = number
@@ -62,10 +62,9 @@ class Semester: NSObject, NSCoding {
     }
     
     func alterCourseCredits(someclass: Class, new: Int) {
-        let index = classes.index(where: {$0.title == someclass.title})
-        self.credits-=classes[index!].creditsChosen
+        let index = classes.index(where: {$0.equals(someclass: someclass)})
+        credits-=classes[index!].creditsChosen-new
         classes[index!].creditsChosen = new
-        self.credits+=new
     }
     /** Return: boolean that expresses if enough credits are being taken for current schedule */
     func enoughCredits() -> Bool {

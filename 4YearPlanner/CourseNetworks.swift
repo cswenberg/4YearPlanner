@@ -83,7 +83,7 @@ class Network {
             switch response.result {
                 
             case .success(let json):
-                
+                print("success")
                 let json = JSON(json)
                 var classes: [Class] = []
                 
@@ -108,8 +108,8 @@ class Network {
     
     /** Return a Class object given a String representation of a class
         ex: "Math 1920", "CS 2110" */
-    static func getClassObject(course: String) -> Class {
-        var textParams = course.components(separatedBy: " ")
+    static func getClassObject(_ completion: @escaping ([Class]) -> Void) {
+        var textParams = sharedVars.searchCourse.components(separatedBy: " ")
         var params = Parameters()
         params["subject"] = textParams[0]
         params["number"] = textParams[1]
@@ -129,7 +129,7 @@ class Network {
         }
         while returnClass == nil {}
         print("returnClass != nil" )
-        return returnClass!
+        
     }
     
     

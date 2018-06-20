@@ -132,8 +132,10 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func testObjectifyClass() {
-        let newcourse = Network.getClassObject(course: "Math 1920")
-        userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: newcourse)
+        Network.getClassObject { (courses) in
+            print(courses)
+        }
+        userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: userData.tmpClass)
         myCoursesCollectionView.reloadData()
     }
     

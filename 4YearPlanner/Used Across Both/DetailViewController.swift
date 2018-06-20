@@ -150,13 +150,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
         // Only show save button if not in list of classes already
         if !hasClass() {
-            view.addSubview(saveButton)
-            saveButton.snp.makeConstraints { (make) in
-                make.bottom.equalToSuperview().offset(-40)
-                make.centerX.equalToSuperview()
-                make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
-                make.height.equalTo(saveButton.intrinsicContentSize.height)
-            }
+            showSaveButton()
             view.addSubview(semesterStepper)
             semesterStepper.snp.makeConstraints { (make) in
                 make.centerX.equalToSuperview()
@@ -249,8 +243,12 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     // Returns from modal VC and changes value of stored variable
     @objc func saveButtonPressed(sender: UIButton) {
-        saveClass()
-        delegate?.reloadMyClasses()
+        if hasClass() {
+            updateCredits()
+        } else {
+            saveClass()
+            delegate?.reloadMyClasses()
+        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -263,11 +261,13 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
-        if hasClass() {
-            userData.mySemesters[sharedVars.selected_semester-1].alterCourseCredits(someclass: detailedClass, new: tempCredits)
-            delegate?.reloadCredits()
-        }
         dismiss(animated: true, completion: nil)
+    }
+    
+    func updateCredits() {
+        userData.mySemesters[detailedClass.semesterTaken!-1].alterCourseCredits(someclass: detailedClass, new: tempCredits)
+        delegate?.reloadCredits()
+        delegate?.reloadMyClasses()
     }
     
     // Adds class to schedule
@@ -338,8 +338,21 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         creditsLabel.text = "\(detailedClass.creditsMin + row)"
         tempCredits = detailedClass.creditsMin + row
+        if tempCredits != detailedClass.creditsChosen {
+            deleteButton.isHidden = true
+            showSaveButton()
+        }
     }
     
+    func showSaveButton () {
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().offset(-40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
+            make.height.equalTo(saveButton.intrinsicContentSize.height)
+        }
+    }
     @IBAction func stepperHit(_ sender: UIStepper) {
         semesterLabel.text = "Semester \(Int(sender.value))"
         sharedVars.selected_semester = Int(sender.value)
