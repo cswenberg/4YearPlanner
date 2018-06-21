@@ -26,17 +26,12 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     var descriptionLabel: UILabel!
     var descriptionTextView: UITextView!
     var prereqLabel: UILabel!
-    var prereqList = [String]()
     var prereqCollectionView: UICollectionView!
     var prereqTextView: UITextView!
     var creditsLabel: UITextField!
     var backButton: UIButton!
     var saveButton: UIButton!
     var deleteButton: UIButton!
-    var courseName: String!
-    var creditsNum: String!
-    var descriptionText: String!
-    var prereqText: String!
     var semesterStepper: UIStepper!
     var semesterLabel: UILabel!
     
@@ -46,6 +41,10 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         view.backgroundColor = aesthetics.backgroundColor
         
         tempCredits = detailedClass.creditsChosen
+        
+        if detailedClass.pulledPrereqs != "None" {
+            detailedClass.slicePulledPrereqs()
+        }
         
         creditsPickerView = UIPickerView()
         creditsPickerView.delegate = self
@@ -60,7 +59,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
         courseLabel = UILabel()
         courseLabel.font = .boldSystemFont(ofSize: 28)
-        courseLabel.text = courseName
+        courseLabel.text = detailedClass.classLabel()
         courseLabel.textColor = aesthetics.textColor
         view.addSubview(courseLabel)
         
@@ -74,7 +73,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         descriptionTextView.font = .systemFont(ofSize: 14)
         descriptionTextView.textColor = aesthetics.textColor
         descriptionTextView.backgroundColor = aesthetics.backgroundColor
-        descriptionTextView.text = descriptionText
+        descriptionTextView.text = detailedClass.descriptionn
         descriptionTextView.textAlignment = .left
         descriptionTextView.isEditable = false
         view.addSubview(descriptionTextView)
@@ -89,7 +88,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         prereqTextView.font = .systemFont(ofSize: 16)
         prereqTextView.textColor = aesthetics.textColor
         prereqTextView.backgroundColor = aesthetics.backgroundColor
-        prereqTextView.text = prereqText
+        prereqTextView.text = detailedClass.pulledPrereqs!
         prereqTextView.textAlignment = .center
         prereqTextView.isEditable = false
         view.addSubview(prereqTextView)
@@ -99,7 +98,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         creditsLabel.font = .systemFont(ofSize: 24)
         creditsLabel.backgroundColor = aesthetics.niceOrange
         creditsLabel.textColor = aesthetics.cellTextColor
-        creditsLabel.text = creditsNum
+        creditsLabel.text = String(detailedClass.creditsChosen)
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 10
         creditsLabel.clipsToBounds = true

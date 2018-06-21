@@ -55,4 +55,7 @@ class globalVars {
         else {year="Senior"}
         return year+" "+term
     }
+    
+    let logicFilterWords = ["and", "or", "either", "as well as"]
+    let otherFilterWords = ["equivalent", "equivalents", "Recommended prerequisite:", "Recommended corequisite:"]
 }

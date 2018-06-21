@@ -125,15 +125,16 @@ class Class: NSObject, NSCoding {
     var title: String
     var descriptionn: String
     var term: [String]
+    var semesterTaken: Int!
+    var creditsChosen: Int
     var creditsMin: Int
     var creditsMax: Int
-    var prerequisites: [Class]!
     var distribution: String
     var gradingType: String
     var academicGroup: String
     var pulledPrereqs: String?
-    var semesterTaken: Int?
-    var creditsChosen: Int
+    var stringPrerequisites = [String]()
+    var prerequisites: [Class]!
     
     init(subject: String, number: String, title: String, description: String, term: [String], creditsMin: Int, creditsMax: Int, prerequisites: [Class], distribution: String, gradingType: String, academicGroup: String) {
         self.subject = subject
@@ -164,6 +165,7 @@ class Class: NSObject, NSCoding {
             self.pulledPrereqs = "None"
         } else {
             self.pulledPrereqs = pulledPrereqs2
+            
         }
         let pulledDistribution = json["distribution"].stringValue
         if pulledDistribution == "" || pulledDistribution == " " {
@@ -174,6 +176,8 @@ class Class: NSObject, NSCoding {
         self.gradingType = json["gradingType"].stringValue
         self.creditsChosen = self.creditsMin
         self.academicGroup = json["acadGroup"].stringValue
+        super.init()
+        slicePulledPrereqs()
     }
     /** Return: boolean to answer if two classes are the same by comparing subject and number */
     func equals(someclass: Class) -> Bool {
@@ -192,6 +196,124 @@ class Class: NSObject, NSCoding {
         return subject+" "+number
     }
     
+    func hasNumbers(s: String) -> Bool {
+        for (_, element) in s.enumerated() {
+            if ["1","2","3","4","5","6","7","8","9","0"].contains(element) {return true}
+        }
+        return false
+    }
+    
+    func isOnlyNumbers(s: String) -> Bool {
+        for (_, element) in s.enumerated() {
+            if !["1","2","3","4","5","6","7","8","9","0"].contains(element) {return false}
+        }
+        return true
+    }
+    
+    func slicePulledPrereqs() {
+        if let s = pulledPrereqs?.components(separatedBy: " ") {
+            if s[0] == "Prerequisite:" {
+                let filter1 = filterPunctuation(strings: s)
+                let filter2 = joinSubjNum(strings: filter1)
+                let filter3 = joinRecommendedPrereqs(strings: filter2)
+                print(filter3)
+                let filter4 = joinNonsense(strings: filter3)
+                print(filter4)
+            }
+        }
+    }
+    
+    func filterPunctuation(strings: [String]) -> [String] {
+        var newStrings = [String]()
+        for each in strings {
+            var newString = each
+            if newString == "" {continue}
+            if newString.hasSuffix(".") {newString.remove(at: newString.index(of: ".")!)}
+            if newString.hasSuffix(",") {newString.remove(at: newString.index(of: ",")!)}
+            if newString.hasSuffix(";") {newString.remove(at: newString.index(of: ";")!)}
+            if newString.contains("/") {
+                let s = newString.components(separatedBy: "/")
+                newStrings.append(s[0])
+                newStrings.append(s[1])
+            } else if newString.contains("-") {
+                let s = newString.components(separatedBy: "-")
+                newStrings.append(s[0])
+                newStrings.append(s[1])
+            } else if newString.count>0 {newStrings.append(newString)}
+        }
+        newStrings.removeFirst() //removes the "Prerequisite:" from the array
+        return newStrings
+    }
+    
+    func joinSubjNum(strings: [String]) -> [String] {
+        var newStrings = [String]()
+        for (i, e) in strings.enumerated() {
+            if e.uppercased() == e && !hasNumbers(s: e) && i<strings.count-1 && isOnlyNumbers(s: strings[i+1]) {
+                let subjNum = e+" "+strings[i+1]
+                newStrings.append(subjNum)
+            } else if hasNumbers(s: e) && e.count == 4 {}
+            else {newStrings.append(e)}
+        }
+        return newStrings
+    }
+    
+    func joinRecommendedPrereqs(strings: [String]) -> [String] {
+        var newStrings = [String]()
+        var skip = false
+        for (i, e) in strings.enumerated() {
+            if (e == "Recommended" || e == "recommended") && i<strings.count-1 && (strings[i+1] == "prerequisite:" || strings[i+1] == "corequisite:") {
+                let s = e+" "+strings[i+1]
+                newStrings.append(s)
+                skip = true
+            } else if skip {skip = false}
+            else {newStrings.append(e)}
+        }
+        return newStrings
+    }
+    
+    func joinNonsense(strings: [String]) -> [String] {
+        var newStrings = [String]()
+        var start = 0
+        var end = 0
+        for (index, each) in strings.enumerated() {
+            if sharedVars.logicFilterWords.contains(each) || sharedVars.otherFilterWords.contains(each) || each.contains(" ") {
+                newStrings.append(each)
+                continue
+            } else if index<=end && end != 0 {continue}
+            var newString = each
+            start = index
+            end = index+1
+            let newArray = strings.suffix(from: start+1)
+            for each in newArray {
+                if sharedVars.logicFilterWords.contains(each) || sharedVars.otherFilterWords.contains(each) || each.contains(" ") {break}
+                newString += " "+each
+                end+=1
+            }
+            newStrings.append(newString)
+        }
+        return newStrings
+    }
+    
+    func removeOrEquivalent(strings: [String]) -> [String] {
+        var newStrings = [String]()
+        for (i, e) in strings.enumerated() {
+            if e.uppercased() == e && !hasNumbers(s: e) && i<strings.count-1 && isOnlyNumbers(s: strings[i+1]) {
+                let subjNum = e+" "+strings[i+1]
+                newStrings.append(subjNum)
+            } else if hasNumbers(s: e) && e.count == 4 {}
+            else {newStrings.append(e)}
+        }
+        return newStrings
+    }
+    
+    func testForSpaces(strings: [String]) -> [String] {
+        var newStrings = [String]()
+        for each in strings {
+            if each.contains(" ") {newStrings.append(each)}
+        }
+        return newStrings
+    }
+    
     func encode(with aCoder: NSCoder) {
         aCoder.encode(subject, forKey: "subject")
         aCoder.encode(number, forKey: "number")
@@ -206,6 +328,7 @@ class Class: NSObject, NSCoding {
         aCoder.encode(creditsChosen, forKey: "creditsChosen")
         if let reqs = pulledPrereqs{
             aCoder.encode(reqs, forKey: "pulledPrereqs")
+            print(classLabel()+" ; "+pulledPrereqs!)
         }
         aCoder.encode(distribution, forKey: "distribution")
     }
@@ -224,6 +347,7 @@ class Class: NSObject, NSCoding {
         self.creditsChosen = aDecoder.decodeInteger(forKey: "creditsChosen")
         self.academicGroup = (aDecoder.decodeObject(forKey: "academicGroup") as? String)!
         self.pulledPrereqs = aDecoder.decodeObject(forKey: "pulledPrereqs") as? String
+        print(pulledPrereqs!)
     }
 }
 
