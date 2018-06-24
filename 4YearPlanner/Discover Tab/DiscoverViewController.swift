@@ -214,9 +214,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             }
             else {
                 sharedVars.discoverCourses = sharedVars.allCourses
-                if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-                    optionsviewcontroller.addCoursesCollectionView.reloadData()
-                }
+                reloadCourses()
             }
         }
     }

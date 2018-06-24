@@ -19,7 +19,7 @@ class Network {
     
     static var delegate: networksDelegate?
     
-    private static let endpoint = "http://54.245.146.135/planner/courses"
+    private static let endpoint = "http://52.10.105.162/planner/courses"
     
     // Pulls all of the courses from the DB
     static func getAllCourses(_ completion: @escaping ([Class]) -> Void) {
@@ -94,7 +94,6 @@ class Network {
                 sharedVars.discoverCourses = classes
                 delegate?.reloadCourses()
                 
-                
             case .failure(let error):
                 print("Error", error)
                 completion([])
@@ -124,12 +123,10 @@ class Network {
                 returnClass = Class(from: json["data"]["courses"][0])
                 userData.tmpClass = returnClass
                 print(userData.tmpClass.classLabel())
+                userData.saveCourse()
             case .failure(let error):
                 print("Error", error)            }
         }
-        while returnClass == nil {}
-        print("returnClass != nil" )
-        
     }
     
     

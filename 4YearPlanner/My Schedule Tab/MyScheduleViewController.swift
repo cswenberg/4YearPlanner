@@ -9,8 +9,12 @@
 import UIKit
 
 
-class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate {
-    
+class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate, scheduleAddDelegate {
+   
+    func reloadCourses() {
+        myCoursesCollectionView.reloadData()
+        updateCredits()
+    }
     func reloadMyClasses() {
         myCoursesCollectionView.reloadData()
     }
@@ -127,16 +131,15 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     // Presents the courses tab as a view controller
     @objc func addCourseButtonPress(sender: UIButton) {
         let navVC = Schedule_addViewController()
-        //navVC.delegate = self
+        navVC.delegate = self
         present(navVC, animated: true, completion: nil)
     }
     
     func testObjectifyClass() {
+        sharedVars.searchCourse = "ECE 3410"
         Network.getClassObject { (courses) in
             print(courses)
         }
-        userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: userData.tmpClass)
-        myCoursesCollectionView.reloadData()
     }
     
     // changes semester information through swiping gestures
@@ -193,6 +196,9 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
+        cellsInCollection = []
+        userData.printSemester(number: 0)
+        print("data reloaded")
         return coursesToDisplay.count
     }
     
@@ -200,8 +206,8 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         let cell = myCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: courseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
         cell.cellClass = coursesToDisplay[indexPath.item]
         cell.classLabel.text = cell.cellClass.classLabel()
-        cell.titleLabel.text = cell.cellClass.title
         cell.creditLabel.text = String(cell.cellClass.creditsChosen)
+        cell.titleLabel.text = cell.cellClass.title
         cell.gradientNum = indexPath.item
         cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
         cell.layer.insertSublayer(cell.gradient, at: 0)
@@ -219,6 +225,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         let selectedCell = cellsInCollection[indexPath.item]
         if let cellClass = selectedCell.cellClass {
             dVC.detailedClass = cellClass
+            dVC.loadedFrom = "My Schedule"
           //  dVC.prereqList = cellClass.prerequisites
             present(dVC, animated: true, completion: nil)
         }

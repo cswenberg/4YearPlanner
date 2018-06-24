@@ -56,6 +56,8 @@ class globalVars {
         return year+" "+term
     }
     
-    let logicFilterWords = ["and", "or", "either", "as well as"]
-    let otherFilterWords = ["equivalent", "equivalents", "Recommended prerequisite:", "Recommended corequisite:"]
+    let logicFilterWords = ["and", "or", "either", "as well as", "through"]
+    let otherFilterWords = ["equivalent", "equivalents", "Recommended prerequisite:", "Recommended corequisite:", "Prerequisite:"]
+    let punctuationFilters = [".", ",", ";", "(", ")", ":", "/", "-"]
+    let numberFilters = ["1","2","3","4","5","6","7","8","9","0"]
 }

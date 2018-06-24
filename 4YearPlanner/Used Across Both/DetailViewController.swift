@@ -17,6 +17,7 @@ protocol detailViewDelegate {
 class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     var delegate: detailViewDelegate?
+    var loadedFrom: String!
     
     var tempCredits: Int!
     var creditsPickerView: UIPickerView!
@@ -147,8 +148,8 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         semesterLabel.textAlignment = .center
         
         
-        // Only show save button if not in list of classes already
-        if !hasClass() {
+        // Only show save button if not called from My Schedule
+        if loadedFrom != "My Schedule" {
             showSaveButton()
             view.addSubview(semesterStepper)
             semesterStepper.snp.makeConstraints { (make) in
@@ -223,11 +224,11 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             make.top.equalTo(prereqLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().offset(-20)
-            if !hasClass() {
-                make.bottom.equalTo(semesterLabel).offset(-20)
+            if loadedFrom != "My Schedule" {
+                make.bottom.equalTo(semesterLabel.snp.top).offset(-10)
             }
             else {
-                make.bottom.equalTo(deleteButton).offset(-20)
+                make.bottom.equalTo(deleteButton.snp.top).offset(-10)
             }
         }
         // credits label
@@ -242,11 +243,12 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     // Returns from modal VC and changes value of stored variable
     @objc func saveButtonPressed(sender: UIButton) {
-        if hasClass() {
-            updateCredits()
-        } else {
+        if loadedFrom != "My Schedule" {
             saveClass()
             delegate?.reloadMyClasses()
+        }
+        if tempCredits != detailedClass.creditsChosen {
+            updateCredits()
         }
         dismiss(animated: true, completion: nil)
     }
@@ -273,15 +275,16 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func saveClass() {
         userData.mySemesters[sharedVars.selected_semester-1].addClass(newclass: detailedClass)
         userData.saveSemesters()
+        delegate?.reloadCredits()
+        delegate?.reloadMyClasses()
         analyzePreReqs()
     }
     
     // Deletes class from schedule
     func deleteClass() {
-        //let classes = sharedVars.mySemesters[sharedVars.selected_semester-1].classes
-        //let index = getClassIndex(classList: classes, chosenClass: detailedClass)
         userData.mySemesters[sharedVars.selected_semester-1].removeClass(someclass: detailedClass)
         userData.saveSemesters()
+        delegate?.reloadCredits()
     }
     
     // helper for deleting the class
@@ -337,7 +340,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         creditsLabel.text = "\(detailedClass.creditsMin + row)"
         tempCredits = detailedClass.creditsMin + row
-        if tempCredits != detailedClass.creditsChosen {
+        if tempCredits != detailedClass.creditsChosen && loadedFrom == "My Schedule" {
             deleteButton.isHidden = true
             showSaveButton()
         }
@@ -365,7 +368,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             print("has clasifiable prereq")
         }
         print("end of analysis")
-        
     }
     
 }

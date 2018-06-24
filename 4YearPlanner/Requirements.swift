@@ -24,6 +24,12 @@ enum colleges: String {
     case ilr = "Industrial Labor Relations"
 }
 
+enum engStuff: String {
+    case engri
+    case cs
+    case liberalarts
+}
+
 
 enum majors: String {
     //engineering

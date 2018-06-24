@@ -55,7 +55,7 @@ class Semester: NSObject, NSCoding {
         if !contains(someclass: someclass) {return}
         credits-=someclass.creditsChosen
         numCourses-=1
-        someclass.semesterTaken = nil
+        //someclass.semesterTaken = nil
         let index = classes.index(where: {$0.equals(someclass: someclass)})
         classes.remove(at: index!)
         userData.saveSemesters()
@@ -135,6 +135,7 @@ class Class: NSObject, NSCoding {
     var pulledPrereqs: String?
     var stringPrerequisites = [String]()
     var prerequisites: [Class]!
+    var requirementGroups: [engStuff]!
     
     init(subject: String, number: String, title: String, description: String, term: [String], creditsMin: Int, creditsMax: Int, prerequisites: [Class], distribution: String, gradingType: String, academicGroup: String) {
         self.subject = subject
@@ -198,14 +199,14 @@ class Class: NSObject, NSCoding {
     
     func hasNumbers(s: String) -> Bool {
         for (_, element) in s.enumerated() {
-            if ["1","2","3","4","5","6","7","8","9","0"].contains(element) {return true}
+            if sharedVars.numberFilters.contains(String(element)) {return true}
         }
         return false
     }
     
     func isOnlyNumbers(s: String) -> Bool {
         for (_, element) in s.enumerated() {
-            if !["1","2","3","4","5","6","7","8","9","0"].contains(element) {return false}
+            if !sharedVars.numberFilters.contains(String(element)) {return false}
         }
         return true
     }
@@ -213,10 +214,13 @@ class Class: NSObject, NSCoding {
     func slicePulledPrereqs() {
         if let s = pulledPrereqs?.components(separatedBy: " ") {
             if s[0] == "Prerequisite:" {
+                print(s)
                 let filter1 = filterPunctuation(strings: s)
+                //print(filter1)
                 let filter2 = joinSubjNum(strings: filter1)
+                //print(filter2)
                 let filter3 = joinRecommendedPrereqs(strings: filter2)
-                print(filter3)
+                //print(filter3)
                 let filter4 = joinNonsense(strings: filter3)
                 print(filter4)
             }
@@ -228,20 +232,30 @@ class Class: NSObject, NSCoding {
         for each in strings {
             var newString = each
             if newString == "" {continue}
-            if newString.hasSuffix(".") {newString.remove(at: newString.index(of: ".")!)}
-            if newString.hasSuffix(",") {newString.remove(at: newString.index(of: ",")!)}
-            if newString.hasSuffix(";") {newString.remove(at: newString.index(of: ";")!)}
-            if newString.contains("/") {
+            if newString.hasSuffix(".") {
+                newString.remove(at: newString.index(of: ".")!)
+                newStrings.append(newString)
+                //newStrings.append(". ")
+            } else if newString.hasSuffix(",") {
+                newString.remove(at: newString.index(of: ",")!)
+                newStrings.append(newString)
+                newStrings.append(", ")
+            } else if newString.hasSuffix(";") {
+                newString.remove(at: newString.index(of: ";")!)
+                newStrings.append(newString)
+                newStrings.append("; ")
+            } else if newString.contains("/") {
                 let s = newString.components(separatedBy: "/")
                 newStrings.append(s[0])
+                newStrings.append("or")
                 newStrings.append(s[1])
             } else if newString.contains("-") {
                 let s = newString.components(separatedBy: "-")
                 newStrings.append(s[0])
+                newStrings.append("through")
                 newStrings.append(s[1])
             } else if newString.count>0 {newStrings.append(newString)}
         }
-        newStrings.removeFirst() //removes the "Prerequisite:" from the array
         return newStrings
     }
     
@@ -347,6 +361,7 @@ class Class: NSObject, NSCoding {
         self.creditsChosen = aDecoder.decodeInteger(forKey: "creditsChosen")
         self.academicGroup = (aDecoder.decodeObject(forKey: "academicGroup") as? String)!
         self.pulledPrereqs = aDecoder.decodeObject(forKey: "pulledPrereqs") as? String
+        self.semesterTaken = aDecoder.decodeObject(forKey: "semesterTaken") as! Int
         print(pulledPrereqs!)
     }
 }

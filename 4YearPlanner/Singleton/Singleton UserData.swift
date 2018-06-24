@@ -108,4 +108,15 @@ class userInfo {
         }
         saveSemesters()
     }
+    
+    func saveCourse() {
+        mySemesters[sharedVars.selected_semester-1].addClass(newclass: tmpClass)
+        print("class saved to schedule")
+    }
+    
+    func printSemester(number: Int) {
+        for each in mySemesters[number].classes {
+            print(each.classLabel())
+        }
+    }
 }

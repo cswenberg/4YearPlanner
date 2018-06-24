@@ -10,8 +10,6 @@ import UIKit
 
 class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var semestersCollectionView: UICollectionView!
-    var semesterReuseIdentifier = "semesterReuseIdentifier"
     var addCoursesCollectionView: UICollectionView!
     var addcourseReuseIdentifier = "addcourseReuseIdentiyer"
     
@@ -98,36 +96,25 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
  }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == semestersCollectionView {
-            return 8
-        } else {
-            print("\(sharedVars.discoverCourses.count) courses were loaded")
-            print("'\(sharedVars.searchSubject) + \(sharedVars.searchNumber)' was searched")
-            return sharedVars.discoverCourses.count
-        }
+        print("\(sharedVars.discoverCourses.count) courses were loaded")
+        print("'\(sharedVars.searchSubject) + \(sharedVars.searchNumber)' was searched")
+        cellsInCollection = []
+        return sharedVars.discoverCourses.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == semestersCollectionView {
-            let cell = semestersCollectionView.dequeueReusableCell(withReuseIdentifier: semesterReuseIdentifier, for: indexPath) as! SemesterCollectionViewCell
-            cell.number = indexPath.item+1
-            cell.semesterLabel.text = "Semester \(cell.number)"
-            cell.setNeedsUpdateConstraints()
-            return cell
-        } else {
-            let cell = addCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: addcourseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
-            cell.cellClass = sharedVars.discoverCourses[indexPath.item]
-            cell.gradientNum = indexPath.item
-            cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
-            cell.layer.insertSublayer(cell.gradient, at: 0)
-            cell.layer.cornerRadius = 20
-            cell.classLabel.text = cell.cellClass.classLabel()
-            cell.titleLabel.text = cell.cellClass.title
-            
-            cellsInCollection.append(cell)
-            cell.setNeedsUpdateConstraints()
-            return cell
-        }
+        let cell = addCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: addcourseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
+        cell.cellClass = sharedVars.discoverCourses[indexPath.item]
+        cell.classLabel.text = cell.cellClass.classLabel()
+        cell.creditLabel.text = String(cell.cellClass.creditsChosen)
+        cell.titleLabel.text = cell.cellClass.title
+        cell.gradientNum = indexPath.item
+        cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
+        cell.layer.insertSublayer(cell.gradient, at: 0)
+        cell.layer.cornerRadius = 20
+        cellsInCollection.append(cell)
+        cell.setNeedsUpdateConstraints()
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -141,16 +128,13 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     
     // Present Detail View modally
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == semestersCollectionView {
-            sharedVars.selected_semester = indexPath.item
-        } else {
-            let dVC = DetailViewController()
-            //   dVC.delegate = self
-            let selectedCell = cellsInCollection[indexPath.item]
-            if let cellClass = selectedCell.cellClass {
-                dVC.detailedClass = cellClass
-                present(dVC, animated: true, completion: nil)
-            }
+        let dVC = DetailViewController()
+        let selectedCell = cellsInCollection[indexPath.item]
+        if let cellClass = selectedCell.cellClass {
+            dVC.detailedClass = cellClass
+            print("UIUIUBIUIBBUUUBI")
+            dVC.loadedFrom = "Add Courses"
+            present(dVC, animated: true, completion: nil)
         }
     }
     
