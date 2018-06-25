@@ -119,4 +119,11 @@ class userInfo {
             print(each.classLabel())
         }
     }
+    
+    func hasCourses() -> Bool {
+        for each in mySemesters {
+            if each.classes.count>0 {return true}
+        }
+        return false
+    }
 }

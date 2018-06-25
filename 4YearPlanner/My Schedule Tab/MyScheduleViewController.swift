@@ -11,7 +11,7 @@ import UIKit
 
 class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate, scheduleAddDelegate {
    
-    func reloadCourses() {
+    func reloadSchedule() {
         myCoursesCollectionView.reloadData()
         updateCredits()
     }

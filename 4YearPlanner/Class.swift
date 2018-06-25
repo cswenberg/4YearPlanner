@@ -80,9 +80,9 @@ class Semester: NSObject, NSCoding {
     }
     /** Removes all classes from this semester's schedule */
     func wipe() {
-        for eachclass in classes {
-            removeClass(someclass: eachclass)
-        }
+        classes = []
+        credits = 0
+        numCourses = 0
     }
     
     func encode(with aCoder: NSCoder) {
@@ -91,7 +91,6 @@ class Semester: NSObject, NSCoding {
         aCoder.encode(classes, forKey: "classes")
         aCoder.encode(credits, forKey: "credits")
         aCoder.encode(numCourses, forKey: "numCourses")
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

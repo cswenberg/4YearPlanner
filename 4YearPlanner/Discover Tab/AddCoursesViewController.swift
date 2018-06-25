@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol addCoursesDelegate {
+    func presentDVC(cellClass: Class)
+}
+
 class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     
     var addCoursesCollectionView: UICollectionView!
     var addcourseReuseIdentifier = "addcourseReuseIdentiyer"
     
+    var delegate: addCoursesDelegate?
     var termsStackView: UIStackView!
     var fallButton: UIButton!
     var springButton: UIButton!
@@ -128,13 +134,9 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     
     // Present Detail View modally
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let dVC = DetailViewController()
         let selectedCell = cellsInCollection[indexPath.item]
         if let cellClass = selectedCell.cellClass {
-            dVC.detailedClass = cellClass
-            print("UIUIUBIUIBBUUUBI")
-            dVC.loadedFrom = "Add Courses"
-            present(dVC, animated: true, completion: nil)
+            delegate?.presentDVC(cellClass: cellClass)
         }
     }
     

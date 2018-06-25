@@ -10,21 +10,28 @@ import UIKit
 import SnapKit
 
 protocol scheduleAddDelegate {
-    func reloadCourses()
+    func reloadSchedule()
 }
 
 
-class Schedule_addViewController: UIViewController, UISearchBarDelegate, networksDelegate {
+class Schedule_addViewController: UIViewController, UISearchBarDelegate, networksDelegate, addCoursesDelegate {
     
+    func presentDVC(cellClass: Class) {
+        let dVC = DetailViewController()
+        dVC.detailedClass = cellClass
+        dVC.loadedFrom = "Add Courses"
+        present(dVC, animated: true, completion: nil)
+    }
+
     func reloadCourses() {
-        if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+        if let optionsviewcontroller = self.subContainerViewController {
             optionsviewcontroller.addCoursesCollectionView.reloadData()
         }
     }
     
     var delegate: scheduleAddDelegate?
     var subContainerView: UIView!
-    var subContainerViewController: UIViewController!
+    var subContainerViewController: AddCoursesViewController!
     var searchBar: UISearchBar!
     var backButton: UIButton!
     
@@ -47,7 +54,9 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
         
         subContainerView = UIView()
         subContainerView.backgroundColor = aesthetics.backgroundColor
+        
         subContainerViewController = AddCoursesViewController()
+        subContainerViewController.delegate = self
         subContainerView.addSubview(subContainerViewController.view)
     
         backButton = UIButton()
@@ -91,7 +100,6 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
         self.perform(#selector(reload), with: nil , afterDelay: 1.0)
     }
@@ -128,7 +136,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
     
     // ONLY returns from modal VC
     @objc func backButtonPressed(sender: UIButton) {
-        delegate?.reloadCourses()
+        delegate?.reloadSchedule()
         dismiss(animated: false, completion: nil)
     }
     

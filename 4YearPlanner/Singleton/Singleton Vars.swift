@@ -16,7 +16,7 @@ class globalVars {
     var current_tab: String = ""
     func setTab() {
         current_tab = "Discover"
-        if userData.myMinor != nil {
+        if userData.hasCourses() {
             current_tab = "My Schedule"
         }
     }

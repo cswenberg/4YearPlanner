@@ -8,7 +8,14 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate, networksDelegate {
+class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate, networksDelegate, addCoursesDelegate {
+    func presentDVC(cellClass: Class) {
+        let dVC = DetailViewController()
+        dVC.detailedClass = cellClass
+        dVC.loadedFrom = "Add Courses"
+        present(dVC, animated: true, completion: nil)
+    }
+    
     
     func reloadCourses() {
         if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
@@ -140,6 +147,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         var newViewController: UIViewController!
         if sharedVars.current_category == "Courses" {
             let addcoursesViewController = AddCoursesViewController()
+            addcoursesViewController.delegate = self
             newViewController = addcoursesViewController
         } else {
             let optionViewController = OptionsViewController()
