@@ -360,7 +360,9 @@ class Class: NSObject, NSCoding {
         self.creditsChosen = aDecoder.decodeInteger(forKey: "creditsChosen")
         self.academicGroup = (aDecoder.decodeObject(forKey: "academicGroup") as? String)!
         self.pulledPrereqs = aDecoder.decodeObject(forKey: "pulledPrereqs") as? String
-        self.semesterTaken = aDecoder.decodeObject(forKey: "semesterTaken") as! Int
+        if let taken = aDecoder.decodeObject(forKey: "semesterTaken") {
+            self.semesterTaken = taken as! Int
+        }
         print(pulledPrereqs!)
     }
 }

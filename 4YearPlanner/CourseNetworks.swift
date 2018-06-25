@@ -38,6 +38,8 @@ class Network {
                 }
                 sharedVars.discoverCourses = classes
                 sharedVars.allCourses = classes
+                userData.allCourses = classes
+                userData.saveAllCourses()
             
             case .failure(let error):
                 print("Error", error)

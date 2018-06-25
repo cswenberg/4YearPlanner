@@ -20,6 +20,7 @@ class userInfo {
     var myMinor: Minor!
     
     var tmpClass: Class!
+    var allCourses = [Class]()
     
     func loadDefaults() {
         let defaults = UserDefaults.standard
@@ -43,6 +44,12 @@ class userInfo {
         if let decodedData = defaults.data(forKey: "mySemesters") {
             let semesters = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [Semester]
             mySemesters = semesters
+        }
+        if let decodedData = defaults.data(forKey: "allCourses") {
+            let courses = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [Class]
+            allCourses = courses
+            sharedVars.discoverCourses = allCourses
+            sharedVars.allCourses = allCourses
         }
         aesthetics.updateTheme()
     }
@@ -125,5 +132,11 @@ class userInfo {
             if each.classes.count>0 {return true}
         }
         return false
+    }
+    
+    func saveAllCourses() {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: allCourses)
+        let defaults = UserDefaults.standard
+        defaults.set(encodedData, forKey: "allCourses")
     }
 }
