@@ -14,6 +14,7 @@ var sharedVars = globalVars()
 class globalVars {
     
     var current_tab: String = ""
+    // Set which tab user is initially on
     func setTab() {
         current_tab = "Discover"
         if userData.hasCourses() {
@@ -22,6 +23,7 @@ class globalVars {
     }
     
     var current_category: String = ""
+    // Set which category user is initially on
     func setCategory() {
         if userData.myCollege == nil {
             current_category = "Colleges"
@@ -43,6 +45,7 @@ class globalVars {
     var searchTerm = ""
     var searchCourse = "Math 1920"
     
+    // Helper to display semester name
     func yearTerm() -> String {
         var year: String
         var term: String

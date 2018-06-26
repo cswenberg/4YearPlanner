@@ -59,16 +59,19 @@ class globalRequirements {
     
     var collegeRequirements: [colleges: [Class]] = [.engineering:[], .artsnsciences:[], .cals:[], .hotel:[], .dyson:[], .architecture:[], .ilr:[]]
     
+    // Changes requirements for College
     func updateCollegeRequirements(college: colleges, newRequirements: [Class]) {
         collegeRequirements[college] = newRequirements
     }
     
+    // Grabs College's requirements
     func getCollegeRequirements(collegeName: String) -> [Class] {
         return collegeRequirements[stringCollegeDict[collegeName]!]!
     }
     
     var majorRequirements = [majors: [Class]]()
     
+    // Grabs Major's requirements
     func getMajorRequirements(majorName: String) -> [Class] {
         return []
         

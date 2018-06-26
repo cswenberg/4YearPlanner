@@ -263,10 +263,6 @@ class Requirements {
     func getRequirements() -> [Class] {
         return requirements
     }
-    
-    func friendlyTitle() -> String {
-        return title
-    }
 }
 
 
@@ -312,6 +308,7 @@ class Major: Requirements {
     init (Enum: majors, requirements: [Class]) {
         major = Enum
         let majorTitle = major.rawValue
+        
         if requirementData.engMajorOptions.contains(major) {
             minorOptions = requirementData.allEngMinors
         } else if requirementData.artsMajorOptions.contains(major) {

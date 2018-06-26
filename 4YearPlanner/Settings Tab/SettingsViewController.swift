@@ -194,6 +194,7 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    // Resets user's academic information
     @objc func resetButtonPressed() {
         collegeLabel.text = "College:  None Selected"
         majorLabel.text = "Major:     None Selected"
@@ -202,6 +203,7 @@ class SettingsViewController: UIViewController {
         sharedVars.setCategory()
     }
     
+    // Wipes all classes from all Semesters
     @objc func clearButtonPressed() {
         // clear semester info
         userData.resetSemesters()
@@ -217,6 +219,7 @@ class SettingsViewController: UIViewController {
         userData.setTheme()
     }
     
+    // Changes Theme buttons' backgrounds
     func themeHighlight() {
         if aesthetics.selectedTheme == themeOption1.titleLabel?.text {
             themeOption1.backgroundColor = aesthetics.middleGray

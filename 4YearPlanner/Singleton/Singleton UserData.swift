@@ -22,6 +22,7 @@ class userInfo {
     var tmpClass: Class!
     var allCourses = [Class]()
     
+    // Loads user info
     func loadDefaults() {
         let defaults = UserDefaults.standard
 
@@ -54,18 +55,22 @@ class userInfo {
         aesthetics.updateTheme()
     }
     
+    // Turns a string that represents a college into the College Class
     func stringToCollege(collegeString: String) -> College {
         return College(Enum: requirementData.stringCollegeDict[collegeString]!, requirements: requirementData.getCollegeRequirements(collegeName: collegeString))
     }
     
+    // Turns a string that represents a major into the Major Class
     func stringToMajor(majorString: String) -> Major {
         return Major(Enum: requirementData.stringMajorDict[majorString]!, requirements: [])
     }
     
+    // Turns a string that represents a minor into the Minor Class
     func stringToMinor(minorString: String) -> Minor {
         return Minor(Enum: requirementData.stringMinorDict[minorString]!, requirements: [])
     }
     
+    // Stores user's college data
     func setCollege(college: College)  {
         myCollege = college
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: myCollege.getTitle())
@@ -73,6 +78,7 @@ class userInfo {
         defaults.set(encodedData, forKey: "myCollege")
     }
     
+    // Stores user's major data
     func setMajor(major: Major) {
         myMajor = major
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMajor.getTitle())
@@ -80,6 +86,7 @@ class userInfo {
         defaults.set(encodedData, forKey: "myMajor")
     }
     
+    // Stores user's minor data
     func setMinor(minor: Minor) {
         myMinor = minor
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMinor.getTitle())
@@ -87,18 +94,21 @@ class userInfo {
         defaults.set(encodedData, forKey: "myMinor")
     }
     
+    // Store user's Semester data
     func saveSemesters() {
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: mySemesters)
         let defaults = UserDefaults.standard
         defaults.set(encodedData, forKey: "mySemesters")
     }
     
+    // Store user's Theme data
     func setTheme() {
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: aesthetics.selectedTheme)
         let defaults = UserDefaults.standard
         defaults.set(encodedData, forKey: "selectedTheme")
     }
     
+    // reset user's academic information
     func resetUserInfo() {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "myCollege")
@@ -109,6 +119,7 @@ class userInfo {
         myMinor = nil
     }
     
+    // reset all of the user's semesters
     func resetSemesters() {
         for eachsemester in mySemesters {
             eachsemester.wipe()
@@ -116,17 +127,20 @@ class userInfo {
         saveSemesters()
     }
     
+    // Add course to schedule
     func saveCourse() {
         mySemesters[sharedVars.selected_semester-1].addClass(newclass: tmpClass)
         print("class saved to schedule")
     }
     
+    // Print all classes in a specified semester
     func printSemester(number: Int) {
         for each in mySemesters[number].classes {
             print(each.classLabel())
         }
     }
     
+    // Returns True if a semester is not empty
     func hasCourses() -> Bool {
         for each in mySemesters {
             if each.classes.count>0 {return true}
@@ -134,6 +148,7 @@ class userInfo {
         return false
     }
     
+    // Stores all courses from DB into app
     func saveAllCourses() {
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: allCourses)
         let defaults = UserDefaults.standard

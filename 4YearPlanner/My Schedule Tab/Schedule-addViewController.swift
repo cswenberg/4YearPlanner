@@ -100,11 +100,15 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
         
     }
     
+    // testing new function for SearchBar (trying to reduce lag and bugs)
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
-        self.perform(#selector(reload), with: nil , afterDelay: 1.0)
+        self.perform(#selector(reload), with: nil, afterDelay: 1.0)
+        
     }
     
+    // function that happens after 1 second delay
     @objc func reload (string: String) {
         Network.delegate = self
         if let searchText = searchBar.text {
@@ -114,8 +118,13 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
                     sharedVars.searchSubject = textParams[0]
                     sharedVars.searchNumber = textParams[1]
                 } else {
-                    if isClassNumber(s: searchText) {sharedVars.searchNumber = searchText}
-                    else {sharedVars.searchSubject = searchText}
+                    if isClassNumber(s: searchText) {
+                        sharedVars.searchNumber = searchText
+                        sharedVars.searchSubject = ""
+                    } else {
+                        sharedVars.searchSubject = searchText
+                        sharedVars.searchNumber = ""
+                    }
                 }
                 Network.getCourses { (courses) in
                     print(courses)
@@ -123,11 +132,14 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
             }
             else {
                 sharedVars.discoverCourses = sharedVars.allCourses
+                sharedVars.searchNumber = ""
+                sharedVars.searchSubject = ""
                 reloadCourses()
             }
         }
     }
     
+    // Helper to check if searchterm is number or word
     func isClassNumber(s: String) -> Bool {
         for num in 0...9 {
             if s.contains(String(num)) {return true}

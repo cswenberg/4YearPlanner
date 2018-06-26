@@ -11,13 +11,18 @@ import UIKit
 
 class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, detailViewDelegate, scheduleAddDelegate {
    
+    // Delegate func for reloading Schedule (From Schedule-add VC)
     func reloadSchedule() {
         myCoursesCollectionView.reloadData()
         updateCredits()
     }
+    
+    // Delegate func for reloading class information (From Detail VC)
     func reloadMyClasses() {
         myCoursesCollectionView.reloadData()
     }
+    
+    // Delegate func for reloading credit count (From Detail VC)
     func reloadCredits() {
         updateCredits()
     }
@@ -179,6 +184,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // Triggers credit Alerts
     func checkCredits() {
         if (userData.mySemesters[sharedVars.selected_semester-1].credits)>23 {
             let alert = UIAlertController(title: "Reminder", message: "credits > 23; you may need to petition", preferredStyle: .alert)
@@ -192,6 +198,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             receivedCreditAlert = true
         }
     }
+    
     //1st in reloadData()
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1

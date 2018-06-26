@@ -26,6 +26,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     var termsStackView: UIStackView!
     var fallButton: UIButton!
     var springButton: UIButton!
+    var recommendedButton: UIButton!
+    var allCoursesButton: UIButton!
     var fallSelected = false
     var springSelected = false
     
@@ -45,6 +47,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         fallButton.layer.borderWidth = 2
         fallButton.layer.borderColor = aesthetics.termColor.cgColor
         fallButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        print(fallButton.intrinsicContentSize.height)
         
         // Spring button
         springButton = UIButton()
@@ -82,7 +85,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
             make.top.equalToSuperview().offset(aesthetics.smallGap)
             make.leading.equalToSuperview().offset(80)
             make.trailing.equalToSuperview().offset(-80)
-            make.height.equalTo(60)
+            make.height.equalTo(51)
         }
         // Fall Button
         fallButton.snp.makeConstraints { (make) in

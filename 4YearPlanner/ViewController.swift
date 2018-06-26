@@ -37,8 +37,7 @@ class HomeViewController: UIViewController, settingsDelegate {
         view.backgroundColor = aesthetics.backgroundColor
 
 
-    // Loads all of the courses in from the beginning
-    // We need to change so that we get the recocmmended courses instead
+    // Loads all of the courses in from the beginning and store in app
         if userData.allCourses.count == 0 {
             Network.getAllCourses { (courses) in
                 print(courses)
@@ -168,16 +167,6 @@ class HomeViewController: UIViewController, settingsDelegate {
         }
         containerViewController?.didMove(toParentViewController: self)
     }
-
-    /** Return: list of all college/major/minor requirements that are left unsatisfied,
-     empty list if all requirements are satisfied */
-//    func requirementsLeft() -> [Class] {
-//        var requirementsLeft = [Class]()
-//        requirementsLeft+=myCollege.requirementsLeft(classes: allClasses)
-//        requirementsLeft+=myMajor.requirementsLeft(classes: allClasses)
-//        requirementsLeft+=myMinor.requirementsLeft(classes: allClasses)
-//        return requirementsLeft
-//    }
     
     // Changes variable selectedButton to buttons title
     @objc func buttonPressed (sender:UIButton) {
@@ -213,6 +202,7 @@ class HomeViewController: UIViewController, settingsDelegate {
         button.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
     }
     
+    // Change Tab Title Colors (Switching Theme)
     func updateTabColors() {
         discoverButton.setTitleColor(aesthetics.textColor, for: .normal)
         myScheduleButton.setTitleColor(aesthetics.textColor, for: .normal)

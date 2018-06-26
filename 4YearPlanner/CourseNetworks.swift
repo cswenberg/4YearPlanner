@@ -40,6 +40,7 @@ class Network {
                 sharedVars.allCourses = classes
                 userData.allCourses = classes
                 userData.saveAllCourses()
+                print("hit the all")
             
             case .failure(let error):
                 print("Error", error)

@@ -11,6 +11,7 @@ import UIKit
 protocol showCoursesDelegate {
     func showCourses()
     func updateCategoryLabel()
+    func showCoursesOptions()
 }
 
 class OptionsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -125,6 +126,7 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             sharedVars.current_category = "Courses"
             delegate?.showCourses()
             delegate?.updateCategoryLabel()
+            delegate?.showCoursesOptions()
         }
         aesthetics.gradientRandomizer = Int(arc4random_uniform(4))
     }

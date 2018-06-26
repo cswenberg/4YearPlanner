@@ -62,6 +62,7 @@ class globalAesthetics {
     var textColor: UIColor!
     var backgroundColor: UIColor!
     
+    // Change the color values to later affect the rest of the app
     func updateTheme() {
         if selectedTheme == "Normal" {
             cellTextColor = .white
@@ -74,6 +75,7 @@ class globalAesthetics {
         }
     }
     
+    // Helper for switching colors
     func opposite(color: UIColor) -> UIColor{
         if color == darkGray {
             return .white

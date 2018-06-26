@@ -192,9 +192,11 @@ class Class: NSObject, NSCoding {
         return term.contains(someterm)
     }
     
+    // Return SubjNum version of the Class
     func classLabel() -> String {
         return subject+" "+number
     }
+    
     
     func hasNumbers(s: String) -> Bool {
         for (_, element) in s.enumerated() {
@@ -221,7 +223,7 @@ class Class: NSObject, NSCoding {
                 let filter3 = joinRecommendedPrereqs(strings: filter2)
                 //print(filter3)
                 let filter4 = joinNonsense(strings: filter3)
-                print(filter4)
+                // print(filter4)
             }
         }
     }
@@ -327,6 +329,7 @@ class Class: NSObject, NSCoding {
         return newStrings
     }
     
+    // Encodes Data
     func encode(with aCoder: NSCoder) {
         aCoder.encode(subject, forKey: "subject")
         aCoder.encode(number, forKey: "number")
@@ -346,6 +349,7 @@ class Class: NSObject, NSCoding {
         aCoder.encode(distribution, forKey: "distribution")
     }
     
+    // Decodes data for use
     required init?(coder aDecoder: NSCoder) {
         self.subject = aDecoder.decodeObject(forKey: "subject") as! String
         self.number =  aDecoder.decodeObject(forKey: "number") as! String
@@ -363,7 +367,7 @@ class Class: NSObject, NSCoding {
         if let taken = aDecoder.decodeObject(forKey: "semesterTaken") {
             self.semesterTaken = taken as! Int
         }
-        print(pulledPrereqs!)
+        // print(pulledPrereqs!)
     }
 }
 

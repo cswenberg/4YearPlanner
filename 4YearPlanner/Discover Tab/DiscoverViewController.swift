@@ -22,9 +22,10 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     
     func updateCategoryLabel() {
         categoryLabel.text = sharedVars.current_category
-        if sharedVars.current_category == "Courses" {
-            
-        }
+    }
+    
+    func showCoursesOptions() {
+        showCourseOptionsFilters()
     }
 
     var searchBar: UISearchBar!
@@ -65,18 +66,28 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         backButton.titleLabel?.textAlignment = .center
         backButton.addTarget(self, action: #selector(discoverBackButtonPressed), for: .touchUpInside)
         
+        // Button to show recommended courses
         recommendedButton = UIButton()
         recommendedButton.setTitle("Recommended", for: .normal)
+        recommendedButton.backgroundColor = aesthetics.backgroundColor
         recommendedButton.setTitleColor(aesthetics.textColor, for: .normal)
         recommendedButton.titleLabel?.font = aesthetics.mediumFont
         recommendedButton.titleLabel?.textAlignment = .center
+        recommendedButton.layer.borderWidth = 2
+        recommendedButton.layer.borderColor = aesthetics.termColor.cgColor
+        recommendedButton.layer.cornerRadius = recommendedButton.intrinsicContentSize.height/2
         recommendedButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
         
+        // Button to show all courses
         allCoursesButton = UIButton()
         allCoursesButton.setTitle("All", for: .normal)
-        allCoursesButton.setTitleColor(aesthetics.textColor, for: .normal)
+        allCoursesButton.backgroundColor = aesthetics.termColor
+        allCoursesButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
         allCoursesButton.titleLabel?.font = aesthetics.mediumFont
         allCoursesButton.titleLabel?.textAlignment = .center
+        allCoursesButton.layer.cornerRadius = allCoursesButton.intrinsicContentSize.height/2
+        allCoursesButton.layer.borderWidth = 2
+        allCoursesButton.layer.borderColor = aesthetics.termColor.cgColor
         allCoursesButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
         
         // Category Label
@@ -90,6 +101,9 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         view.addSubview(subContainerView)
         view.addSubview(categoryLabel)
         
+        if sharedVars.current_category == "Courses" {
+            showCourseOptionsFilters()
+        }
         setupDiscoverConstraints()
         updateChildViewController()
     }
@@ -165,6 +179,8 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                 optionsviewcontroller.cellsToDisplay = []
             }
         } else {
+            recommendedButton.removeFromSuperview()
+            allCoursesButton.removeFromSuperview()
             reverseSwitchCollection()
         }
     }
@@ -201,11 +217,14 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                     var textParams = searchText.components(separatedBy: " ")
                     sharedVars.searchSubject = textParams[0]
                     sharedVars.searchNumber = textParams[1]
-                } else if isClassNumber(s: searchText) {
-                    sharedVars.searchNumber = searchText
                 } else {
-                    sharedVars.searchSubject = searchText
-                    sharedVars.searchNumber = ""
+                    if isClassNumber(s: searchText) {
+                        sharedVars.searchNumber = searchText
+                        sharedVars.searchSubject = ""
+                    } else {
+                        sharedVars.searchSubject = searchText
+                        sharedVars.searchNumber = ""
+                    }
                 }
                 print("'\(sharedVars.searchSubject) + \(sharedVars.searchNumber)' was searched")
                 Network.getCourses { (courses) in
@@ -214,6 +233,8 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             }
             else {
                 sharedVars.discoverCourses = sharedVars.allCourses
+                sharedVars.searchSubject = ""
+                sharedVars.searchNumber = ""
                 if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
                     optionsviewcontroller.addCoursesCollectionView.reloadData()
                 }
@@ -221,14 +242,49 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         }
     }
     
+    // Switches filter background and reloads cells with right data
     @objc func careerButtonPressed (sender: UIButton) {
         if sender == allCoursesButton {
+            recommendedButton.backgroundColor = aesthetics.backgroundColor
+            recommendedButton.setTitleColor(aesthetics.textColor, for: .normal)
+            allCoursesButton.backgroundColor = aesthetics.termColor
+            allCoursesButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
             sharedVars.discoverCourses = sharedVars.allCourses
+            sharedVars.searchSubject = ""
+            sharedVars.searchNumber = ""
+            if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+                optionsviewcontroller.addCoursesCollectionView.reloadData()
+            }
+        } else {
+            allCoursesButton.backgroundColor = aesthetics.backgroundColor
+            allCoursesButton.setTitleColor(aesthetics.textColor, for: .normal)
+            recommendedButton.backgroundColor = aesthetics.termColor
+            recommendedButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
+            print("Show recommended Courses")
         }
     }
-
-
     
+    // Add filters to subview and setup constraints
+    func showCourseOptionsFilters() {
+        view.addSubview(recommendedButton)
+        view.addSubview(allCoursesButton)
+        
+        recommendedButton.snp.makeConstraints { (make) in
+            make.leading.equalTo(categoryLabel.snp.trailing)
+            make.width.equalTo(recommendedButton.intrinsicContentSize.width + 20)
+            make.centerY.equalTo(categoryLabel.snp.centerY)
+            make.height.equalTo(recommendedButton.intrinsicContentSize.height)
+        }
+        
+        allCoursesButton.snp.makeConstraints { (make) in
+            make.leading.equalTo(recommendedButton.snp.trailing).offset(aesthetics.smallGap)
+            make.width.equalTo(allCoursesButton.intrinsicContentSize.width + 20)
+            make.centerY.equalTo(categoryLabel.snp.centerY)
+            make.height.equalTo(allCoursesButton.intrinsicContentSize.height)
+        }
+    }
+    
+    // Check if text is number (Search Bar Filtering)
     func isClassNumber(s: String) -> Bool {
         for num in 0...9 {
             if s.contains(String(num)) {return true}
