@@ -30,7 +30,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var myCoursesCollectionView: UICollectionView!
     var courseReuseIdentifier = "myCourseReuseIdentifier"
     var coursesToDisplay = [Class]()
-    var cellsInCollection = [MyCoursesCollectionViewCell]()
     var labelGradient: CAGradientLayer!
     var creditsLabel: UILabel!
     var swipeRight: UISwipeGestureRecognizer!
@@ -57,7 +56,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         addCourseButton = UIButton()
         addCourseButton.setTitle("Add Course", for: .normal)
         addCourseButton.setTitleColor(aesthetics.cellTextColor , for: .normal)
-        addCourseButton.titleLabel!.font = .systemFont(ofSize: 24)
+        addCourseButton.titleLabel!.font = aesthetics.mediumFont
         addCourseButton.backgroundColor = aesthetics.niceGreen
         addCourseButton.layer.cornerRadius = 16
         addCourseButton.addTarget(self, action: #selector(addCourseButtonPress), for: .touchUpInside)
@@ -74,7 +73,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         
         //credits label
         creditsLabel = UILabel()
-        creditsLabel.font = .systemFont(ofSize: 24)
+        creditsLabel.font = aesthetics.mediumFont
         creditsLabel.textColor = aesthetics.cellTextColor
         creditsLabel.textAlignment = .center
         creditsLabel.layer.cornerRadius = 10
@@ -101,7 +100,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func setupMyScheduleConstraints() {
         // selected semester label
         selectedSemesterLabel.snp.makeConstraints { (make) in
-            make.top.leading.equalToSuperview().offset(10)
+            make.top.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.height.equalTo(selectedSemesterLabel.intrinsicContentSize.height)
             make.trailing.equalTo(creditsLabel.snp.leading)
         }
@@ -116,14 +115,14 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         // add course button
         addCourseButton.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-20)
+            make.bottom.equalToSuperview().offset(-aesthetics.mediumGap)
             make.height.equalTo(addCourseButton.intrinsicContentSize.height)
             make.width.equalTo(addCourseButton.intrinsicContentSize.width+20)
         }
         // my courses collection view
         myCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(10)
-            make.bottom.equalTo(addCourseButton.snp.top).offset(-10)
+            make.top.equalTo(selectedSemesterLabel.snp.bottom).offset(aesthetics.smallGap)
+            make.bottom.equalTo(addCourseButton.snp.top).offset(-aesthetics.smallGap)
             make.leading.trailing.equalToSuperview()
         }
     }
@@ -193,15 +192,23 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
             receivedCreditAlert = true
         }
     }
-    
+    //1st in reloadData()
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    //2nd in reloadData()
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
-        cellsInCollection = []
         userData.printSemester(number: 0)
         print("data reloaded")
         return coursesToDisplay.count
     }
-    
+    //3rd in reloadData()
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = view.frame.size.width-20
+        return CGSize(width: width, height: 120)
+    }
+    //4th in reloadData()
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = myCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: courseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
         cell.cellClass = coursesToDisplay[indexPath.item]
@@ -214,7 +221,6 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         cell.layer.cornerRadius = 20
         cell.backgroundColor = .black
         cell.setNeedsUpdateConstraints()
-        cellsInCollection.append(cell)
         return cell
     }
     
@@ -222,23 +228,11 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let dVC = DetailViewController()
         dVC.delegate = self
-        let selectedCell = cellsInCollection[indexPath.item]
-        if let cellClass = selectedCell.cellClass {
-            dVC.detailedClass = cellClass
-            dVC.loadedFrom = "My Schedule"
-          //  dVC.prereqList = cellClass.prerequisites
-            present(dVC, animated: true, completion: nil)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
-        UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.size.width-20
-        return CGSize(width: width, height: 120)
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        let cellClass = coursesToDisplay[indexPath.item]
+        dVC.detailedClass = cellClass
+        dVC.loadedFrom = "My Schedule"
+        //dVC.prereqList = cellClass.prerequisites
+        present(dVC, animated: true, completion: nil)
     }
 }
 

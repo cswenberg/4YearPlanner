@@ -36,7 +36,7 @@ class optionsCollectionViewCell: UICollectionViewCell {
         titleLabel = UILabel()
         titleLabel.textColor = aesthetics.cellTextColor
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 23)
+        titleLabel.font = aesthetics.mediumFont
         titleLabel.numberOfLines = 0
         
         contentView.addSubview(titleLabel)
@@ -46,8 +46,8 @@ class optionsCollectionViewCell: UICollectionViewCell {
         //title label
         titleLabel.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-10)
-            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
           //  make.bottom.equalTo(contentView.snp.centerY)
         }
         super.updateConstraints()

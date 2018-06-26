@@ -62,7 +62,8 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
         backButton.setTitleColor(aesthetics.textColor, for: .normal)
-        backButton.titleLabel?.font = .systemFont(ofSize: 48)
+        backButton.titleLabel?.font = aesthetics.backButtonFont
+        backButton.contentVerticalAlignment = .center
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         view.addSubview(backButton)
     
@@ -75,21 +76,21 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
     func setupConstraints() {
         // back button
         backButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(aesthetics.topOffset)
             make.width.equalTo(backButton.intrinsicContentSize.width)
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.height.equalTo(backButton.intrinsicContentSize.height)
         }
         //searchbar
         searchBar.snp.makeConstraints { (make) in
             make.centerY.equalTo(backButton.snp.centerY)
-            make.leading.equalTo(backButton.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().offset(-10)
+            make.leading.equalTo(backButton.snp.trailing).offset(aesthetics.smallGap)
+            make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
             make.height.equalTo(40)
         }
         //subcontainer view
         subContainerView.snp.makeConstraints { (make) in
-            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.top.equalTo(searchBar.snp.bottom).offset(aesthetics.smallGap)
             make.leading.trailing.bottom.equalToSuperview()
         }
         //subcontainer vc

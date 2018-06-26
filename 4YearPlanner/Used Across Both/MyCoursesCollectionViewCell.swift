@@ -34,17 +34,17 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         
         classLabel = UILabel()
         classLabel.textColor = aesthetics.cellTextColor
-        classLabel.font = .systemFont(ofSize:24)
+        classLabel.font = aesthetics.mediumFont
         classLabel.numberOfLines = 0
         
         titleLabel = UILabel()
         titleLabel.textColor = aesthetics.cellTextColor
-        titleLabel.font = .systemFont(ofSize: 16)
+        titleLabel.font = aesthetics.smallFont
         titleLabel.numberOfLines = 0
         
         creditLabel = UILabel()
         creditLabel.textColor = aesthetics.cellTextColor
-        creditLabel.font = .systemFont(ofSize: 24)
+        creditLabel.font = aesthetics.mediumFont
         creditLabel.layer.borderWidth = 1
         creditLabel.layer.cornerRadius = 10
         creditLabel.textAlignment = .center
@@ -59,20 +59,20 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         //class label
         classLabel.snp.makeConstraints { (make) in
             make.top.trailing.equalToSuperview()
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.bottom.equalTo(contentView.snp.centerY)
         }
         //title label
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(contentView.snp.centerY)
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.trailing.bottom.equalToSuperview()
         }
         //credits label
         creditLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(classLabel.snp.centerY)
-            make.trailing.equalToSuperview().offset(-10)
-            make.width.equalTo(creditLabel.intrinsicContentSize.width+12)
+            make.centerX.equalTo(contentView.snp.trailing).offset(-aesthetics.creditWidth)
+            make.width.equalTo(aesthetics.creditWidth)
         }
         super.updateConstraints()
     }

@@ -12,8 +12,12 @@ protocol addCoursesDelegate {
     func presentDVC(cellClass: Class)
 }
 
-class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, networksDelegate {
     
+    func reloadCourses() {
+        print("successful call")
+        addCoursesCollectionView.reloadData()
+    }
     
     var addCoursesCollectionView: UICollectionView!
     var addcourseReuseIdentifier = "addcourseReuseIdentiyer"
@@ -26,14 +30,13 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     var springSelected = false
     
     var courses = [Class]()
-    
-    var cellsInCollection = [MyCoursesCollectionViewCell]()
     var buttonGradient: CAGradientLayer!
     
     override func viewDidLoad() {
         view.backgroundColor = aesthetics.backgroundColor
+        Network.delegate = self
         
-        // Button for the MySchedule Tab
+        // Fall Button
         fallButton = UIButton()
         fallButton.layer.cornerRadius = fallButton.intrinsicContentSize.height/2
         fallButton.setTitle("Fall", for: .normal)
@@ -43,7 +46,7 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         fallButton.layer.borderColor = aesthetics.termColor.cgColor
         fallButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
-        // Button for Settings Tab
+        // Spring button
         springButton = UIButton()
         springButton.layer.cornerRadius = springButton.intrinsicContentSize.height/2
         springButton.setTitle("Spring", for: .normal)
@@ -52,9 +55,8 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         springButton.layer.borderWidth = 2
         springButton.layer.borderColor = aesthetics.termColor.cgColor
         springButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-    
         
-        // StackView for tabs at the top
+        // StackView for buttons
         termsStackView = UIStackView(arrangedSubviews: [fallButton, springButton])
         termsStackView.axis = .horizontal
         termsStackView.distribution = .equalCentering
@@ -77,12 +79,11 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
     func setupConstraints() {
         // terms stack
         termsStackView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(aesthetics.smallGap)
             make.leading.equalToSuperview().offset(80)
             make.trailing.equalToSuperview().offset(-80)
             make.height.equalTo(60)
         }
-        
         // Fall Button
         fallButton.snp.makeConstraints { (make) in
             make.height.equalToSuperview()
@@ -93,21 +94,29 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
             make.height.equalToSuperview()
             make.width.equalTo(springButton.intrinsicContentSize.width + 20)
         }
-        
         //add courses collection view
         addCoursesCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(termsStackView.snp.bottom).offset(10)
+            make.top.equalTo(termsStackView.snp.bottom).offset(aesthetics.smallGap)
             make.leading.trailing.bottom.equalToSuperview()
         }
  }
     
+    //1st in reloadData()
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    //2nd in reloadData()
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("\(sharedVars.discoverCourses.count) courses were loaded")
         print("'\(sharedVars.searchSubject) + \(sharedVars.searchNumber)' was searched")
-        cellsInCollection = []
         return sharedVars.discoverCourses.count
     }
-    
+    //3rd in reloadData()
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = view.frame.size.width - 20
+        return CGSize(width: width, height: 120)
+    }
+    //4th in reloadData()
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = addCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: addcourseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
         cell.cellClass = sharedVars.discoverCourses[indexPath.item]
@@ -118,26 +127,14 @@ class AddCoursesViewController: UIViewController, UICollectionViewDataSource, UI
         cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
         cell.layer.insertSublayer(cell.gradient, at: 0)
         cell.layer.cornerRadius = 20
-        cellsInCollection.append(cell)
         cell.setNeedsUpdateConstraints()
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.size.width - 20
-        return CGSize(width: width, height: 120)
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     // Present Detail View modally
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCell = cellsInCollection[indexPath.item]
-        if let cellClass = selectedCell.cellClass {
-            delegate?.presentDVC(cellClass: cellClass)
-        }
+        let cellClass = sharedVars.discoverCourses[indexPath.item]
+        delegate?.presentDVC(cellClass: cellClass)
     }
     
     // function to setup gradients

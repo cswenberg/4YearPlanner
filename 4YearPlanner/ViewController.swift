@@ -109,9 +109,9 @@ class HomeViewController: UIViewController, settingsDelegate {
     func setupConstraints() {
     // Tabs StackView
         tabsStackView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalToSuperview().offset(aesthetics.topOffset)
+            make.leading.equalToSuperview().offset(aesthetics.mediumGap)
+            make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
             make.height.equalTo(36)
         }
     // Discover Button

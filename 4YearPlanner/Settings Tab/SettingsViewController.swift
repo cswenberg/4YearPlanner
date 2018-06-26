@@ -62,19 +62,21 @@ class SettingsViewController: UIViewController {
         
         //resetButton
         resetButton = UIButton()
-        resetButton.setTitle("Reset My Information", for: .normal)
-        resetButton.titleLabel?.font = .systemFont(ofSize: 24)
-        resetButton.titleLabel?.textColor = aesthetics.cellTextColor
-        resetButton.backgroundColor = .red
+        resetButton.setTitle("RESET", for: .normal)
+        resetButton.setTitleColor(.red, for: .normal)
+        resetButton.titleLabel?.font = aesthetics.smallFont
+        resetButton.titleLabel?.textAlignment = .center
+        resetButton.backgroundColor = aesthetics.backgroundColor
+        resetButton.layer.borderWidth = 1
+        resetButton.layer.borderColor = UIColor.red.cgColor
         resetButton.layer.cornerRadius = 16
         resetButton.clipsToBounds = true
-        resetButton.titleLabel?.textAlignment = .center
         resetButton.addTarget(self, action: #selector(resetButtonPressed), for: .touchUpInside)
         
         //Wipe Semester Info Button
         clearSchedulesButton = UIButton()
         clearSchedulesButton.setTitle("Clear my Schedule", for: .normal)
-        clearSchedulesButton.titleLabel?.font = .systemFont(ofSize: 24)
+        clearSchedulesButton.titleLabel?.font = aesthetics.mediumFont
         clearSchedulesButton.titleLabel?.textColor = aesthetics.cellTextColor
         clearSchedulesButton.backgroundColor = .red
         clearSchedulesButton.layer.cornerRadius = 16
@@ -97,7 +99,7 @@ class SettingsViewController: UIViewController {
         themeOption1 = UIButton()
         themeOption1.layer.cornerRadius = 10
         themeOption1.setTitle(aesthetics.themeList[0], for: .normal)
-        themeOption1.titleLabel?.font = .systemFont(ofSize: 16)
+        themeOption1.titleLabel?.font = aesthetics.smallFont
         themeOption1.setTitleColor(aesthetics.textColor, for: .normal)
         themeOption1.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
@@ -105,7 +107,7 @@ class SettingsViewController: UIViewController {
         themeOption2 = UIButton()
         themeOption2.layer.cornerRadius = 10
         themeOption2.setTitle(aesthetics.themeList[1], for: .normal)
-        themeOption2.titleLabel?.font = .systemFont(ofSize: 16)
+        themeOption2.titleLabel?.font = aesthetics.smallFont
         themeOption2.setTitleColor(aesthetics.textColor, for: .normal)
         themeOption2.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
@@ -127,58 +129,58 @@ class SettingsViewController: UIViewController {
     func setUpConstraints() {
         //my info label
         myInfoLabel.snp.makeConstraints{ (make) in
-            make.leading.equalToSuperview().offset(10)
-            make.top.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
+            make.top.equalToSuperview().offset(aesthetics.mediumGap)
             make.width.equalTo(myInfoLabel.intrinsicContentSize.width)
         }
         //college label
         collegeLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
-            make.top.equalTo(myInfoLabel.snp.bottom).offset(20)
+            make.top.equalTo(myInfoLabel.snp.bottom).offset(aesthetics.mediumGap)
             make.trailing.equalToSuperview()
         }
         //major label
         majorLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
-            make.top.equalTo(collegeLabel.snp.bottom).offset(20)
+            make.top.equalTo(collegeLabel.snp.bottom).offset(aesthetics.mediumGap)
             make.trailing.equalToSuperview()
         }
         //minor label
         minorLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
-            make.top.equalTo(majorLabel.snp.bottom).offset(20)
+            make.top.equalTo(majorLabel.snp.bottom).offset(aesthetics.mediumGap)
             make.trailing.equalToSuperview()
         }
         //clout label
         cloutLabel.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().offset(-20)
+            make.bottom.equalToSuperview().offset(-aesthetics.mediumGap)
             make.centerX.equalToSuperview()
             make.height.equalTo(cloutLabel.intrinsicContentSize.height)
         }
         //reset button
         resetButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(cloutLabel.snp.top).offset(-10)
+            make.centerY.equalTo(myInfoLabel.snp.centerY)
             make.width.equalTo(resetButton.intrinsicContentSize.width+20)
             make.height.equalTo(resetButton.intrinsicContentSize.height)
-            make.centerX.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
         }
         //clear My Schedule button
         clearSchedulesButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(resetButton.snp.top).offset(-10)
+            make.bottom.equalTo(cloutLabel.snp.top).offset(-aesthetics.smallGap)
             make.width.equalTo(clearSchedulesButton.intrinsicContentSize.width+20)
             make.height.equalTo(clearSchedulesButton.intrinsicContentSize.height)
             make.centerX.equalToSuperview()
         }
         //theme label
         themeLabel.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
-            make.top.equalTo(minorLabel.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
+            make.top.equalTo(minorLabel.snp.bottom).offset(aesthetics.mediumGap)
             make.width.equalTo(themeLabel.intrinsicContentSize.width)
             make.height.equalTo(themeLabel.intrinsicContentSize.height)
         }
         //theme option 1 button
         themeOption1.snp.makeConstraints { (make) in
-            make.leading.equalTo(themeLabel.snp.trailing).offset(20)
+            make.leading.equalTo(themeLabel.snp.trailing).offset(aesthetics.mediumGap)
             make.centerY.equalTo(themeLabel.snp.centerY)
             make.width.equalTo(themeOption1.intrinsicContentSize.width+20)
             make.height.equalTo(themeOption1.intrinsicContentSize.height)

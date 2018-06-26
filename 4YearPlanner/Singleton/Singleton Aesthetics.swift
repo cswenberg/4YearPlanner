@@ -24,6 +24,16 @@ class globalAesthetics {
     
     //fonts
     let tabsFont = UIFont.systemFont(ofSize: 20)
+    let backButtonFont = UIFont.systemFont(ofSize: 42)
+    let smallFont = UIFont.systemFont(ofSize: 16)
+    let middieFont = UIFont.systemFont(ofSize: 20)
+    let mediumFont = UIFont.systemFont(ofSize: 24)
+    
+    //sizing
+    let creditWidth = 26
+    let topOffset = 40
+    let smallGap = 10
+    let mediumGap = 20
     
     //colors
     var termColor = UIColor(red: 120/255, green: 154/255, blue: 241/255, alpha: 1)

@@ -95,6 +95,7 @@ class Network {
                 sharedVars.discoverCourses = []
                 sharedVars.discoverCourses = classes
                 delegate?.reloadCourses()
+                print("delegate called")
                 
             case .failure(let error):
                 print("Error", error)

@@ -8,19 +8,12 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate, networksDelegate, addCoursesDelegate {
+class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate, addCoursesDelegate {
     func presentDVC(cellClass: Class) {
         let dVC = DetailViewController()
         dVC.detailedClass = cellClass
         dVC.loadedFrom = "Add Courses"
         present(dVC, animated: true, completion: nil)
-    }
-    
-    
-    func reloadCourses() {
-        if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-            optionsviewcontroller.addCoursesCollectionView.reloadData()
-        }
     }
     
     func showCourses() {
@@ -68,21 +61,21 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
         backButton.setTitleColor(aesthetics.textColor, for: .normal)
-        backButton.titleLabel?.font = .systemFont(ofSize: 36)
+        backButton.titleLabel?.font = aesthetics.backButtonFont
         backButton.titleLabel?.textAlignment = .center
         backButton.addTarget(self, action: #selector(discoverBackButtonPressed), for: .touchUpInside)
         
         recommendedButton = UIButton()
         recommendedButton.setTitle("Recommended", for: .normal)
         recommendedButton.setTitleColor(aesthetics.textColor, for: .normal)
-        recommendedButton.titleLabel?.font = .systemFont(ofSize: 24)
+        recommendedButton.titleLabel?.font = aesthetics.mediumFont
         recommendedButton.titleLabel?.textAlignment = .center
         recommendedButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
         
         allCoursesButton = UIButton()
         allCoursesButton.setTitle("All", for: .normal)
         allCoursesButton.setTitleColor(aesthetics.textColor, for: .normal)
-        allCoursesButton.titleLabel?.font = .systemFont(ofSize: 24)
+        allCoursesButton.titleLabel?.font = aesthetics.mediumFont
         allCoursesButton.titleLabel?.textAlignment = .center
         allCoursesButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
         
@@ -105,7 +98,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         // Back Button
         view.addSubview(backButton)
         backButton.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.centerY.equalTo(searchBar.snp.centerY)
             make.height.equalTo(searchBar.snp.height)
             make.width.equalTo(backButton.intrinsicContentSize.width)
@@ -113,15 +106,15 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         
         // SearchBar
         searchBar.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-10)
-            make.leading.equalTo(backButton.snp.trailing).offset(10)
-            make.top.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
+            make.leading.equalTo(backButton.snp.trailing).offset(aesthetics.smallGap)
+            make.top.equalToSuperview().offset(aesthetics.smallGap)
             make.height.equalTo(40)
         }
         // Category Label
         categoryLabel.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
-            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
+            make.top.equalTo(searchBar.snp.bottom).offset(aesthetics.smallGap)
             make.width.equalTo(categoryLabel.intrinsicContentSize.width+20)
             make.height.equalTo(categoryLabel.intrinsicContentSize.height)
         }
@@ -202,7 +195,6 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
 
     // function that happens after 1 second delay
     @objc func reload () {
-        Network.delegate = self
         if let searchText = searchBar.text {
             if !searchText.isEmpty {
                 if searchText.contains(" ") {
@@ -222,7 +214,9 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             }
             else {
                 sharedVars.discoverCourses = sharedVars.allCourses
-                reloadCourses()
+                if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
+                    optionsviewcontroller.addCoursesCollectionView.reloadData()
+                }
             }
         }
     }

@@ -66,27 +66,30 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
         descriptionLabel = UILabel()
         descriptionLabel.text = "Description"
-        descriptionLabel.font = .boldSystemFont(ofSize: 20)
+        descriptionLabel.font = aesthetics.middieFont
         descriptionLabel.textColor = aesthetics.textColor
         view.addSubview(descriptionLabel)
         
         descriptionTextView = UITextView()
-        descriptionTextView.font = .systemFont(ofSize: 14)
+        descriptionTextView.font = aesthetics.smallFont
         descriptionTextView.textColor = aesthetics.textColor
         descriptionTextView.backgroundColor = aesthetics.backgroundColor
         descriptionTextView.text = detailedClass.descriptionn
         descriptionTextView.textAlignment = .left
         descriptionTextView.isEditable = false
+        descriptionTextView.isScrollEnabled = false
         view.addSubview(descriptionTextView)
         
         prereqLabel = UILabel()
         prereqLabel.text = "Pre-Requisites"
-        prereqLabel.font = .systemFont(ofSize: 20)
+        prereqLabel.font = aesthetics.middieFont
         prereqLabel.textColor = aesthetics.textColor
         view.addSubview(prereqLabel)
         
+        print(descriptionTextView.text.count)
+        
         prereqTextView = UITextView()
-        prereqTextView.font = .systemFont(ofSize: 16)
+        prereqTextView.font = aesthetics.smallFont
         prereqTextView.textColor = aesthetics.textColor
         prereqTextView.backgroundColor = aesthetics.backgroundColor
         prereqTextView.text = detailedClass.pulledPrereqs!
@@ -96,7 +99,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
         creditsLabel = UITextField()
         creditsLabel.delegate = self
-        creditsLabel.font = .systemFont(ofSize: 24)
+        creditsLabel.font = aesthetics.mediumFont
         creditsLabel.backgroundColor = aesthetics.niceOrange
         creditsLabel.textColor = aesthetics.cellTextColor
         creditsLabel.text = String(detailedClass.creditsChosen)
@@ -110,7 +113,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
         backButton.setTitleColor(aesthetics.textColor, for: .normal)
-        backButton.titleLabel?.font = .systemFont(ofSize: 48)
+        backButton.titleLabel?.font = aesthetics.backButtonFont
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         view.addSubview(backButton)
         
@@ -144,7 +147,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         semesterLabel = UILabel()
         semesterLabel.text = "Semester \(sharedVars.selected_semester)"
         semesterLabel.textColor = aesthetics.textColor
-        semesterLabel.font = .systemFont(ofSize: 24)
+        semesterLabel.font = aesthetics.mediumFont
         semesterLabel.textAlignment = .center
         
         
@@ -180,9 +183,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func setupConstraints() {
         // back button
         backButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(aesthetics.topOffset)
             make.width.equalTo(backButton.intrinsicContentSize.width)
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.height.equalTo(backButton.intrinsicContentSize.height)
         }
         //course label
@@ -195,47 +198,47 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         //course title
         courseTitle.snp.makeConstraints{ (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(courseLabel.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalTo(courseLabel.snp.bottom).offset(aesthetics.mediumGap)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
+            make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
             adjustHeight(label: courseTitle)
         }
         // description label
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(courseTitle.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(10)
+            make.top.equalTo(courseTitle.snp.bottom).offset(aesthetics.mediumGap)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.height.equalTo(descriptionLabel.intrinsicContentSize.height)
         }
         // description text view
         descriptionTextView.snp.makeConstraints { (make) in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().offset(-20)
-            make.height.equalTo(250)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(aesthetics.smallGap)
+            make.leading.equalToSuperview().offset(aesthetics.mediumGap)
+            make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
+            make.height.equalTo(descriptionTextView.intrinsicContentSize.height + CGFloat(descriptionTextView.text.count/5 + 10))
         }
         // prereq label
         prereqLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(descriptionTextView.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(10)
+            make.top.equalTo(descriptionTextView.snp.bottom).offset(aesthetics.mediumGap)
+            make.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.height.equalTo(prereqLabel.intrinsicContentSize.height)
         }
         // prereq text view
         prereqTextView.snp.makeConstraints { (make) in
-            make.top.equalTo(prereqLabel.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().offset(-20)
+            make.top.equalTo(prereqLabel.snp.bottom).offset(aesthetics.smallGap)
+            make.leading.equalToSuperview().offset(aesthetics.mediumGap)
+            make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
             if loadedFrom != "My Schedule" {
-                make.bottom.equalTo(semesterLabel.snp.top).offset(-10)
+                make.bottom.equalTo(semesterLabel.snp.top).offset(-aesthetics.smallGap)
             }
             else {
-                make.bottom.equalTo(deleteButton.snp.top).offset(-10)
+                make.bottom.equalTo(deleteButton.snp.top).offset(-aesthetics.smallGap)
             }
         }
         // credits label
         creditsLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(backButton.snp.centerY)
-            make.trailing.equalToSuperview().offset(-20)
-            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 12)
+            make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
+            make.width.equalTo(aesthetics.creditWidth)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
         print(courseTitle.frame.width)
