@@ -19,6 +19,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     var delegate: detailViewDelegate?
     var loadedFrom: String!
     
+    var fullScrollView: UIScrollView!
     var tempCredits: Int!
     var creditsPickerView: UIPickerView!
     var detailedClass: Class!
@@ -39,7 +40,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = aesthetics.backgroundColor
+        fullScrollView = UIScrollView()
+        fullScrollView.backgroundColor = aesthetics.backgroundColor
+        view.addSubview(fullScrollView)
         
         tempCredits = detailedClass.creditsChosen
         
@@ -56,19 +59,19 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         courseTitle.textColor = aesthetics.textColor
         courseTitle.numberOfLines = 0
         courseTitle.textAlignment = .left
-        view.addSubview(courseTitle)
+        fullScrollView.addSubview(courseTitle)
         
         courseLabel = UILabel()
         courseLabel.font = .boldSystemFont(ofSize: 28)
         courseLabel.text = detailedClass.classLabel()
         courseLabel.textColor = aesthetics.textColor
-        view.addSubview(courseLabel)
+        fullScrollView.addSubview(courseLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.text = "Description"
         descriptionLabel.font = aesthetics.middieFont
         descriptionLabel.textColor = aesthetics.textColor
-        view.addSubview(descriptionLabel)
+        fullScrollView.addSubview(descriptionLabel)
         
         descriptionTextView = UITextView()
         descriptionTextView.font = aesthetics.smallFont
@@ -78,13 +81,13 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         descriptionTextView.textAlignment = .left
         descriptionTextView.isEditable = false
         descriptionTextView.isScrollEnabled = false
-        view.addSubview(descriptionTextView)
+        fullScrollView.addSubview(descriptionTextView)
         
         prereqLabel = UILabel()
         prereqLabel.text = "Pre-Requisites"
         prereqLabel.font = aesthetics.middieFont
         prereqLabel.textColor = aesthetics.textColor
-        view.addSubview(prereqLabel)
+        fullScrollView.addSubview(prereqLabel)
         
         print(descriptionTextView.text.count)
         
@@ -95,7 +98,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         prereqTextView.text = detailedClass.pulledPrereqs!
         prereqTextView.textAlignment = .center
         prereqTextView.isEditable = false
-        view.addSubview(prereqTextView)
+        fullScrollView.addSubview(prereqTextView)
         
         creditsLabel = UITextField()
         creditsLabel.delegate = self
@@ -108,14 +111,14 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         creditsLabel.clipsToBounds = true
         creditsLabel.inputView = creditsPickerView
         creditsLabel.tintColor = .clear
-        view.addSubview(creditsLabel)
+        fullScrollView.addSubview(creditsLabel)
         
         backButton = UIButton()
         backButton.setTitle("<", for: .normal)
         backButton.setTitleColor(aesthetics.textColor, for: .normal)
         backButton.titleLabel?.font = aesthetics.backButtonFont
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
-        view.addSubview(backButton)
+        fullScrollView.addSubview(backButton)
         
         saveButton = UIButton()
         saveButton.setTitle("Save", for: .normal)
@@ -154,12 +157,12 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         // Only show save button if not called from My Schedule
         if loadedFrom != "My Schedule" {
             showSaveButton()
-            view.addSubview(semesterStepper)
+            fullScrollView.addSubview(semesterStepper)
             semesterStepper.snp.makeConstraints { (make) in
                 make.centerX.equalToSuperview()
                 make.top.equalTo(saveButton.snp.top).offset(-60)
             }
-            view.addSubview(semesterLabel)
+            fullScrollView.addSubview(semesterLabel)
             semesterLabel.snp.makeConstraints { (make) in
                 make.width.equalTo(semesterLabel.intrinsicContentSize.width + 20)
                 make.bottom.equalTo(semesterStepper.snp.top).offset(-20)
@@ -168,7 +171,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             }
         }
         else {
-            view.addSubview(deleteButton)
+            fullScrollView.addSubview(deleteButton)
             deleteButton.snp.makeConstraints { (make) in
                 make.bottom.equalToSuperview().offset(-40)
                 make.centerX.equalToSuperview()
@@ -214,7 +217,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             make.top.equalTo(descriptionLabel.snp.bottom).offset(aesthetics.smallGap)
             make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
-            make.height.equalTo(descriptionTextView.intrinsicContentSize.height + CGFloat(descriptionTextView.text.count/5 + 10))
+            fixTextViewHeight(textView: descriptionTextView)
         }
         // prereq label
         prereqLabel.snp.makeConstraints { (make) in
@@ -241,7 +244,10 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             make.width.equalTo(aesthetics.creditWidth)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
-        print(courseTitle.frame.width)
+        // ScrollView
+        fullScrollView.snp.makeConstraints { (make) in
+            make.top.bottom.leading.trailing.equalToSuperview()
+        }
     }
     
     // Returns from modal VC and changes value of stored variable
@@ -320,6 +326,20 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: view.frame.width, height: .infinity)
+        let estimatedSize = descriptionTextView.sizeThatFits(size)
+        descriptionTextView.snp.makeConstraints { (make) in
+            make.height.equalTo(estimatedSize.height)
+        }
+    }
+    
+    func fixTextViewHeight(textView: UITextView) {
+        let fixedWidth = textView.frame.size.width
+        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        textView.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
+    }
+    
     // Stops Users from editing TextField without stopping picker view from appearing
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return false
@@ -349,8 +369,9 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
     }
     
+    // Helper function to setup save button
     func showSaveButton () {
-        view.addSubview(saveButton)
+        fullScrollView.addSubview(saveButton)
         saveButton.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-40)
             make.centerX.equalToSuperview()

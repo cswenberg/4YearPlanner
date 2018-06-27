@@ -25,6 +25,8 @@ class SettingsViewController: UIViewController {
     var themeOption1: UIButton!
     var themeOption2: UIButton!
     var clearSchedulesButton: UIButton!
+    var majorAddButton: UIButton!
+    var minorAddButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +113,26 @@ class SettingsViewController: UIViewController {
         themeOption2.setTitleColor(aesthetics.textColor, for: .normal)
         themeOption2.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
+        //MajorAddButton
+        majorAddButton = UIButton()
+        majorAddButton.layer.cornerRadius = majorAddButton.intrinsicContentSize.height/2
+        majorAddButton.setTitle("+", for: .normal)
+        majorAddButton.titleLabel?.font = aesthetics.smallFont
+        majorAddButton.setTitleColor(aesthetics.textColor, for: .normal)
+        majorAddButton.addTarget(self, action: #selector(majorAddButtonPressed), for: .touchUpInside)
+        majorAddButton.layer.borderWidth = 1
+        majorAddButton.layer.borderColor = aesthetics.tabGradient[0]
+        
+        //MinorAddButton
+        minorAddButton = UIButton()
+        minorAddButton.layer.cornerRadius = majorAddButton.intrinsicContentSize.height/2
+        minorAddButton.setTitle("+", for: .normal)
+        minorAddButton.titleLabel?.font = aesthetics.smallFont
+        minorAddButton.setTitleColor(aesthetics.textColor, for: .normal)
+        minorAddButton.addTarget(self, action: #selector(minorAddButtonPressed), for: .touchUpInside)
+        minorAddButton.layer.borderWidth = 1
+        minorAddButton.layer.borderColor = aesthetics.tabGradient[0]
+        
         view.addSubview(myInfoLabel)
         view.addSubview(collegeLabel)
         view.addSubview(majorLabel)
@@ -121,9 +143,12 @@ class SettingsViewController: UIViewController {
         view.addSubview(themeOption1)
         view.addSubview(themeOption2)
         view.addSubview(clearSchedulesButton)
+        view.addSubview(majorAddButton)
+        view.addSubview(minorAddButton)
         
         themeHighlight()
         setUpConstraints()
+        setupButtons()
     }
 
     func setUpConstraints() {
@@ -143,13 +168,13 @@ class SettingsViewController: UIViewController {
         majorLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
             make.top.equalTo(collegeLabel.snp.bottom).offset(aesthetics.mediumGap)
-            make.trailing.equalToSuperview()
+            checkLabelSizes(label: majorLabel)
         }
         //minor label
         minorLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
             make.top.equalTo(majorLabel.snp.bottom).offset(aesthetics.mediumGap)
-            make.trailing.equalToSuperview()
+            checkLabelSizes(label: minorLabel)
         }
         //clout label
         cloutLabel.snp.makeConstraints { (make) in
@@ -194,13 +219,33 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    func setupButtons() {
+        //MajorAddButton
+        majorAddButton.snp.makeConstraints { (make) in
+            make.leading.equalTo(majorLabel.snp.trailing).offset(aesthetics.smallGap)
+            make.centerY.equalTo(majorLabel.snp.centerY)
+            make.width.equalTo(majorAddButton.intrinsicContentSize.width)
+        }
+        //MinorAddButton
+        minorAddButton.snp.makeConstraints { (make) in
+            make.leading.equalTo(minorLabel.snp.trailing).offset(aesthetics.smallGap)
+            make.centerY.equalTo(minorLabel.snp.centerY)
+            make.width.equalTo(minorAddButton.intrinsicContentSize.width)
+        }
+    }
+    
     // Resets user's academic information
     @objc func resetButtonPressed() {
+        majorAddButton.removeFromSuperview()
+        minorAddButton.removeFromSuperview()
+        setUpConstraints()
         collegeLabel.text = "College:  None Selected"
         majorLabel.text = "Major:     None Selected"
         minorLabel.text = "Minor:     None Selected"
         userData.resetUserInfo()
         sharedVars.setCategory()
+//        view.addSubview(majorAddButton)
+//        view.addSubview(minorAddButton)
     }
     
     // Wipes all classes from all Semesters
@@ -217,6 +262,29 @@ class SettingsViewController: UIViewController {
         delegate?.themeUpdated()
         themeHighlight()
         userData.setTheme()
+    }
+    
+    // Add another major
+    @objc func majorAddButtonPressed() {
+        print("add a major")
+    }
+    
+    // Add another minor
+    @objc func minorAddButtonPressed() {
+        print("add a minor")
+    }
+    
+    // Helper for adding buttons formatting
+    func checkLabelSizes(label: UILabel) {
+        if label.intrinsicContentSize.width > 330 {
+            label.snp.makeConstraints { (make) in
+                make.width.equalTo(330)
+            }
+        } else {
+            label.snp.makeConstraints { (make) in
+                make.width.equalTo(label.intrinsicContentSize.width + 10)
+            }
+        }
     }
     
     // Changes Theme buttons' backgrounds

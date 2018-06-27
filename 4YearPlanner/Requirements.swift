@@ -263,6 +263,11 @@ class Requirements {
     func getRequirements() -> [Class] {
         return requirements
     }
+    
+    // Return Title
+    func friendlyTitle() -> String {
+        return title
+    }
 }
 
 
