@@ -104,7 +104,7 @@ class SettingsViewController: UIViewController {
         themeOption1.setTitle(aesthetics.themeList[0], for: .normal)
         themeOption1.titleLabel?.font = aesthetics.smallFont
         themeOption1.setTitleColor(aesthetics.textColor, for: .normal)
-        themeOption1.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        themeOption1.addTarget(self, action: #selector(themeButtonPressed), for: .touchUpInside)
         
         //themeOption2
         themeOption2 = UIButton()
@@ -112,27 +112,27 @@ class SettingsViewController: UIViewController {
         themeOption2.setTitle(aesthetics.themeList[1], for: .normal)
         themeOption2.titleLabel?.font = aesthetics.smallFont
         themeOption2.setTitleColor(aesthetics.textColor, for: .normal)
-        themeOption2.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        themeOption2.addTarget(self, action: #selector(themeButtonPressed), for: .touchUpInside)
         
         //MajorAddButton
         majorAddButton = UIButton()
         majorAddButton.layer.cornerRadius = majorAddButton.intrinsicContentSize.height/2
         majorAddButton.setTitle("+", for: .normal)
         majorAddButton.titleLabel?.font = aesthetics.smallFont
-        majorAddButton.setTitleColor(aesthetics.textColor, for: .normal)
+        majorAddButton.setTitleColor(aesthetics.niceGreen, for: .normal)
         majorAddButton.addTarget(self, action: #selector(majorAddButtonPressed), for: .touchUpInside)
-        majorAddButton.layer.borderWidth = 1
-        majorAddButton.layer.borderColor = aesthetics.tabGradient[0]
+        majorAddButton.layer.borderWidth = 2
+        majorAddButton.layer.borderColor = aesthetics.niceGreen.cgColor
         
         //MinorAddButton
         minorAddButton = UIButton()
         minorAddButton.layer.cornerRadius = majorAddButton.intrinsicContentSize.height/2
         minorAddButton.setTitle("+", for: .normal)
         minorAddButton.titleLabel?.font = aesthetics.smallFont
-        minorAddButton.setTitleColor(aesthetics.textColor, for: .normal)
+        minorAddButton.setTitleColor(aesthetics.niceGreen, for: .normal)
         minorAddButton.addTarget(self, action: #selector(minorAddButtonPressed), for: .touchUpInside)
-        minorAddButton.layer.borderWidth = 1
-        minorAddButton.layer.borderColor = aesthetics.tabGradient[0]
+        minorAddButton.layer.borderWidth = 2
+        minorAddButton.layer.borderColor = aesthetics.niceGreen.cgColor
         
         view.addSubview(myInfoLabel)
         view.addSubview(collegeLabel)
@@ -174,7 +174,7 @@ class SettingsViewController: UIViewController {
         //minor label
         minorLabel.snp.makeConstraints{ (make) in
             make.leading.equalTo(myInfoLabel.snp.leading)
-            make.top.equalTo(majorLabel.snp.bottom).offset(aesthetics.mediumGap)
+            make.top.equalTo(majorAddButton.snp.bottom).offset(aesthetics.smallGap)
             checkLabelSizes(label: minorLabel)
         }
         //clout label
@@ -200,7 +200,7 @@ class SettingsViewController: UIViewController {
         //theme label
         themeLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(aesthetics.smallGap)
-            make.top.equalTo(minorLabel.snp.bottom).offset(aesthetics.mediumGap)
+            make.top.equalTo(minorAddButton.snp.bottom).offset(aesthetics.smallGap)
             make.width.equalTo(themeLabel.intrinsicContentSize.width)
             make.height.equalTo(themeLabel.intrinsicContentSize.height)
         }
@@ -223,26 +223,26 @@ class SettingsViewController: UIViewController {
     func setupButtons() {
         //MajorAddButton
         majorAddButton.snp.makeConstraints { (make) in
-            make.leading.equalTo(majorLabel.snp.trailing).offset(aesthetics.smallGap)
-            make.centerY.equalTo(majorLabel.snp.centerY)
+            make.leading.equalToSuperview().offset(aesthetics.mediumGap)
+            make.top.equalTo(majorLabel.snp.bottom).offset(aesthetics.smallGap)
             make.width.equalTo(majorAddButton.intrinsicContentSize.width)
         }
         //MinorAddButton
         minorAddButton.snp.makeConstraints { (make) in
-            make.leading.equalTo(minorLabel.snp.trailing).offset(aesthetics.smallGap)
-            make.centerY.equalTo(minorLabel.snp.centerY)
+            make.leading.equalToSuperview().offset(aesthetics.mediumGap)
+            make.top.equalTo(minorLabel.snp.bottom).offset(aesthetics.smallGap)
             make.width.equalTo(minorAddButton.intrinsicContentSize.width)
         }
     }
     
     // Resets user's academic information
     @objc func resetButtonPressed() {
-        majorAddButton.removeFromSuperview()
-        minorAddButton.removeFromSuperview()
-        setUpConstraints()
+//        majorAddButton.removeFromSuperview()
+//        minorAddButton.removeFromSuperview()
+//        setUpConstraints()
         collegeLabel.text = "College:  None Selected"
-        majorLabel.text = "Major:     None Selected"
-        minorLabel.text = "Minor:     None Selected"
+        majorLabel.text =   "Major:     None Selected"
+        minorLabel.text =   "Minor:     None Selected"
         userData.resetUserInfo()
         sharedVars.setCategory()
 //        view.addSubview(majorAddButton)
@@ -256,7 +256,7 @@ class SettingsViewController: UIViewController {
     }
     
     // Change classes based on filter
-    @objc func buttonPressed (sender:UIButton) {
+    @objc func themeButtonPressed (sender:UIButton) {
         aesthetics.selectedTheme = (sender.titleLabel?.text)!
         aesthetics.updateTheme()
         viewDidLoad()
@@ -268,11 +268,17 @@ class SettingsViewController: UIViewController {
     // Add another major
     @objc func majorAddButtonPressed() {
         print("add a major")
+        let navVC = DiscoverViewController()
+        //navVC.delegate = self
+        present(navVC, animated: true, completion: nil)
     }
     
     // Add another minor
     @objc func minorAddButtonPressed() {
         print("add a minor")
+        let navVC = OptionsViewController()
+        //navVC.delegate = self
+        present(navVC, animated: true, completion: nil)
     }
     
     // Helper for adding buttons formatting
