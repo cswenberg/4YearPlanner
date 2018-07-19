@@ -12,9 +12,6 @@ import UIKit
 var requirementData = globalRequirements()
 
 class globalRequirements {
-    //College data
-    let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture, .ilr]
-    
     //Major data
     var engMajorOptions: [majors] = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil,.im]
     var artsMajorOptions: [majors] = [.music,.sts,.gov,.scholar,.asian,.soc,.eng,.archae,.infsc,.complit,.ses,.astro,.cs,.phys,.ling,.germstud,.chinpacstud,.hist,.astats,.achem,.french,.anthro,.ital,.amerstud,.psych,.fem,.span,.afristud,.neaststud,.relig,.perfmed,.aecon,.amath,.classic,.philos,.aBS,.histart,.im,.biologsci]
@@ -24,13 +21,16 @@ class globalRequirements {
     var ilrMajorOptions: [majors] = [.ilr]
     var archiMajorOptions: [majors] = [.archi]
     var allMajors: [majors] = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil,.im,.music,.sts,.gov,.scholar,.asian,.soc,.eng,.archae,.infsc,.complit,.ses,.astro,.cs,.phys,.ling,.germstud,.chinpacstud,.hist,.astats,.achem,.french,.anthro,.ital,.amerstud,.psych,.fem,.span,.afristud,.neaststud,.relig,.perfmed,.aecon,.amath,.classic,.philos,.aBS,.histart,.im,.biologsci,.agsci,.atmosci,.anisci,.aem,.bioeng,.biomstat,.comm,.devsoc,.ento,.ess,.enveng,.foodsci,.gphs,.iard,.landarch,.nutrisci,.plantsci,.vines,.infsc,.ses,.smom,.hold,.fare,.aem,.ilr,.archi]
-    
     //Minor data
     let allEngMinors: [minors] = [.nm,.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust]
     let allCals: [minors] = [.nm, .agm, .aiis, .anisci, .appe, .atmosci, .biosc, .biostat, .busi, .cc, .comm, .cfs, .cm, .dscoc, .edu, .ent, .eer ,.ess, .foodsci, .ged, .hort, .hfba, .idb, .infos, .ids, .itd, .lands, .lead, .marb, .nutri, .plb, .scie, .sois, .viti]
     let allAS: [minors] = [.nm, .esa, .cogsci, .math, .pma, .js, .ams, .infoa, .music, .hist, .vs, .eng, .clciv, .scies, .mitw, .aas, .sas, .phil, .las, .gs, .arab, .ls, .ast, .rus, .theat, .medi, .vik, .cita, .phys, .ins, .gad, .fren, .hista, .seas, .ling, .pbs, .cpej, .hc, .ital, .nes, .biosci, .csa, .dan, .lat, .rels, .clas, .ixr, .arch, .caps, .psych, .sts, .anthr, .film, .afr, .cw, .lgbt, .span, .fgs]
     var allMinors: [minors] = [.nm,.ase, .am, .be, .bme, .bus, .civ, .cs, .ece, .ee, .em, .es, .env, .gd, .isst, .info, .mse, .meche, .orie, .ses, .sust, .agm, .aiis, .anisci, .appe, .atmosci, .biosc, .biostat, .busi, .cc, .comm, .cfs, .cm, .dscoc, .edu, .ent, .eer ,.ess, .foodsci, .ged, .hort, .hfba, .idb, .infos, .ids, .itd, .lands, .lead, .marb, .nutri, .plb, .scie, .sois, .viti, .esa, .cogsci, .math, .pma, .js, .ams, .infoa, .music, .hist, .vs, .eng, .clciv, .scies, .mitw, .aas, .sas, .phil, .las, .gs, .arab, .ls, .ast, .rus, .theat, .medi, .vik, .cita, .phys, .ins, .gad, .fren, .hista, .seas, .ling, .pbs, .cpej, .hc, .ital, .nes, .biosci, .csa, .dan, .lat, .rels, .clas, .ixr, .arch, .caps, .psych, .sts, .anthr, .film, .afr, .cw, .lgbt, .span, .fgs]
+    //College data
+    let allColleges: [colleges] = [.engineering, .artsnsciences, .cals, .hotel, .dyson, .architecture, .ilr]
+    var engineering = SomeCollege(tit: "Engineering", desc: "these guys build lit shit", options: [], reqs: [], Enum: .engineering)
     
+
     
     //Dictionaries
     var stringCollegeDict = [String:colleges]()

@@ -342,6 +342,154 @@ class Minor: Requirements {
 
 
 
+// NEW SHIT YA BOIIIIIII //
+
+class Requirement {
+    var parent: Any?
+    var title: String!
+    var description: String!
+    var satisfied: Bool!
+    var nested: [Requirement]
+    
+    init(tit: String, desc: String, nest: [Requirement] = [], par: Any? = nil) {
+        parent = par
+        title = tit
+        description = desc
+        satisfied = false
+        nested = nest
+    }
+    
+    func addNested(req: Requirement) {
+        req.parent = self
+        nested.append(req)
+    }
+    
+    func getTitle() -> String {
+        return title
+    }
+    
+    func getDescription() -> String {
+        return description
+    }
+    
+    func getNested() -> [Requirement] {
+        return nested
+    }
+}
+/** Course Specific Requirements are a subclass of Requirement that is composed of a list of classes that needs to be fulfilled.
+ Example: All Engineers are required to take Math 1910 and Math 1920
+ */
+class CourseSpecific: Requirement {
+    var coursesNeeded: [Class]
+    var coursesPresent: [Class]
+    
+    init(title: String, description: String, needed: [Class], nested: [Requirement] = [], parent: Any? = nil) {
+        coursesNeeded = needed
+        coursesPresent = []
+        super.init(tit: title, desc: description, nest: nested, par: parent)
+    }
+    
+    func coursesUnsatisfied() -> [Class] {
+        var unsatisfied: [Class] = []
+        for each in coursesNeeded {
+            if coursesPresent.contains(each) {
+                continue
+            }
+            unsatisfied.append(each)
+        }
+        return unsatisfied
+    }
+}
+/** GenericType requirements are a subclass of Requirement that simply implies a specified number of typed courses is needed.
+ Example: Liberal Strudies requirement for Engineers
+*/
+class GenericType: Requirement {
+    var size: Int
+    var completed: Int
+    var coursesUsed: [Class]
+    
+    init(title: String, description: String, number: Int, nested: [Requirement] = [], parent: Any? = nil) {
+        size = number
+        completed = 0
+        coursesUsed = []
+        super.init(tit: title, desc: description, nest: nested, par: parent)
+    }
+    
+    func numberLeft() -> Int {
+        return size - completed
+    }
+}
+
+class SomeCollege: Requirement {
+    var majorOptions: [Major]
+    var numE: colleges
+    
+    init(tit: String, desc: String, options: [Major], reqs: [Requirement], Enum: colleges) {
+        majorOptions = options
+        numE = Enum
+        super.init(tit: tit, desc: desc, nest: reqs)
+    }
+    //naming changed to be more expressive
+    func getReqs() -> [Requirement] {
+        return getNested()
+    }
+    //naming changed to be more expressive
+    func addReq(req: Requirement) {
+        addNested(req: req)
+    }
+}
+
+class SomeMajor: Requirement {
+    var numE: majors
+    
+    init(tit: String, desc: String, reqs: [Requirement], Enum: majors) {
+        numE = Enum
+        super.init(tit: tit, desc: desc, nest: reqs)
+    }
+    //naming changed to be more expressive
+    func getReqs() -> [Requirement] {
+        return getNested()
+    }
+    //naming changed to be more expressive
+    func addReq(req: Requirement) {
+        addNested(req: req)
+    }
+}
+
+class SomeMinor: Requirement {
+    var numE: minors
+    
+    init(tit: String, desc: String, reqs: [Requirement], Enum: minors) {
+        numE = Enum
+        super.init(tit: tit, desc: desc, nest: reqs)
+    }
+    //naming changed to be more expressive
+    func getReqs() -> [Requirement] {
+        return getNested()
+    }
+    //naming changed to be more expressive
+    func addReq(req: Requirement) {
+        addNested(req: req)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
