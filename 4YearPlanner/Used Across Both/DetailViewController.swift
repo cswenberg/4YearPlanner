@@ -23,7 +23,7 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     var tempCredits: Int!
     var creditsPickerView: UIPickerView!
     var detailedClass: Class!
-    var courseLabel: UILabel!
+    var courseSubjNum: UILabel!
     var courseTitle: UILabel!
     var descriptionLabel: UILabel!
     var descriptionTextView: UITextView!
@@ -34,15 +34,18 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     var backButton: UIButton!
     var saveButton: UIButton!
     var deleteButton: UIButton!
+    var buttonShown: UIButton!
     var semesterStepper: UIStepper!
     var semesterLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = aesthetics.backgroundColor
         
         fullScrollView = UIScrollView()
         fullScrollView.backgroundColor = aesthetics.backgroundColor
-        view.addSubview(fullScrollView)
+        //fullScrollView.bounces = true
+        //fullScrollView.isScrollEnabled = true
         
         tempCredits = detailedClass.creditsChosen
         
@@ -53,6 +56,32 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         creditsPickerView = UIPickerView()
         creditsPickerView.delegate = self
         
+        courseSubjNum = UILabel()
+        courseSubjNum.font = .boldSystemFont(ofSize: 28)
+        courseSubjNum.text = detailedClass.classLabel()
+        courseSubjNum.textColor = aesthetics.textColor
+        //fullScrollView.addSubview(courseSubjNum)
+        
+        creditsLabel = UITextField()
+        creditsLabel.delegate = self
+        creditsLabel.font = aesthetics.mediumFont
+        creditsLabel.backgroundColor = aesthetics.niceOrange
+        creditsLabel.textColor = aesthetics.cellTextColor
+        creditsLabel.text = String(detailedClass.creditsChosen)
+        creditsLabel.textAlignment = .center
+        creditsLabel.layer.cornerRadius = 10
+        creditsLabel.clipsToBounds = true
+        creditsLabel.inputView = creditsPickerView
+        creditsLabel.tintColor = .clear
+        //fullScrollView.addSubview(creditsLabel)
+        
+        backButton = UIButton()
+        backButton.setTitle("<", for: .normal)
+        backButton.setTitleColor(aesthetics.textColor, for: .normal)
+        backButton.titleLabel?.font = aesthetics.backButtonFont
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        //fullScrollView.addSubview(backButton)
+        
         courseTitle = UILabel()
         courseTitle.text = detailedClass.title
         courseTitle.font = .systemFont(ofSize: 28)
@@ -60,12 +89,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         courseTitle.numberOfLines = 0
         courseTitle.textAlignment = .left
         fullScrollView.addSubview(courseTitle)
-        
-        courseLabel = UILabel()
-        courseLabel.font = .boldSystemFont(ofSize: 28)
-        courseLabel.text = detailedClass.classLabel()
-        courseLabel.textColor = aesthetics.textColor
-        fullScrollView.addSubview(courseLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.text = "Description"
@@ -99,26 +122,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         prereqTextView.textAlignment = .center
         prereqTextView.isEditable = false
         fullScrollView.addSubview(prereqTextView)
-        
-        creditsLabel = UITextField()
-        creditsLabel.delegate = self
-        creditsLabel.font = aesthetics.mediumFont
-        creditsLabel.backgroundColor = aesthetics.niceOrange
-        creditsLabel.textColor = aesthetics.cellTextColor
-        creditsLabel.text = String(detailedClass.creditsChosen)
-        creditsLabel.textAlignment = .center
-        creditsLabel.layer.cornerRadius = 10
-        creditsLabel.clipsToBounds = true
-        creditsLabel.inputView = creditsPickerView
-        creditsLabel.tintColor = .clear
-        fullScrollView.addSubview(creditsLabel)
-        
-        backButton = UIButton()
-        backButton.setTitle("<", for: .normal)
-        backButton.setTitleColor(aesthetics.textColor, for: .normal)
-        backButton.titleLabel?.font = aesthetics.backButtonFont
-        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
-        fullScrollView.addSubview(backButton)
         
         saveButton = UIButton()
         saveButton.setTitle("Save", for: .normal)
@@ -156,11 +159,11 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
         // Only show save button if not called from My Schedule
         if loadedFrom != "My Schedule" {
-            showSaveButton()
+            showButton(button: saveButton)
+            buttonShown = saveButton
             fullScrollView.addSubview(semesterStepper)
             semesterStepper.snp.makeConstraints { (make) in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(saveButton.snp.top).offset(-60)
+                make.bottom.centerX.equalToSuperview()
             }
             fullScrollView.addSubview(semesterLabel)
             semesterLabel.snp.makeConstraints { (make) in
@@ -171,15 +174,13 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             }
         }
         else {
-            fullScrollView.addSubview(deleteButton)
-            deleteButton.snp.makeConstraints { (make) in
-                make.bottom.equalToSuperview().offset(-40)
-                make.centerX.equalToSuperview()
-                make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
-                make.height.equalTo(saveButton.intrinsicContentSize.height)
-            }
+            showButton(button: deleteButton)
+            buttonShown = deleteButton
         }
-        
+        view.addSubview(backButton)
+        view.addSubview(courseSubjNum)
+        view.addSubview(creditsLabel)
+        view.addSubview(fullScrollView)
         setupConstraints()
     }
     
@@ -191,17 +192,30 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.height.equalTo(backButton.intrinsicContentSize.height)
         }
-        //course label
-        courseLabel.snp.makeConstraints { (make) in
+        //course subject number
+        courseSubjNum.snp.makeConstraints { (make) in
             make.centerY.equalTo(backButton.snp.centerY)
             make.centerX.equalToSuperview()
             //   make.width.equalTo(courseLabel.intrinsicContentSize.width)
-            make.height.equalTo(courseLabel.intrinsicContentSize.height)
+            make.height.equalTo(courseSubjNum.intrinsicContentSize.height)
+        }
+        // credits label
+        creditsLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(backButton.snp.centerY)
+            make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
+            make.width.equalTo(aesthetics.creditWidth)
+            make.height.equalTo(creditsLabel.intrinsicContentSize.height)
+        }
+        // ScrollView
+        fullScrollView.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(courseSubjNum.snp.bottom).offset(aesthetics.smallGap)
+            make.bottom.equalTo(buttonShown.snp.top).offset(-aesthetics.smallGap)
         }
         //course title
         courseTitle.snp.makeConstraints{ (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(courseLabel.snp.bottom).offset(aesthetics.mediumGap)
+            make.top.equalTo(courseSubjNum.snp.bottom).offset(aesthetics.mediumGap)
             make.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
             adjustHeight(label: courseTitle)
@@ -236,17 +250,6 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             else {
                 make.bottom.equalTo(deleteButton.snp.top).offset(-aesthetics.smallGap)
             }
-        }
-        // credits label
-        creditsLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(backButton.snp.centerY)
-            make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
-            make.width.equalTo(aesthetics.creditWidth)
-            make.height.equalTo(creditsLabel.intrinsicContentSize.height)
-        }
-        // ScrollView
-        fullScrollView.snp.makeConstraints { (make) in
-            make.top.bottom.leading.trailing.equalToSuperview()
         }
     }
     
@@ -365,20 +368,21 @@ class DetailViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         tempCredits = detailedClass.creditsMin + row
         if tempCredits != detailedClass.creditsChosen && loadedFrom == "My Schedule" {
             deleteButton.isHidden = true
-            showSaveButton()
+            showButton(button: saveButton)
         }
     }
     
     // Helper function to setup save button
-    func showSaveButton () {
-        fullScrollView.addSubview(saveButton)
-        saveButton.snp.makeConstraints { (make) in
+    func showButton(button: UIButton) {
+        view.addSubview(button)
+        button.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-40)
             make.centerX.equalToSuperview()
             make.width.equalTo(saveButton.intrinsicContentSize.width + 60)
             make.height.equalTo(saveButton.intrinsicContentSize.height)
         }
     }
+    
     @IBAction func stepperHit(_ sender: UIStepper) {
         semesterLabel.text = "Semester \(Int(sender.value))"
         sharedVars.selected_semester = Int(sender.value)

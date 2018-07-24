@@ -135,7 +135,6 @@ class Class: NSObject, NSCoding {
     var pulledPrereqs: String?
     var stringPrerequisites = [String]()
     var prerequisites: [Class]!
-    var requirementGroups: [engStuff]!
     
     init(subject: String, number: String, title: String, description: String, term: [String], creditsMin: Int, creditsMax: Int, prerequisites: [Class], distribution: String, gradingType: String, academicGroup: String) {
         self.subject = subject
