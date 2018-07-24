@@ -19,8 +19,6 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     var optionsCollectionView: UICollectionView!
     var optionsReuseIdentifier = "optionCell"
     
-    var majorOptions = [majors]() 
-    var minorOptions = [minors]()
     var cellsToDisplay = [optionsCollectionViewCell]()
     var delegate: showCoursesDelegate?
     
@@ -57,24 +55,25 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if sharedVars.current_category == "Colleges" {return requirementData.allColleges.count}
         else if sharedVars.current_category == "Majors" {return userData.myCollege.majorOptions.count}
-        else {return userData.myMajor.minorOptions.count}
+        else {return requirementData.allMinors.count}
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = optionsCollectionView.dequeueReusableCell(withReuseIdentifier: optionsReuseIdentifier, for: indexPath) as! optionsCollectionViewCell
         if sharedVars.current_category == "Colleges" {
-            cell.cellObject = College(Enum: requirementData.allColleges[indexPath.item],requirements: [])
+            cell.cellObject = requirementData.allColleges[indexPath.item]
         } else if sharedVars.current_category == "Majors"{
-            majorOptions = userData.myCollege.majorOptions
-            cell.cellObject = Major(Enum: majorOptions[indexPath.item], requirements: [])
+            print("showing majors")
+            cell.cellObject = userData.myCollege.majorOptions[indexPath.item]
         } else {
-            cell.cellObject = Minor(Enum: userData.myMajor.minorOptions[indexPath.item], requirements: [])
+            print("showing minors")
+            cell.cellObject = requirementData.allMinors[indexPath.item]
         }
         
         cell.gradientNum = Int(indexPath.item)+aesthetics.gradientRandomizer
         cell.gradient.colors = [aesthetics.gradientList[cell.gradientNum % 4][0], aesthetics.gradientList[cell.gradientNum % 4][1]]
-        cell.titleLabel.text = cell.cellObject.friendlyTitle()
+        cell.titleLabel.text = cell.cellObject.title
         cell.layer.cornerRadius = 10
         
         cell.setNeedsUpdateConstraints()
@@ -95,14 +94,11 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
         if sharedVars.current_category == "Colleges" {
             if let selectedCollege = cellsToDisplay[indexPath.item].cellObject as! College? {
                 cellsToDisplay = []
-                userData.setCollege(college: selectedCollege)
-                majorOptions = userData.myCollege.majorOptions
-            }
+                userData.setCollege(college: selectedCollege)            }
         } else if sharedVars.current_category == "Majors" {
             if let selectedMajor = cellsToDisplay[indexPath.item].cellObject as! Major? {
                 cellsToDisplay = []
                 userData.setMajor(major: selectedMajor)
-                minorOptions = userData.myMajor.minorOptions
             }
         } else if sharedVars.current_category == "Minors" {
             if let selectedMinor = cellsToDisplay[indexPath.item].cellObject as! Minor? {
@@ -111,7 +107,11 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
             }
         }
         switchCollection()
-        if sharedVars.current_category != "Courses" {optionsCollectionView.reloadData()}
+        if sharedVars.current_category != "Courses" {
+            print("reload called")
+            optionsCollectionView.reloadData()
+            print(userData.myCollege.majorOptions)
+        }
     }
     
     // Switches collection when selected (forward)

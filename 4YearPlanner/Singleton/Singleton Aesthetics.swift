@@ -53,26 +53,23 @@ class globalAesthetics {
     let niceOrange = UIColor(red: 1, green: 0.73, blue: 0.19, alpha: 1)
     let niceGreen = UIColor(red: 0.25, green: 0.85, blue: 0.51, alpha: 1)
     let middleGray = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
-    
+    let darkGray = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+
     //themes
     let themeList = ["Normal", "Dark"] //for our use to keep track
     var selectedTheme = "Dark"
-    let darkGray = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
     var cellTextColor: UIColor!
     var textColor: UIColor!
     var backgroundColor: UIColor!
     
+    var selectedTheme2 = darkTheme
+    var themes = [lightTheme, darkTheme]
+    
     // Change the color values to later affect the rest of the app
     func updateTheme() {
-        if selectedTheme == "Normal" {
-            cellTextColor = .white
-            textColor = darkGray
-            backgroundColor = .white
-        } else if selectedTheme == "Dark" {
-            cellTextColor = .white
-            textColor = .white
-            backgroundColor = darkGray
-        }
+        cellTextColor = selectedTheme2.cellTextColor
+        textColor = selectedTheme2.textColor
+        backgroundColor = selectedTheme2.backgroundColor
     }
     
     // Helper for switching colors
@@ -85,3 +82,35 @@ class globalAesthetics {
         return .white
     }
 }
+
+class Theme: NSObject, NSCoding {
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(cellTextColor, forKey: "cellTextColor")
+        aCoder.encode(textColor, forKey: "textColor")
+        aCoder.encode(backgroundColor, forKey: "backgroundColor")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.name = aDecoder.decodeObject(forKey: "name") as! String
+        self.cellTextColor = aDecoder.decodeObject(forKey: "cellTextColor") as! UIColor
+        self.textColor = aDecoder.decodeObject(forKey: "textColor") as! UIColor
+        self.backgroundColor = aDecoder.decodeObject(forKey: "backgroundColor") as! UIColor
+    }
+    
+    var name: String!
+    var cellTextColor: UIColor!
+    var textColor: UIColor!
+    var backgroundColor: UIColor!
+    
+    init(name: String, cellText: UIColor, text: UIColor, background: UIColor) {
+        self.name = name
+        cellTextColor = cellText
+        textColor = text
+        backgroundColor = background
+    }
+}
+
+let lightTheme = Theme(name: "Light", cellText: .white, text: .black, background: .white)
+let darkTheme = Theme(name: "Dark", cellText: .white, text: .white, background: .black)
+

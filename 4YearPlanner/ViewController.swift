@@ -28,7 +28,7 @@ class HomeViewController: UIViewController, settingsDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        requirementData.dictionariesInit()
+        requirementData.initEverything()
         userData.loadDefaults()
         sharedVars.setTab()
         sharedVars.setCategory()

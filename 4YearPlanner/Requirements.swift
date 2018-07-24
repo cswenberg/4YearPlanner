@@ -50,7 +50,7 @@ enum majors: String {
     case scholar = "College Scholar"
     case asian = "Asian Studies"
     case soc = "Sociology"
-    case eng = "English"
+    case engl = "English"
     case archae = "Archaeology"
     case infsc = "Information Science"
     case complit = "Comparitive Literature"
@@ -74,7 +74,7 @@ enum majors: String {
     case afristud = "Africana Studies"
     case neaststud = "Near Eastern Studies"
     case relig = "Religious Studies"
-    case perfmed = "Performin & Media Arts"
+    case perfmed = "Performing & Media Arts"
     case aecon = "Economics"
     case amath = "Mathematics"
     case classic = "Classics"
@@ -99,7 +99,7 @@ enum majors: String {
     case gphs = "Global and Public Health Sciences"
     case iard = "International Agriculture and Rural Developments"
     case landarch = "Landscape Architecture"
-    case nutrisci = "Nutrional Science"
+    case nutrisci = "Nutritional Science"
     case plantsci = "Plant Science"
     case vines = "Vineculture and Enology"
     //hotel
@@ -128,8 +128,8 @@ enum minors: String {
     case es = "Engineering Statistics"
     case env = "Environmental Engineering"
     case gd = "Game Design"
-    case isst = "Industrial Systems and Information Technology"
-    case info = "Information Science"
+    case isit = "Industrial Systems and Information Technology"
+    case infosci = "Information Science"
     case mse = "Materials Science and Engineering"
     case meche = "Mechanical Engineering"
     case orie = "Operations Research and Management Science"
@@ -231,120 +231,10 @@ enum minors: String {
     case viti = "Viticulture & Enology"
 }
 
-class Requirements {
-    
-    var requirements: [Class]
-    var title: String
-    
-    init (title: String, requirements: [Class]) {
-        self.requirements = requirements
-        self.title = title
-    }
-    /** Return: list required classes that are not satisfied by input of classes,
-     empty list if all requirements are fulfilled */
-    func requirementsLeft(classes: [Class]) -> [Class] {
-        var classesNeeded = [Class]()
-        for eachclass in self.requirements {
-            var check = false
-            for classelem in classes {
-                if eachclass.equals(someclass: classelem) {
-                    check = true
-                    break}
-            }
-            if !check {classesNeeded.append(eachclass)}
-        }
-        return classesNeeded
-    }
-    /** Return: title attribute */
-    func getTitle() -> String {
-        return title
-    }
-    /** Return: requirements attribute */
-    func getRequirements() -> [Class] {
-        return requirements
-    }
-    
-    // Return Title
-    func friendlyTitle() -> String {
-        return title
-    }
-}
-
-
-class College: Requirements {
-    
-    /** Enum to represent all college options, will use cases to determine requirements by using a switch and drawing information from server */
-    
-    var college: colleges
-    var majorOptions: [majors]
-    
-    init (Enum: colleges, requirements: [Class]) {
-        var majorChoices = [majors]()
-        college = Enum
-        let collegeTitle = college.rawValue
-        switch college {
-        case .engineering:
-            majorChoices = requirementData.engMajorOptions
-        case .artsnsciences:
-            majorChoices = requirementData.artsMajorOptions
-        case .cals:
-            majorChoices = requirementData.calsMajorOptions
-        case .hotel:
-            majorChoices = requirementData.hotelMajorOptions
-        case .dyson:
-            majorChoices = requirementData.dysonMajorOptions
-        case .architecture:
-            majorChoices = requirementData.archiMajorOptions
-        case .ilr:
-            majorChoices = requirementData.ilrMajorOptions
-        }
-        majorOptions = majorChoices
-        super.init(title: collegeTitle, requirements: requirements)
-    }
-
-    
-}
-
-class Major: Requirements {
-
-    var major: majors
-    var minorOptions: [minors]
-    
-    init (Enum: majors, requirements: [Class]) {
-        major = Enum
-        let majorTitle = major.rawValue
-        
-        if requirementData.engMajorOptions.contains(major) {
-            minorOptions = requirementData.allEngMinors
-        } else if requirementData.artsMajorOptions.contains(major) {
-            minorOptions = requirementData.allAS
-        } else if requirementData.calsMajorOptions.contains(major) {
-            minorOptions = requirementData.allCals
-        } else {
-            minorOptions = requirementData.allAS
-        }
-
-        
-        super.init(title: majorTitle, requirements: requirements)
-    }
-}
-
-class Minor: Requirements {
-    var minor: minors
-    
-    init(Enum: minors, requirements: [Class]) {
-        self.minor = Enum
-        let minorTitle = minor.rawValue
-        super.init(title: minorTitle, requirements: requirements)
-    }
-}
-
-
-
-
 // NEW SHIT YA BOIIIIIII //
 
 class Requirement {
+    
     var parent: Any?
     var title: String!
     var description: String!
@@ -375,19 +265,40 @@ class Requirement {
     func getNested() -> [Requirement] {
         return nested
     }
+    
+    func encodeHelper(with aCoder: NSCoder) {
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(description, forKey: "description")
+        aCoder.encode(satisfied, forKey: "satisfied")
+        aCoder.encode(nested, forKey: "nested")
+        if let par = parent {
+            aCoder.encode(par, forKey: "parent")
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.title = aDecoder.decodeObject(forKey: "title") as! String
+        self.description = aDecoder.decodeObject(forKey: "description") as! String
+        self.satisfied  = aDecoder.decodeObject(forKey: "satified") as! Bool
+        self.nested =  aDecoder.decodeObject(forKey: "nested") as! [Requirement]
+        self.parent = aDecoder.decodeObject(forKey: "parent") as Any?
+    }
 }
 /** Course Specific Requirements are a subclass of Requirement that is composed of a list of classes that needs to be fulfilled.
  Example: All Engineers are required to take Math 1910 and Math 1920
  */
-class CourseSpecific: Requirement {
+class CourseSpecific: Requirement, NSCoding {
+
     var coursesNeeded: [Class]
     var coursesPresent: [Class]
     
+
     init(title: String, description: String, needed: [Class], nested: [Requirement] = [], parent: Any? = nil) {
         coursesNeeded = needed
         coursesPresent = []
         super.init(tit: title, desc: description, nest: nested, par: parent)
     }
+
     
     func coursesUnsatisfied() -> [Class] {
         var unsatisfied: [Class] = []
@@ -399,11 +310,37 @@ class CourseSpecific: Requirement {
         }
         return unsatisfied
     }
+    
+    func encode(with aCoder: NSCoder) {
+        encodeHelper(with: aCoder)
+        aCoder.encode(coursesNeeded, forKey: "coursesNeeded")
+        aCoder.encode(coursesPresent, forKey: "coursesPresent")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.coursesNeeded = aDecoder.decodeObject(forKey: "coursesNeeded") as! [Class]
+        self.coursesPresent = aDecoder.decodeObject(forKey: "coursesPresent") as! [Class]
+        super.init(coder: aDecoder)
+    }
 }
 /** GenericType requirements are a subclass of Requirement that simply implies a specified number of typed courses is needed.
  Example: Liberal Strudies requirement for Engineers
 */
-class GenericType: Requirement {
+class GenericType: Requirement, NSCoding {
+    func encode(with aCoder: NSCoder) {
+        encodeHelper(with: aCoder)
+        aCoder.encode(size, forKey: "size")
+        aCoder.encode(completed, forKey: "completed")
+        aCoder.encode(coursesUsed, forKey: "coursesUsed")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.size = aDecoder.decodeInteger(forKey: "size")
+        self.completed = aDecoder.decodeInteger(forKey: "completed")
+        self.coursesUsed = aDecoder.decodeObject(forKey: "coursesUsed") as! [Class]
+        super.init(coder: aDecoder)
+    }
+    
     var size: Int
     var completed: Int
     var coursesUsed: [Class]
@@ -420,14 +357,22 @@ class GenericType: Requirement {
     }
 }
 
-class SomeCollege: Requirement {
+class College: Requirement, NSCoding {
+    func encode(with aCoder: NSCoder) {
+        encodeHelper(with: aCoder)
+        aCoder.encode(majorOptions, forKey: "majorOptions")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.majorOptions = aDecoder.decodeObject(forKey: "majorOptions") as! [Major]
+        super.init(coder: aDecoder)
+
+    }
     var majorOptions: [Major]
-    var numE: colleges
     
-    init(tit: String, desc: String, options: [Major], reqs: [Requirement], Enum: colleges) {
-        majorOptions = options
-        numE = Enum
-        super.init(tit: tit, desc: desc, nest: reqs)
+    init(title: String, description: String, majorOptions: [Major], reqs: [Requirement]) {
+        self.majorOptions = majorOptions
+        super.init(tit: title, desc: description, nest: reqs)
     }
     //naming changed to be more expressive
     func getReqs() -> [Requirement] {
@@ -439,12 +384,18 @@ class SomeCollege: Requirement {
     }
 }
 
-class SomeMajor: Requirement {
-    var numE: majors
+class Major: Requirement, NSCoding {
+    func encode(with aCoder: NSCoder) {
+        encodeHelper(with: aCoder)
+    }
     
-    init(tit: String, desc: String, reqs: [Requirement], Enum: majors) {
-        numE = Enum
-        super.init(tit: tit, desc: desc, nest: reqs)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    
+    init(title: String, description: String, reqs: [Requirement]){
+        super.init(tit: title, desc: description, nest: reqs)
     }
     //naming changed to be more expressive
     func getReqs() -> [Requirement] {
@@ -456,12 +407,18 @@ class SomeMajor: Requirement {
     }
 }
 
-class SomeMinor: Requirement {
-    var numE: minors
+class Minor: Requirement, NSCoding {
+    func encode(with aCoder: NSCoder) {
+        encodeHelper(with: aCoder)
+    }
     
-    init(tit: String, desc: String, reqs: [Requirement], Enum: minors) {
-        numE = Enum
-        super.init(tit: tit, desc: desc, nest: reqs)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    
+    init(title: String, description: String, reqs: [Requirement]) {
+        super.init(tit: title, desc: description, nest: reqs)
     }
     //naming changed to be more expressive
     func getReqs() -> [Requirement] {

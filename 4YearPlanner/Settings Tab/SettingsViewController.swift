@@ -42,7 +42,7 @@ class SettingsViewController: UIViewController {
         //collegeLabel
         collegeLabel = UILabel()
         collegeLabel.text = "College:  None Selected"
-        if let collegeText = userData.myCollege?.getTitle() {
+        if let collegeText = userData.myCollege?.title {
             collegeLabel.text = "College:  \(collegeText)"
         }
         collegeLabel.textColor = aesthetics.textColor
@@ -50,7 +50,7 @@ class SettingsViewController: UIViewController {
         //majorLabel
         majorLabel = UILabel()
         majorLabel.text = "Major:     None Selected"
-        if let majorText = userData.myMajor?.getTitle() {
+        if let majorText = userData.myMajor?.title {
             majorLabel.text = "Major:     \(majorText)"
         }
         majorLabel.textColor = aesthetics.textColor
@@ -58,7 +58,7 @@ class SettingsViewController: UIViewController {
         //minorLabel
         minorLabel = UILabel()
         minorLabel.text = "Minor:     None Selected"
-        if let minorText = userData.myMinor?.getTitle() {
+        if let minorText = userData.myMinor?.title {
             minorLabel.text = "Minor:     \(minorText)"
         }
         minorLabel.textColor = aesthetics.textColor
@@ -101,7 +101,7 @@ class SettingsViewController: UIViewController {
         //themeOption1
         themeOption1 = UIButton()
         themeOption1.layer.cornerRadius = 10
-        themeOption1.setTitle(aesthetics.themeList[0], for: .normal)
+        themeOption1.setTitle(aesthetics.themes[0].name, for: .normal)
         themeOption1.titleLabel?.font = aesthetics.smallFont
         themeOption1.setTitleColor(aesthetics.textColor, for: .normal)
         themeOption1.addTarget(self, action: #selector(themeButtonPressed), for: .touchUpInside)
@@ -109,7 +109,7 @@ class SettingsViewController: UIViewController {
         //themeOption2
         themeOption2 = UIButton()
         themeOption2.layer.cornerRadius = 10
-        themeOption2.setTitle(aesthetics.themeList[1], for: .normal)
+        themeOption2.setTitle(aesthetics.themes[1].name, for: .normal)
         themeOption2.titleLabel?.font = aesthetics.smallFont
         themeOption2.setTitleColor(aesthetics.textColor, for: .normal)
         themeOption2.addTarget(self, action: #selector(themeButtonPressed), for: .touchUpInside)
@@ -257,7 +257,12 @@ class SettingsViewController: UIViewController {
     
     // Change classes based on filter
     @objc func themeButtonPressed (sender:UIButton) {
-        aesthetics.selectedTheme = (sender.titleLabel?.text)!
+        for each in aesthetics.themes {
+            if each.name == (sender.titleLabel?.text)! {
+                aesthetics.selectedTheme2 = each
+                break
+            }
+        }
         aesthetics.updateTheme()
         viewDidLoad()
         delegate?.themeUpdated()
@@ -296,11 +301,11 @@ class SettingsViewController: UIViewController {
     
     // Changes Theme buttons' backgrounds
     func themeHighlight() {
-        if aesthetics.selectedTheme == themeOption1.titleLabel?.text {
+        if aesthetics.selectedTheme2.name == themeOption1.titleLabel?.text {
             themeOption1.backgroundColor = aesthetics.middleGray
             themeOption1.setTitleColor(aesthetics.cellTextColor, for: .normal)
             themeOption2.backgroundColor = aesthetics.backgroundColor
-        } else if aesthetics.selectedTheme == themeOption2.titleLabel?.text {
+        } else if aesthetics.selectedTheme2.name == themeOption2.titleLabel?.text {
             themeOption2.backgroundColor = aesthetics.middleGray
             themeOption2.setTitleColor(aesthetics.cellTextColor, for: .normal)
             themeOption1.backgroundColor = aesthetics.backgroundColor

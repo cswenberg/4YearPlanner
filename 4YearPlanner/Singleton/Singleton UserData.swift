@@ -14,18 +14,25 @@ var userData = userInfo()
 
 class userInfo {
     
+    let defaults = UserDefaults.standard
     var mySemesters: [Semester] = [Semester(number: 1),Semester(number: 2),Semester(number: 3),Semester(number: 4),Semester(number: 5),Semester(number: 6),Semester(number: 7),Semester(number: 8)]
     var myCollege: College!
     var myMajor: Major!
     var myMinor: Minor!
+    var myRequirements: [Requirement]!
     
     var tmpClass: Class!
     var allCourses = [Class]()
     
+    func fakeLoadDefaults() {
+        myCollege = requirementData.Engineering
+        myMajor = requirementData.aep
+        myMinor = requirementData.noMinor
+        aesthetics.updateTheme()
+    }
+    
     // Loads user info
     func loadDefaults() {
-        let defaults = UserDefaults.standard
-
         if let decodedData = defaults.data(forKey: "myCollege") {
             let collegeString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
             myCollege = stringToCollege(collegeString: collegeString)
@@ -38,10 +45,13 @@ class userInfo {
             let minorString = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
             myMinor = stringToMinor(minorString: minorString)
         }
+    
         if let decodedData = defaults.data(forKey: "selectedTheme") {
-            let theme = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! String
-            aesthetics.selectedTheme = theme
+            let theme = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! Theme
+            aesthetics.selectedTheme2 = theme
+            print("theme loaded")
         }
+ 
         if let decodedData = defaults.data(forKey: "mySemesters") {
             let semesters = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [Semester]
             mySemesters = semesters
@@ -57,60 +67,70 @@ class userInfo {
     
     // Turns a string that represents a college into the College Class
     func stringToCollege(collegeString: String) -> College {
-        return College(Enum: requirementData.stringCollegeDict[collegeString]!, requirements: requirementData.getCollegeRequirements(collegeName: collegeString))
+        for each in requirementData.allColleges {
+            if each.title == collegeString {
+                return each
+            }
+        }
+        return requirementData.Engineering
     }
-    
+
     // Turns a string that represents a major into the Major Class
     func stringToMajor(majorString: String) -> Major {
-        return Major(Enum: requirementData.stringMajorDict[majorString]!, requirements: [])
+        for each in myCollege.majorOptions {
+            if each.title == majorString {
+                return each
+            }
+        }
+        return requirementData.imEng
     }
     
     // Turns a string that represents a minor into the Minor Class
     func stringToMinor(minorString: String) -> Minor {
-        return Minor(Enum: requirementData.stringMinorDict[minorString]!, requirements: [])
+        for each in requirementData.allMinors {
+            if each.title == minorString {
+                return each
+            }
+        }
+        return requirementData.noMinor
     }
+
     
     // Stores user's college data
     func setCollege(college: College)  {
         myCollege = college
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myCollege.getTitle())
-        let defaults = UserDefaults.standard
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myCollege.title)
         defaults.set(encodedData, forKey: "myCollege")
     }
     
     // Stores user's major data
     func setMajor(major: Major) {
         myMajor = major
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMajor.getTitle())
-        let defaults = UserDefaults.standard
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMajor.title)
         defaults.set(encodedData, forKey: "myMajor")
     }
     
     // Stores user's minor data
     func setMinor(minor: Minor) {
         myMinor = minor
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMinor.getTitle())
-        let defaults = UserDefaults.standard
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: myMinor.title)
         defaults.set(encodedData, forKey: "myMinor")
     }
     
     // Store user's Semester data
     func saveSemesters() {
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: mySemesters)
-        let defaults = UserDefaults.standard
         defaults.set(encodedData, forKey: "mySemesters")
     }
     
     // Store user's Theme data
     func setTheme() {
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: aesthetics.selectedTheme)
-        let defaults = UserDefaults.standard
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: aesthetics.selectedTheme2)
         defaults.set(encodedData, forKey: "selectedTheme")
     }
     
     // reset user's academic information
     func resetUserInfo() {
-        let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "myCollege")
         defaults.removeObject(forKey: "myMajor")
         defaults.removeObject(forKey: "myMinor")
