@@ -18,10 +18,7 @@ class globalRequirements {
         majorsInit()
         collegesInit()
     }
-    
-    //Major enums (will delete soon)
-    var allMajorss: [majors] = [.ece,.aep,.cheme,.meche,.orie,.bme,.cs,.isst,.mse,.civil,.im,.music,.sts,.gov,.scholar,.asian,.soc,.engl,.archae,.infsc,.complit,.ses,.astro,.cs,.phys,.ling,.germstud,.chinpacstud,.hist,.astats,.achem,.french,.anthro,.ital,.amerstud,.psych,.fem,.span,.afristud,.neaststud,.relig,.perfmed,.aecon,.amath,.classic,.philos,.aBS,.histart,.im,.biologsci,.agsci,.atmosci,.anisci,.aem,.bioeng,.biomstat,.comm,.devsoc,.ento,.ess,.enveng,.foodsci,.gphs,.iard,.landarch,.nutrisci,.plantsci,.vines,.infsc,.ses,.smom,.hold,.fare,.aem,.ilr,.archi]
-    
+
 // MAJORS
     var allMajors = [Major]()
     func majorsInit() {
@@ -56,6 +53,7 @@ class globalRequirements {
     var mse = Major(title: "Material Science Engineering", description: "", reqs: [])
     var civile = Major(title: "Civil Engineering", description: "", reqs: [])
     var imEng = Major(title: "Independant Major", description: "", reqs: [])
+    
     //Arts & Science
     var artsScienceMajors = [Major]()
     func artsScienceMajorsInit() {

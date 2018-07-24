@@ -11,7 +11,7 @@ import SnapKit
 
 class optionsCollectionViewCell: UICollectionViewCell {
     
-    var cellObject: Requirement!
+    var cellObject: Option!
     var titleLabel: UILabel!
     var gradient: CAGradientLayer!
     var gradientNum: Int! = 0

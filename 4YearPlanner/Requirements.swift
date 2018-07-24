@@ -288,17 +288,15 @@ class Requirement {
  Example: All Engineers are required to take Math 1910 and Math 1920
  */
 class CourseSpecific: Requirement, NSCoding {
-
+    
     var coursesNeeded: [Class]
     var coursesPresent: [Class]
     
-
     init(title: String, description: String, needed: [Class], nested: [Requirement] = [], parent: Any? = nil) {
         coursesNeeded = needed
         coursesPresent = []
         super.init(tit: title, desc: description, nest: nested, par: parent)
     }
-
     
     func coursesUnsatisfied() -> [Class] {
         var unsatisfied: [Class] = []
@@ -327,6 +325,7 @@ class CourseSpecific: Requirement, NSCoding {
  Example: Liberal Strudies requirement for Engineers
 */
 class GenericType: Requirement, NSCoding {
+    
     func encode(with aCoder: NSCoder) {
         encodeHelper(with: aCoder)
         aCoder.encode(size, forKey: "size")
@@ -357,10 +356,51 @@ class GenericType: Requirement, NSCoding {
     }
 }
 
-class College: Requirement, NSCoding {
+
+
+class Option: NSObject, NSCoding {
+    var title: String!
+    var descriptionn: String!
+    var satisfied: Bool!
+    var requirements: [Requirement]
+    
     func encode(with aCoder: NSCoder) {
-        encodeHelper(with: aCoder)
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(descriptionn, forKey: "description")
+        aCoder.encode(satisfied, forKey: "satisfied")
+        aCoder.encode(requirements, forKey: "requirements")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.title = aDecoder.decodeObject(forKey: "title") as! String
+        self.descriptionn = aDecoder.decodeObject(forKey: "description") as! String
+        self.satisfied  = aDecoder.decodeObject(forKey: "satified") as! Bool
+        self.requirements =  aDecoder.decodeObject(forKey: "requirements") as! [Requirement]
+    }
+    
+    init(title: String, description: String, reqs: [Requirement]) {
+        self.title = title
+        self.descriptionn = description
+        self.requirements = reqs
+        satisfied = false
+    }
+    
+    func getReqs() -> [Requirement] {
+        return requirements
+    }
+    
+    func addReq(req: Requirement) {
+        requirements.append(req)
+    }
+}
+
+class College: Option {
+    
+    var majorOptions: [Major]
+    
+    override func encode(with aCoder: NSCoder) {
         aCoder.encode(majorOptions, forKey: "majorOptions")
+        super.encode(with: aCoder)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -368,66 +408,19 @@ class College: Requirement, NSCoding {
         super.init(coder: aDecoder)
 
     }
-    var majorOptions: [Major]
     
     init(title: String, description: String, majorOptions: [Major], reqs: [Requirement]) {
         self.majorOptions = majorOptions
-        super.init(tit: title, desc: description, nest: reqs)
-    }
-    //naming changed to be more expressive
-    func getReqs() -> [Requirement] {
-        return getNested()
-    }
-    //naming changed to be more expressive
-    func addReq(req: Requirement) {
-        addNested(req: req)
+        super.init(title: title, description: description, reqs: reqs)
     }
 }
 
-class Major: Requirement, NSCoding {
-    func encode(with aCoder: NSCoder) {
-        encodeHelper(with: aCoder)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    
-    init(title: String, description: String, reqs: [Requirement]){
-        super.init(tit: title, desc: description, nest: reqs)
-    }
-    //naming changed to be more expressive
-    func getReqs() -> [Requirement] {
-        return getNested()
-    }
-    //naming changed to be more expressive
-    func addReq(req: Requirement) {
-        addNested(req: req)
-    }
+class Major: Option {
+
 }
 
-class Minor: Requirement, NSCoding {
-    func encode(with aCoder: NSCoder) {
-        encodeHelper(with: aCoder)
-    }
+class Minor: Option {
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    
-    init(title: String, description: String, reqs: [Requirement]) {
-        super.init(tit: title, desc: description, nest: reqs)
-    }
-    //naming changed to be more expressive
-    func getReqs() -> [Requirement] {
-        return getNested()
-    }
-    //naming changed to be more expressive
-    func addReq(req: Requirement) {
-        addNested(req: req)
-    }
 }
 
 
