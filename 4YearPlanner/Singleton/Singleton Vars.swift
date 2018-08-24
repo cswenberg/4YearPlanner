@@ -40,6 +40,7 @@ class globalVars {
     var selected_semester = 1
     var discoverCourses = [Class]()
     var allCourses = [Class]()
+    var selectedFilters = ["Fall"]
     var searchSubject = ""
     var searchNumber = ""
     var searchTerm = ""

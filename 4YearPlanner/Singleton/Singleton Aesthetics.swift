@@ -34,6 +34,7 @@ class globalAesthetics {
     let topOffset = 40
     let smallGap = 10
     let mediumGap = 20
+    let tabsGap = 30
     
     //colors
     var termColor = UIColor(red: 120/255, green: 154/255, blue: 241/255, alpha: 1)

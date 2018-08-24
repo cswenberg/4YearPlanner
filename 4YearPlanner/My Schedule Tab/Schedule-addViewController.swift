@@ -14,7 +14,7 @@ protocol scheduleAddDelegate {
 }
 
 
-class Schedule_addViewController: UIViewController, UISearchBarDelegate, networksDelegate, addCoursesDelegate {
+class Schedule_addViewController: UIViewController, UISearchBarDelegate, addCoursesDelegate {
     
     func presentDVC(cellClass: Class) {
         let dVC = DetailViewController()
@@ -76,7 +76,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
     func setupConstraints() {
         // back button
         backButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(aesthetics.topOffset)
+            make.top.equalToSuperview().offset(aesthetics.tabsGap)
             make.width.equalTo(backButton.intrinsicContentSize.width)
             make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.height.equalTo(backButton.intrinsicContentSize.height)
@@ -110,7 +110,6 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
     
     // function that happens after 1 second delay
     @objc func reload (string: String) {
-        Network.delegate = self
         if let searchText = searchBar.text {
             if !searchText.isEmpty {
                 if searchText.contains(" "){
@@ -127,10 +126,13 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, network
                     }
                 }
                 Network.getCourses { (courses) in
-                    print(courses)
+                    sharedVars.discoverCourses = courses
+                    self.reloadCourses()
                 }
             }
             else {
+                // Change to get recommended courses instead
+                // use logic to determine what filters are applied
                 sharedVars.discoverCourses = sharedVars.allCourses
                 sharedVars.searchNumber = ""
                 sharedVars.searchSubject = ""

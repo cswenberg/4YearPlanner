@@ -59,7 +59,6 @@ class userInfo {
         if let decodedData = defaults.data(forKey: "allCourses") {
             let courses = NSKeyedUnarchiver.unarchiveObject(with: decodedData) as! [Class]
             allCourses = courses
-            sharedVars.discoverCourses = allCourses
             sharedVars.allCourses = allCourses
         }
         aesthetics.updateTheme()

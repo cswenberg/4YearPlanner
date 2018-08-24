@@ -12,6 +12,7 @@ protocol showCoursesDelegate {
     func showCourses()
     func updateCategoryLabel()
     func showCoursesOptions()
+    func showBackButton()
 }
 
 class OptionsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -118,16 +119,15 @@ class OptionsViewController: UIViewController, UICollectionViewDataSource, UICol
     func switchCollection() {
         if sharedVars.current_category == "Colleges" {
             sharedVars.current_category = "Majors"
-            delegate?.updateCategoryLabel()
+            delegate?.showBackButton()
         } else if sharedVars.current_category == "Majors" {
             sharedVars.current_category = "Minors"
-            delegate?.updateCategoryLabel()
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Courses"
             delegate?.showCourses()
-            delegate?.updateCategoryLabel()
             delegate?.showCoursesOptions()
         }
+        delegate?.updateCategoryLabel()
         aesthetics.gradientRandomizer = Int(arc4random_uniform(4))
     }
 }

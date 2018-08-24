@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol discoverDelegate {
+    func showFiltersBlurView ()
+}
+
 class DiscoverViewController: UIViewController, UISearchBarDelegate, showCoursesDelegate, addCoursesDelegate {
     func presentDVC(cellClass: Class) {
         let dVC = DetailViewController()
@@ -22,17 +26,35 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     
     func updateCategoryLabel() {
         categoryLabel.text = sharedVars.current_category
+        searchBar.text = ""
+        searchBar.endEditing(true)
     }
     
     func showCoursesOptions() {
         showCourseOptionsFilters()
     }
+    
+    func showBackButton () {
+        let distanceChange = self.backButton.intrinsicContentSize.width + CGFloat(aesthetics.smallGap)
+        let newHeight = self.searchBar.frame.height
+        let newWidth = self.searchBar.frame.width - distanceChange
+        let newX = self.searchBar.frame.origin.x + distanceChange
+        let newY = self.searchBar.frame.origin.y
+        let newFrame = CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
+        
+        UIView .animate(withDuration: 0.5) {
+            self.backButton.alpha = 1.0
+            self.searchBar.frame = newFrame
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    var delegate: discoverDelegate?
 
     var searchBar: UISearchBar!
     var backButton: UIButton!
     var categoryLabel: UILabel!
-    var recommendedButton: UIButton!
-    var allCoursesButton: UIButton!
+    var filtersButton: UIButton!
     
     var subContainerView: UIView!
     var subContainerViewController: UIViewController!
@@ -41,7 +63,6 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = aesthetics.backgroundColor
-        
         
         subContainerView = UIView()
         subContainerView.backgroundColor = .white
@@ -66,29 +87,12 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         backButton.titleLabel?.textAlignment = .center
         backButton.addTarget(self, action: #selector(discoverBackButtonPressed), for: .touchUpInside)
         
-        // Button to show recommended courses
-        recommendedButton = UIButton()
-        recommendedButton.setTitle("Recommended", for: .normal)
-        recommendedButton.backgroundColor = aesthetics.backgroundColor
-        recommendedButton.setTitleColor(aesthetics.textColor, for: .normal)
-        recommendedButton.titleLabel?.font = aesthetics.mediumFont
-        recommendedButton.titleLabel?.textAlignment = .center
-        recommendedButton.layer.borderWidth = 2
-        recommendedButton.layer.borderColor = aesthetics.termColor.cgColor
-        recommendedButton.layer.cornerRadius = recommendedButton.intrinsicContentSize.height/2
-        recommendedButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
-        
-        // Button to show all courses
-        allCoursesButton = UIButton()
-        allCoursesButton.setTitle("All", for: .normal)
-        allCoursesButton.backgroundColor = aesthetics.termColor
-        allCoursesButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
-        allCoursesButton.titleLabel?.font = aesthetics.mediumFont
-        allCoursesButton.titleLabel?.textAlignment = .center
-        allCoursesButton.layer.cornerRadius = allCoursesButton.intrinsicContentSize.height/2
-        allCoursesButton.layer.borderWidth = 2
-        allCoursesButton.layer.borderColor = aesthetics.termColor.cgColor
-        allCoursesButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
+        // Filters Button
+        filtersButton = UIButton()
+        filtersButton.setImage(UIImage(named: "filterIcon"), for: .normal)
+        filtersButton.backgroundColor = aesthetics.backgroundColor
+        filtersButton.layer.cornerRadius = filtersButton.intrinsicContentSize.height/2
+        filtersButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
         
         // Category Label
         categoryLabel = UILabel()
@@ -110,20 +114,31 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     
     func setupDiscoverConstraints() {
         // Back Button
-        view.addSubview(backButton)
-        backButton.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(aesthetics.smallGap)
-            make.centerY.equalTo(searchBar.snp.centerY)
-            make.height.equalTo(searchBar.snp.height)
-            make.width.equalTo(backButton.intrinsicContentSize.width)
+        if sharedVars.current_category != "Colleges" {
+            view.addSubview(backButton)
+            backButton.snp.makeConstraints { (make) in
+                make.leading.equalToSuperview().offset(aesthetics.smallGap)
+                make.centerY.equalTo(searchBar.snp.centerY)
+                make.height.equalTo(searchBar.snp.height)
+                make.width.equalTo(backButton.intrinsicContentSize.width)
+            }
         }
         
         // SearchBar
-        searchBar.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
-            make.leading.equalTo(backButton.snp.trailing).offset(aesthetics.smallGap)
-            make.top.equalToSuperview().offset(aesthetics.smallGap)
-            make.height.equalTo(40)
+        if sharedVars.current_category == "Colleges" {
+            searchBar.snp.makeConstraints { (make) in
+                make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
+                make.leading.equalToSuperview().offset(aesthetics.smallGap)
+                make.height.equalTo(40)
+                make.top.equalToSuperview().offset(aesthetics.smallGap)
+            }
+        } else {
+            searchBar.snp.makeConstraints { (make) in
+                make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
+                make.leading.equalTo(backButton.snp.trailing).offset(aesthetics.smallGap)
+                make.top.equalToSuperview().offset(aesthetics.smallGap)
+                make.height.equalTo(40)
+            }
         }
         // Category Label
         categoryLabel.snp.makeConstraints { (make) in
@@ -179,10 +194,18 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                 optionsviewcontroller.cellsToDisplay = []
             }
         } else {
-            recommendedButton.removeFromSuperview()
-            allCoursesButton.removeFromSuperview()
+            if (userData.myMinor == nil) {
+                if (userData.myMajor == nil) {
+                    sharedVars.current_category = "Colleges"
+                } else {
+                    sharedVars.current_category = "Majors"
+                }
+            }
+            filtersButton.removeFromSuperview()
             reverseSwitchCollection()
         }
+        searchBar.text = ""
+        searchBar.endEditing(true)
     }
     
     // Switches Collection when back button is pressed (backward)
@@ -193,6 +216,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Majors"
             updateCategoryLabel()
+            hideBackButton()
         } else if sharedVars.current_category == "Courses" {
             sharedVars.current_category = "Minors"
             updateCategoryLabel()
@@ -204,9 +228,12 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     // testing new function for SearchBar (trying to reduce lag and bugs)
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
-        self.perform(#selector(reload), with: nil, afterDelay: 1.0)
-        
+        if sharedVars.current_category == "Courses" {
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload), object: nil)
+            self.perform(#selector(reload), with: nil, afterDelay: 1.0)
+        } else {
+            searchNotClasses(searchText: searchText)
+        }
     }
 
     // function that happens after 1 second delay
@@ -228,10 +255,13 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
                 }
                 print("'\(sharedVars.searchSubject) + \(sharedVars.searchNumber)' was searched")
                 Network.getCourses { (courses) in
-                    print(courses)
+                    sharedVars.discoverCourses = courses
+                    self.reloadCourses()
                 }
             }
             else {
+                // Change to get recommended courses instead
+                // use logic to determine what filters are applied
                 sharedVars.discoverCourses = sharedVars.allCourses
                 sharedVars.searchSubject = ""
                 sharedVars.searchNumber = ""
@@ -244,43 +274,95 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
     
     // Switches filter background and reloads cells with right data
     @objc func careerButtonPressed (sender: UIButton) {
-        if sender == allCoursesButton {
-            recommendedButton.backgroundColor = aesthetics.backgroundColor
-            recommendedButton.setTitleColor(aesthetics.textColor, for: .normal)
-            allCoursesButton.backgroundColor = aesthetics.termColor
-            allCoursesButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
-            sharedVars.discoverCourses = sharedVars.allCourses
-            sharedVars.searchSubject = ""
-            sharedVars.searchNumber = ""
-            if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
-                optionsviewcontroller.addCoursesCollectionView.reloadData()
-            }
-        } else {
-            allCoursesButton.backgroundColor = aesthetics.backgroundColor
-            allCoursesButton.setTitleColor(aesthetics.textColor, for: .normal)
-            recommendedButton.backgroundColor = aesthetics.termColor
-            recommendedButton.setTitleColor(aesthetics.opposite(color: aesthetics.textColor), for: .normal)
-            print("Show recommended Courses")
+        delegate?.showFiltersBlurView()
+    }
+    
+    func hideBackButton () {
+        let distanceChange = self.backButton.intrinsicContentSize.width + CGFloat(aesthetics.smallGap)
+        let newHeight = searchBar.frame.height
+        let newWidth = searchBar.frame.width + distanceChange
+        let newX = searchBar.frame.origin.x - distanceChange
+        let newY = searchBar.frame.origin.y
+        let newFrame = CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
+        
+        UIView .animate(withDuration: 0.5) {
+            self.backButton.alpha = 0.0
+            self.searchBar.frame = newFrame
+            self.view.layoutIfNeeded()
         }
     }
     
     // Add filters to subview and setup constraints
     func showCourseOptionsFilters() {
-        view.addSubview(recommendedButton)
-        view.addSubview(allCoursesButton)
         
-        recommendedButton.snp.makeConstraints { (make) in
-            make.leading.equalTo(categoryLabel.snp.trailing)
-            make.width.equalTo(recommendedButton.intrinsicContentSize.width + 20)
+        view.addSubview(filtersButton)
+        
+        filtersButton.snp.makeConstraints { (make) in
+            make.width.height.equalTo(24)
+            make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
             make.centerY.equalTo(categoryLabel.snp.centerY)
-            make.height.equalTo(recommendedButton.intrinsicContentSize.height)
         }
-        
-        allCoursesButton.snp.makeConstraints { (make) in
-            make.leading.equalTo(recommendedButton.snp.trailing).offset(aesthetics.smallGap)
-            make.width.equalTo(allCoursesButton.intrinsicContentSize.width + 20)
-            make.centerY.equalTo(categoryLabel.snp.centerY)
-            make.height.equalTo(allCoursesButton.intrinsicContentSize.height)
+    }
+    
+    // Search function for Colleges, Majors, and Minors
+    func searchNotClasses(searchText: String) {
+//        if sharedVars.current_category == "Colleges" {
+//            if !searchText.isEmpty {
+//                if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
+//                    optionsviewcontroller.displayedColleges = []
+//                    for each in requirementData.allColleges {
+//                        if each.rawValue.contains(searchText){
+//                            optionsviewcontroller.displayedColleges.append(each)
+//                        }
+//                    }
+//                    optionsviewcontroller.optionsCollectionView.reloadData()
+//                }
+//            } else {
+//                if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
+//                    optionsviewcontroller.displayedColleges = requirementData.allColleges
+//                    optionsviewcontroller.optionsCollectionView.reloadData()
+//                }
+//            }
+//        } else if sharedVars.current_category == "Majors" {
+//            if !searchText.isEmpty {
+//                if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
+//                    optionsviewcontroller.displayedMajors = []
+//                    for each in userData.myCollege.majorOptions {
+//                        if each.rawValue.contains(searchText){
+//                            optionsviewcontroller.displayedMajors.append(each)
+//                        }
+//                    }
+//                    optionsviewcontroller.optionsCollectionView.reloadData()
+//                }
+//            } else {
+//                if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
+//                    optionsviewcontroller.displayedMajors = userData.myCollege.majorOptions
+//                    optionsviewcontroller.optionsCollectionView.reloadData()
+//                }
+//            }
+//        } else if sharedVars.current_category == "Minors" {
+//            if !searchText.isEmpty {
+//                if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
+//                    optionsviewcontroller.displayedMinors = []
+//                    for each in userData.myMajor.minorOptions {
+//                        if each.rawValue.contains(searchText){
+//                            optionsviewcontroller.displayedMinors.append(each)
+//                        }
+//                    }
+//                    optionsviewcontroller.optionsCollectionView.reloadData()
+//                }
+//            } else {
+//                if let optionsviewcontroller = subContainerViewController as? OptionsViewController {
+//                    optionsviewcontroller.displayedMinors = userData.myMajor.minorOptions
+//                    optionsviewcontroller.optionsCollectionView.reloadData()
+//                }
+//            }
+//        }
+    }
+    
+    func reloadCourses() {
+        if let addCoursesViewController = self.subContainerViewController as? AddCoursesViewController{
+            addCoursesViewController.addCoursesCollectionView.reloadData()
         }
     }
     

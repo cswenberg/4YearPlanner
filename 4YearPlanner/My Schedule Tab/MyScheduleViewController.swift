@@ -35,6 +35,8 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     var selectedSemesterLabel: UILabel!
     var addCourseButton: UIButton!
     var myCoursesCollectionView: UICollectionView!
+    var mySemestersCollectionView: UICollectionView!
+    var semesterReuseIdentifier = "mySemesterReuseIdentifier"
     var courseReuseIdentifier = "myCourseReuseIdentifier"
     var coursesToDisplay = [Class]()
     var labelGradient: CAGradientLayer!
@@ -78,6 +80,18 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         myCoursesCollectionView.backgroundColor = aesthetics.backgroundColor
         myCoursesCollectionView.bounces = true
         
+        //semesters collection view
+//        let semesterLayout = UICollectionViewFlowLayout()
+//        semesterLayout.scrollDirection = .horizontal
+//        mySemestersCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: semesterLayout)
+//        mySemestersCollectionView.dataSource = self
+//        mySemestersCollectionView.delegate = self
+//        mySemestersCollectionView.register(SemesterCollectionViewCell.self, forCellWithReuseIdentifier: semesterReuseIdentifier)
+//        mySemestersCollectionView.backgroundColor = aesthetics.backgroundColor
+//        mySemestersCollectionView.bounces = true
+//        mySemestersCollectionView.isPagingEnabled = true
+//        mySemestersCollectionView.allowsSelection = false
+        
         //credits label
         creditsLabel = UILabel()
         creditsLabel.font = aesthetics.mediumFont
@@ -115,7 +129,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         creditsLabel.snp.makeConstraints{ (make) in
             make.centerY.equalTo(selectedSemesterLabel.snp.centerY)
             make.centerX.equalTo(view.snp.trailing).offset(-33)
-            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 12)
+            make.width.equalTo(creditsLabel.intrinsicContentSize.width + 16)
             make.height.equalTo(creditsLabel.intrinsicContentSize.height)
         }
        
@@ -190,12 +204,12 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     func checkCredits() {
         if (userData.mySemesters[sharedVars.selected_semester-1].credits)>23 {
             let alert = UIAlertController(title: "Reminder", message: "credits > 23; you may need to petition", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default Action"), style: .default, handler: { _ in NSLog("The \"Ok\" alert occured.")}))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
             self.present(alert, animated: true, completion: nil)
             receivedCreditAlert = true
         } else if (userData.mySemesters[sharedVars.selected_semester-1].credits)<12 {
             let alert = UIAlertController(title: "Reminder", message: "credits < 12; you won't be in good academic standing", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default Action"), style: .default, handler: { _ in NSLog("The \"Ok\" alert occured.")}))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
             self.present(alert, animated: true, completion: nil)
             receivedCreditAlert = true
         }
@@ -207,30 +221,51 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
     }
     //2nd in reloadData()
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
-        userData.printSemester(number: 0)
-        print("data reloaded")
-        return coursesToDisplay.count
+        if (collectionView == mySemestersCollectionView) {
+            return userData.mySemesters.count
+        } else {
+            coursesToDisplay = userData.mySemesters[sharedVars.selected_semester-1].classes
+//            userData.printSemester(number: 0)
+//            print("data reloaded")
+            return coursesToDisplay.count
+        }
     }
     //3rd in reloadData()
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.size.width-20
-        return CGSize(width: width, height: 120)
+        if (collectionView == mySemestersCollectionView) {
+            return CGSize(width: view.frame.size.width, height: view.frame.size.height)
+        } else {
+            let width = view.frame.size.width-20
+            return CGSize(width: width, height: 120)
+        }
     }
     //4th in reloadData()
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = myCoursesCollectionView.dequeueReusableCell(withReuseIdentifier: courseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
-        cell.cellClass = coursesToDisplay[indexPath.item]
-        cell.classLabel.text = cell.cellClass.classLabel()
-        cell.creditLabel.text = String(cell.cellClass.creditsChosen)
-        cell.titleLabel.text = cell.cellClass.title
-        cell.gradientNum = indexPath.item
-        cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
-        cell.layer.insertSublayer(cell.gradient, at: 0)
-        cell.layer.cornerRadius = 20
-        cell.backgroundColor = .black
-        cell.setNeedsUpdateConstraints()
-        return cell
+        if !(collectionView == mySemestersCollectionView) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: courseReuseIdentifier, for: indexPath) as! MyCoursesCollectionViewCell
+            cell.cellClass = coursesToDisplay[indexPath.item]
+            cell.classLabel.text = cell.cellClass.classLabel()
+            cell.creditLabel.text = String(cell.cellClass.creditsChosen)
+            cell.titleLabel.text = cell.cellClass.title
+            cell.gradientNum = indexPath.item
+            cell.gradient.colors = [aesthetics.gradientList[indexPath.item % 4][0], aesthetics.gradientList[indexPath.item % 4][1]]
+            cell.layer.insertSublayer(cell.gradient, at: 0)
+            cell.layer.cornerRadius = 20
+            cell.backgroundColor = .black
+            cell.setNeedsUpdateConstraints()
+            return cell
+        } else {
+            let cell = mySemestersCollectionView.dequeueReusableCell(withReuseIdentifier: semesterReuseIdentifier, for: indexPath) as! SemesterCollectionViewCell
+            cell.semester = userData.mySemesters[indexPath.item]
+            cell.setNeedsUpdateConstraints()
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? SemesterCollectionViewCell {
+            cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, indexPath: indexPath)
+        }
     }
     
     // Present Modal VC for detail view

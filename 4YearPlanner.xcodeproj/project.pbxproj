@@ -17,7 +17,6 @@
 		4662D09F209418B600C62AF2 /* MyCoursesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */; };
 		4662D0A32094750200C62AF2 /* AddCoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */; };
 		4662D0A52094753C00C62AF2 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D0A42094753C00C62AF2 /* OptionsViewController.swift */; };
-		4662D0A7209489B600C62AF2 /* SemesterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */; };
 		46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C60920926F760027B4FC /* AppDelegate.swift */; };
 		46E0C60C20926F760027B4FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C60B20926F760027B4FC /* ViewController.swift */; };
 		46E0C61220926F760027B4FC /* _YearPlanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C61020926F760027B4FC /* _YearPlanner.xcdatamodeld */; };
@@ -28,6 +27,9 @@
 		5EDCA5B2F202C6247D088156 /* Pods_4YearPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C438FCE3D4FB435908F17A0 /* Pods_4YearPlanner.framework */; };
 		993BCDA620E598710037C0C4 /* AddM&MViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993BCDA520E598710037C0C4 /* AddM&MViewController.swift */; };
 		996A703120CF497800804963 /* Singleton Aesthetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996A703020CF497800804963 /* Singleton Aesthetics.swift */; };
+		99B92D7D21309CA300BFB775 /* FiltersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B92D7C21309CA300BFB775 /* FiltersTableViewCell.swift */; };
+		99B92D7F21309CEF00BFB775 /* SemesterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B92D7E21309CEF00BFB775 /* SemesterCollectionViewCell.swift */; };
+		99B92D8121309FB200BFB775 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B92D8021309FB200BFB775 /* FiltersViewController.swift */; };
 		99C2181B20C5E2EF00E7C0C4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C2181A20C5E2EF00E7C0C4 /* SettingsViewController.swift */; };
 		99C2181D20C5FC5B00E7C0C4 /* Singelton Requirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C2181C20C5FC5B00E7C0C4 /* Singelton Requirements.swift */; };
 		99C2181F20C7602700E7C0C4 /* Singleton UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C2181E20C7602700E7C0C4 /* Singleton UserData.swift */; };
@@ -44,7 +46,6 @@
 		4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCoursesCollectionViewCell.swift; sourceTree = "<group>"; };
 		4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoursesViewController.swift; sourceTree = "<group>"; };
 		4662D0A42094753C00C62AF2 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
-		4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemesterCollectionViewCell.swift; sourceTree = "<group>"; };
 		46E0C60620926F760027B4FC /* 4YearPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 4YearPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E0C60920926F760027B4FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E0C60B20926F760027B4FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +59,9 @@
 		5D68EBFADEE9568E4BB1AA69 /* Pods-4YearPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-4YearPlanner.release.xcconfig"; path = "Pods/Target Support Files/Pods-4YearPlanner/Pods-4YearPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		993BCDA520E598710037C0C4 /* AddM&MViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddM&MViewController.swift"; sourceTree = "<group>"; };
 		996A703020CF497800804963 /* Singleton Aesthetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singleton Aesthetics.swift"; sourceTree = "<group>"; };
+		99B92D7C21309CA300BFB775 /* FiltersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersTableViewCell.swift; sourceTree = "<group>"; };
+		99B92D7E21309CEF00BFB775 /* SemesterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemesterCollectionViewCell.swift; sourceTree = "<group>"; };
+		99B92D8021309FB200BFB775 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		99C2181A20C5E2EF00E7C0C4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		99C2181C20C5FC5B00E7C0C4 /* Singelton Requirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singelton Requirements.swift"; sourceTree = "<group>"; };
 		99C2181E20C7602700E7C0C4 /* Singleton UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Singleton UserData.swift"; sourceTree = "<group>"; };
@@ -100,8 +104,9 @@
 				4662D09A209406FD00C62AF2 /* DiscoverViewController.swift */,
 				4662D0A42094753C00C62AF2 /* OptionsViewController.swift */,
 				4662D0A22094750200C62AF2 /* AddCoursesViewController.swift */,
-				4662D0A6209489B600C62AF2 /* SemesterCollectionViewCell.swift */,
 				226F007820940EA5006452CE /* optionsCollectionViewCell.swift */,
+				99B92D7C21309CA300BFB775 /* FiltersTableViewCell.swift */,
+				99B92D7E21309CEF00BFB775 /* SemesterCollectionViewCell.swift */,
 			);
 			path = "Discover Tab";
 			sourceTree = "<group>";
@@ -111,6 +116,7 @@
 			children = (
 				4662D09E209418B600C62AF2 /* MyCoursesCollectionViewCell.swift */,
 				22E73789209463F5006DA8AA /* DetailViewController.swift */,
+				99B92D8021309FB200BFB775 /* FiltersViewController.swift */,
 			);
 			path = "Used Across Both";
 			sourceTree = "<group>";
@@ -301,7 +307,6 @@
 				46E0C61F20926FC60027B4FC /* Class.swift in Sources */,
 				996A703120CF497800804963 /* Singleton Aesthetics.swift in Sources */,
 				2235F9C1209E2CF000FDB21A /* Schedule-addViewController.swift in Sources */,
-				4662D0A7209489B600C62AF2 /* SemesterCollectionViewCell.swift in Sources */,
 				46E0C60C20926F760027B4FC /* ViewController.swift in Sources */,
 				46E0C61220926F760027B4FC /* _YearPlanner.xcdatamodeld in Sources */,
 				4662D09B209406FD00C62AF2 /* DiscoverViewController.swift in Sources */,
@@ -311,6 +316,7 @@
 				993BCDA620E598710037C0C4 /* AddM&MViewController.swift in Sources */,
 				4662D09F209418B600C62AF2 /* MyCoursesCollectionViewCell.swift in Sources */,
 				22E7378A209463F5006DA8AA /* DetailViewController.swift in Sources */,
+				99B92D7F21309CEF00BFB775 /* SemesterCollectionViewCell.swift in Sources */,
 				4662D0A32094750200C62AF2 /* AddCoursesViewController.swift in Sources */,
 				4662D0A52094753C00C62AF2 /* OptionsViewController.swift in Sources */,
 				99C2181B20C5E2EF00E7C0C4 /* SettingsViewController.swift in Sources */,
@@ -318,7 +324,9 @@
 				99C2181F20C7602700E7C0C4 /* Singleton UserData.swift in Sources */,
 				224BC6F520995ED000978E40 /* CourseNetworks.swift in Sources */,
 				46E0C60A20926F760027B4FC /* AppDelegate.swift in Sources */,
+				99B92D8121309FB200BFB775 /* FiltersViewController.swift in Sources */,
 				46E0C62120926FD10027B4FC /* Requirements.swift in Sources */,
+				99B92D7D21309CA300BFB775 /* FiltersTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,53 @@
 import UIKit
 import SnapKit
 
-class HomeViewController: UIViewController, settingsDelegate {
+class HomeViewController: UIViewController, settingsDelegate, discoverDelegate, filtersDelegate {
+    
+    func showFiltersBlurView() {
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView()
+        UIView.animate(withDuration: 0.5) {
+            blurEffectView.effect = blurEffect
+        }
+        
+        blurEffectView.frame = view.bounds
+        view.addSubview(blurEffectView)
+        blurEffectView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        let newViewController = FiltersViewController()
+        newViewController.delegate = self
+        addChildViewController(newViewController)
+        newViewController.didMove(toParentViewController: self)
+        for view in newViewController.view.subviews {
+            if !(view is UITableView) {
+                UIView .animate(withDuration: 0.5, animations: {
+                    view.alpha = 1;
+                })
+            }
+        }
+        blurEffectView.contentView.addSubview(newViewController.view)
+        newViewController.view.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func removeBlurView() {
+        for subview in view.subviews {
+            if let subviewToRemove = subview as? UIVisualEffectView {
+                UIView.animate(withDuration: 0.5, animations: {
+                    for subview in subviewToRemove.contentView.subviews {
+                        subview.removeFromSuperview()
+                    }
+                    subviewToRemove.effect = nil
+                }) { (finished) in
+                    subviewToRemove.removeFromSuperview()
+                    // self.updateChildViewController()
+                }
+            }
+        }
+    }
     
     func themeUpdated() {
         view.backgroundColor = aesthetics.backgroundColor
@@ -39,7 +85,8 @@ class HomeViewController: UIViewController, settingsDelegate {
     // Loads all of the courses in from the beginning and store in app
         if userData.allCourses.count == 0 {
             Network.getAllCourses { (courses) in
-                print(courses)
+                userData.allCourses = courses
+                userData.saveAllCourses()
             }
         }
         
@@ -107,7 +154,7 @@ class HomeViewController: UIViewController, settingsDelegate {
     func setupConstraints() {
     // Tabs StackView
         tabsStackView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(aesthetics.topOffset)
+            make.top.equalToSuperview().offset(aesthetics.tabsGap)
             make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
             make.height.equalTo(36)
@@ -152,6 +199,7 @@ class HomeViewController: UIViewController, settingsDelegate {
             newViewController = myscheduleViewController
         } else if sharedVars.current_tab=="Discover"{
             let discoverViewController = DiscoverViewController()
+            discoverViewController.delegate = self
             newViewController = discoverViewController
         } else {
             let settingsViewController = SettingsViewController()
@@ -183,6 +231,8 @@ class HomeViewController: UIViewController, settingsDelegate {
                 settingsButton.setTitleColor(aesthetics.textColor, for: .normal)
             }
             if sharedVars.current_tab != "Discover" {
+                // Change to get recommended courses instead
+                // use logic to determine what filters are applied
                 sharedVars.discoverCourses = sharedVars.allCourses
             }
             sharedVars.current_tab = (sender.titleLabel?.text)!

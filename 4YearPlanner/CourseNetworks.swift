@@ -36,11 +36,8 @@ class Network {
                 for each in json["data"]["courses"].arrayValue {
                     classes.append(Class(from: each))
                 }
-                sharedVars.discoverCourses = classes
-                sharedVars.allCourses = classes
-                userData.allCourses = classes
-                userData.saveAllCourses()
-                print("hit the all")
+                
+                completion(classes)
             
             case .failure(let error):
                 print("Error", error)
@@ -61,25 +58,6 @@ class Network {
         if sharedVars.searchSubject != "" {parameters["subject"]=sharedVars.searchSubject}
         if sharedVars.searchNumber != "" {parameters["number"]=sharedVars.searchNumber}
         if sharedVars.searchTerm != "" {parameters["term"]=term}
-        // Messing with recommended courses
-//        switch userData.myCollege.college {
-//        case .engineering:
-//            parameters["recommended"]="EN"
-//        case .dyson:
-//            parameters["recommended"]="BU"
-//        case .artsnsciences:
-//            parameters["recommended"]="AS"
-//        case .architecture:
-//            parameters["recommended"]="AR"
-//        case .cals:
-//            parameters["recommended"]="AG"
-//        case .ilr:
-//            parameters["recommended"]="IL"
-//        case .hotel:
-//            parameters["recommended"]="BU"
-//        default:
-//            print("somethin else happened")
-//        }
         
         Alamofire.request(endpoint, parameters: parameters).validate().responseJSON { (response) in
             
@@ -93,10 +71,7 @@ class Network {
                 for each in json["data"]["courses"].arrayValue {
                     classes.append(Class(from: each))
                 }
-                sharedVars.discoverCourses = []
-                sharedVars.discoverCourses = classes
-                delegate?.reloadCourses()
-                print("delegate called")
+                completion(classes)
                 
             case .failure(let error):
                 print("Error", error)

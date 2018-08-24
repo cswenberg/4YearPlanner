@@ -215,7 +215,7 @@ class Class: NSObject, NSCoding {
     func slicePulledPrereqs() {
         if let s = pulledPrereqs?.components(separatedBy: " ") {
             if s[0] == "Prerequisite:" {
-                print(s)
+                //print(s)
                 let filter1 = filterPunctuation(strings: s)
                 //print(filter1)
                 let filter2 = joinSubjNum(strings: filter1)
