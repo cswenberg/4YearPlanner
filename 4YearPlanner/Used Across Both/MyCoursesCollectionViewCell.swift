@@ -77,6 +77,11 @@ class MyCoursesCollectionViewCell: UICollectionViewCell {
         super.updateConstraints()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        gradient.removeFromSuperlayer()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

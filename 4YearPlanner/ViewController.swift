@@ -154,7 +154,7 @@ class HomeViewController: UIViewController, settingsDelegate, discoverDelegate, 
     func setupConstraints() {
     // Tabs StackView
         tabsStackView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(aesthetics.tabsGap)
+            make.top.equalToSuperview().offset(aesthetics.topOffset)
             make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.trailing.equalToSuperview().offset(-aesthetics.mediumGap)
             make.height.equalTo(36)

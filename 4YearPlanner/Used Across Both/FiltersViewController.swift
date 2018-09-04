@@ -13,8 +13,8 @@ protocol filtersDelegate {
 }
 class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var sectionHeaders = ["Terms", "Selections"]
-    var allFilters = [["Fall", "Spring"], ["Recommended", "All"]]
+    var sectionHeaders = ["Terms", "Selections", "Level"]
+    var allFilters = [["Fall", "Spring"], ["Recommended", "All"], ["1000", "2000", "3000", "4000", "5000", "6000"]]
     var selectedFilters = sharedVars.selectedFilters
     var filtersCellReuseIdentifier = "filterCell"
     var fallSelected = sharedVars.selectedFilters.contains("Fall")
@@ -82,7 +82,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         //Filters Tableview
         filtersTableView.snp.makeConstraints { (make) in
-            make.top.equalTo(filtersTitle.snp.bottom).offset(aesthetics.topOffset)
+            make.top.equalTo(filtersTitle.snp.bottom).offset(aesthetics.mediumGap)
             make.leading.equalToSuperview().offset(aesthetics.smallGap)
             make.trailing.bottom.equalToSuperview().offset(-aesthetics.smallGap)
         }
@@ -177,8 +177,9 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else if (sender == applyButton) {
             sharedVars.selectedFilters = selectedFilters
             Network .getCourses { (courses) in
-                self.delegate?.removeBlurView()
+//               self.delegate?.removeBlurView()
             }
+            delegate?.removeBlurView()
         }
     }
     

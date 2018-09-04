@@ -89,7 +89,10 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         
         // Filters Button
         filtersButton = UIButton()
-        filtersButton.setImage(UIImage(named: "filterIcon"), for: .normal)
+        filtersButton.setTitle("⌔", for: .normal)
+        filtersButton.setTitleColor(aesthetics.textColor, for: .normal)
+        filtersButton.titleLabel?.font = aesthetics.backButtonFont
+        //filtersButton.setImage(UIImage(named: "filterIcon"), for: .normal)
         filtersButton.backgroundColor = aesthetics.backgroundColor
         filtersButton.layer.cornerRadius = filtersButton.intrinsicContentSize.height/2
         filtersButton.addTarget(self, action: #selector(careerButtonPressed), for: .touchUpInside)
@@ -213,10 +216,10 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         if sharedVars.current_category == "Majors" {
             sharedVars.current_category = "Colleges"
             updateCategoryLabel()
+            hideBackButton()
         } else if sharedVars.current_category == "Minors" {
             sharedVars.current_category = "Majors"
             updateCategoryLabel()
-            hideBackButton()
         } else if sharedVars.current_category == "Courses" {
             sharedVars.current_category = "Minors"
             updateCategoryLabel()
@@ -262,7 +265,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
             else {
                 // Change to get recommended courses instead
                 // use logic to determine what filters are applied
-                sharedVars.discoverCourses = sharedVars.allCourses
+                sharedVars.discoverCourses = userData.allCourses
                 sharedVars.searchSubject = ""
                 sharedVars.searchNumber = ""
                 if let optionsviewcontroller = self.subContainerViewController as? AddCoursesViewController {
@@ -298,7 +301,7 @@ class DiscoverViewController: UIViewController, UISearchBarDelegate, showCourses
         view.addSubview(filtersButton)
         
         filtersButton.snp.makeConstraints { (make) in
-            make.width.height.equalTo(24)
+            make.width.height.equalTo(32)
             make.trailing.equalToSuperview().offset(-aesthetics.smallGap)
             make.centerY.equalTo(categoryLabel.snp.centerY)
         }

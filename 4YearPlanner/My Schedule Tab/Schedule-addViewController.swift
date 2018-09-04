@@ -76,7 +76,7 @@ class Schedule_addViewController: UIViewController, UISearchBarDelegate, addCour
     func setupConstraints() {
         // back button
         backButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(aesthetics.tabsGap)
+            make.top.equalToSuperview().offset(aesthetics.topOffset)
             make.width.equalTo(backButton.intrinsicContentSize.width)
             make.leading.equalToSuperview().offset(aesthetics.mediumGap)
             make.height.equalTo(backButton.intrinsicContentSize.height)

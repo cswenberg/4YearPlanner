@@ -136,7 +136,7 @@ class MyScheduleViewController: UIViewController, UICollectionViewDataSource, UI
         // add course button
         addCourseButton.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-aesthetics.mediumGap)
+            make.bottom.equalToSuperview().offset(-aesthetics.largeGap)
             make.height.equalTo(addCourseButton.intrinsicContentSize.height)
             make.width.equalTo(addCourseButton.intrinsicContentSize.width+20)
         }
