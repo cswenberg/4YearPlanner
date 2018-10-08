@@ -33,11 +33,14 @@ Backend: Deployed our app on AWS EC2.
 ## Browsing Courses:
 <img src="Images/courses.png" width=300> <img src="Images/courses_search.png" width=300>
 
-## Detailed view for a Course:
+## Filtering Courses:
+<img src="Images/filters.png" width=300>
+
+## Detailed View for a Course:
 <img src="Images/detailview.png" width=300>
 
-## Semester Info stored:
-<img src="Images/Semester-1-Info-Stored.png" width=300>    <img src="Images/Semester-2-Info-Stored.png" width=300>
+## Semester Information:
+<img src="Images/my_schedule.png" width=300>
 
-## DetailView for a Course:
-<img src="Images/DetailView-for-Selected-Course.png" width=300>
+## Dark Mode:
+<img src="Images/dark_mode_courses.png" width=300> <img src="Images/dark_mode_my_schedule.png" width=300>
