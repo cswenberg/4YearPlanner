@@ -1,4 +1,4 @@
-Created by: Omar Rasheed, Conner Swenberg, Eric Kim
+Created by: Omar Rasheed and Conner Swenberg, Desgined by: Eric Kim
 
 4-Year-Planner: A simple guide to planning your undergraduate career at Cornell
 
@@ -24,30 +24,8 @@ URL for running server: http://35.190.187.113/planner/courses
 
 IOS: Multiple ViewControllers with Navigation throughout the app to take you through the different pages; Various CollectionViews to present information on different pages; Queried from our database/API that we created 
 
-Backend: Deployed our app on Google Cloud and wrote multiple get routes to pull for our swift. We also wrote a post route to put anything into the database
+Backend: Deployed our app on AWS EC2.
 
-Disclaimer: Search function is still a little bit buggy. Also DetailView sometimes picks up the wrong class
-
-Changes to make for Summer 2018:
-- Settings tab:
-  - Export pdf of total class load (for sharing purposes)
-  - Change chosen college/major/minor
-  - petition to waive 23 credit limit
-  - Look at sample schedules for your major?
-- My Schedule:
-  - redesign interface (buttons)
-  - implement page swiping to change semesters
-  - display credit load for the semester
-- Discover:
-  - Ability to autofill schedule based on major
-  - Recommend classes to fill major/minor requirements in 'Discover'
-  - Search bar
-- Alert system for errors in a schedule
-  - Enforce prerequisites
-  - Adequate credit load (12<= <=23)
-- DetailView:
-  - Ability to relocate classes
-  - Ability to adjust credit type/amount
 
 ## Home Page:
 <img src="Images/Home-Screen.png" width=300>
