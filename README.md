@@ -46,4 +46,4 @@ Backend: Deployed our app on AWS EC2.
 <img src="Images/settings.png" width=300>
 
 ## Dark Mode:
-<img src="Images/dark_mode_courses.png" width=300> <img src="Images/dark_mode_my_schedule.png" width=300>
+<img src="Images/dark_mode_courses.png" width=300> <img src="Images/dark_mode_detailview.png" width=300>                   <img src="Images/dark_mode_my_schedule.png" width=300> <img src="Images/dark_mode_settings.png" width=300>
