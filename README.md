@@ -28,7 +28,7 @@ Backend: Deployed our app on AWS EC2.
 
 
 ## Choose College, Major, and Minor:
-<img src="Images/colleges.png" width=280> <img src="Images/majors.png" width=280> <img src="Images/minors.png" width=280>
+<img src="Images/colleges.png" width=285> <img src="Images/majors.png" width=285> <img src="Images/minors.png" width=285>
 
 ## Browsing Courses:
 <img src="Images/courses.png" width=300> <img src="Images/courses_search.png" width=300>
@@ -37,7 +37,7 @@ Backend: Deployed our app on AWS EC2.
 <img src="Images/search_filters.png" width=300>
 
 ## Detailed View for a Course:
-<img src="Images/detailview.png" width=300> <img src="Images/edit_credits.png" width=300>
+<img src="Images/detailview.png" width=300> <img src="Images/credit_change.png" width=300>
 
 ## Semester Information:
 <img src="Images/my_schedule.png" width=300>
