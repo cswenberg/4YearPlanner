@@ -27,8 +27,8 @@ IOS: Multiple ViewControllers with Navigation throughout the app to take you thr
 Backend: Deployed our app on AWS EC2.
 
 
-## Home Page:
-<img src="Images/Home-Screen.png" width=300>
+## Choose College, Major, and Minor:
+<img src="Images/colleges.png" src="Images/majors.png" src="Images/minors.png" width=300>
 
 ## Filtering Courses by Term:
 <img src="Images/Applying-Filter-for-Term.png" width=300>
